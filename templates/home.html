@@ -1,0 +1,984 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>User Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="shortcut icon" type="image/x-icon" href="{{ url_for('static', filename='img/favicon.ico') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+    <!-- Custom CSS -->
+    <style>
+        /* Landing Page with Video */
+        /* Landing Page with Video */
+        .hero {
+            position: relative;
+            height: 89vh;
+            background: black;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .hero video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: 0;
+        }
+
+        .hero::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6); /* Dark overlay */
+            z-index: 1;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            color: white;
+            text-align: center;
+        }
+
+        .hero-content h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+
+        .hero-content p {
+            font-size: 20px;
+            margin-bottom: 30px;
+        }
+
+        .hero-content .btn {
+            padding: 10px 20px;
+            background-color: #00d4ff;
+            color: white;
+            border: none;
+            border-radius: 30px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        /* About Us Section */
+        .about {
+            padding: 80px 0;
+            background: #000;
+            margin: 20px 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .about-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            width: 100%;
+            text-align: left;
+            flex-wrap: wrap; /* Ensures responsiveness */
+        }
+
+        .about-text {
+            flex: 1;
+            padding: 20px;
+        }
+
+        .about h2 {
+            font-size: 36px;
+            color: #038ba3;
+            font-family: 'Poppins', sans-serif; /* Modern font for headings */
+            margin-bottom: 20px;
+        }
+
+        .about p {
+            font-size: 15px;
+            margin: 20px 0;
+            color: #fff;
+            line-height: 1.6;
+            font-family: 'Roboto', sans-serif; /* Clean font for paragraphs */
+        }
+
+        .about-image {
+            flex: 1;
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .about-image img {
+            max-width: 80%;
+            height: auto;
+            padding: 20px;
+        }
+
+        /* Media Query for smaller screens */
+        @media (max-width: 768px) {
+            .about-content {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .about-text, .about-image {
+                flex: unset;
+                width: 100%;
+            }
+
+            .about h2 {
+                font-size: 28px;
+            }
+
+            .about p {
+                font-size: 16px;
+            }
+        }
+
+        /* Demand Section */
+        .domains-section {
+            padding: 50px 0;
+            text-align: center;
+            background-color: #525252;
+            margin: 0 140px;
+        }
+
+        .domains-section h2 {
+            font-size: 2.5rem;
+            color: #333;
+            margin-bottom: 60px;
+        }
+
+        .row {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: nowrap; /* Ensures no wrapping, keeps all cards in one row */
+            overflow-x: auto; /* Adds horizontal scrolling if needed */
+        }
+
+        .domain-card {
+            background: #fff;
+            box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+            transition: all 0.3s ease-in-out;
+            margin-right: 20px; /* Adds space between cards */
+            min-width: 200px; /* Ensures all cards have a minimum width */
+            flex: 0 0 auto; /* Prevents cards from shrinking */
+            position: relative;
+            height: 150px; /* Reduced overall card height */
+            margin-bottom: 50px;
+        }
+
+        .domain-card img {
+            width: 100%;
+            height: 150px; /* Reduced image height */
+            object-fit: cover; /* Ensures the image fills the container without distortion */
+            transition: transform 0.3s ease;
+        }
+
+        .domain-card:hover img {
+            transform: scale(1.1);
+        }
+
+        .domain-info {
+            padding: 15px; /* Reduced padding */
+            background-color: rgba(0, 0, 0, 0.7);
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            text-align: center;
+            color: #fff;
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+        }
+
+        .domain-card:hover .domain-info {
+            opacity: 1;
+        }
+
+        .domain-info h3 {
+            font-size: 1.3rem; /* Slightly reduced font size */
+            margin: 0;
+        }
+
+        .view-more {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 8px 16px; /* Reduced padding */
+            font-size: 1.1rem; /* Slightly reduced font size */
+            background-color: #007bff;
+            color: #fff;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+            text-decoration: none;
+        }
+
+        .view-more:hover {
+            background-color: #0056b3;
+        }
+
+        /* Media Queries for responsive adjustments */
+        @media (max-width: 1200px) {
+            .domains-section {
+                margin: 0 60px; /* Adjusts side margins for medium screens */
+            }
+            .domains-section h2 {
+                font-size: 2rem; /* Reduces heading size for medium screens */
+            }
+        }
+
+        @media (max-width: 768px) {
+            .domains-section {
+                margin: 0 30px;
+            }
+
+            .domains-section h2 {
+                font-size: 1.8rem; /* Reduces heading size for smaller screens */
+                margin-bottom: 40px;
+            }
+
+            .row {
+                flex-direction: column; /* Stacks cards vertically for smaller screens */
+            }
+
+            .domain-card {
+                margin-right: 0; /* Removes right margin when stacking vertically */
+                width: 70%; 
+                margin: 10px auto;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .domains-section {
+                margin: 0 10px;
+            }
+
+            .domains-section h2 {
+                font-size: 1.5rem; /* Further reduces heading size for very small screens */
+                margin-bottom: 30px;
+            }
+
+            .domain-card {
+                height: 100%; /* Adjusts height dynamically for very small screens */
+            }
+
+        }
+
+        /* Alumni Moving Images */
+        .alumni-success {
+            text-align: center;
+            padding: 50px 20px;
+            background-color: #fff;
+            margin-bottom: 50px;
+        }
+
+        h2 {
+            font-size: 2rem;
+            margin-bottom: 50px;
+        }
+
+        .logo-container {
+            overflow: hidden;
+            width: 100%;
+            position: relative;
+        }
+
+        .logo-slider {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            gap: 20px; /* Space between images */
+            animation: scroll 30s linear infinite; /* This will be overridden by JavaScript */
+        }
+
+        .logo-slider img {
+            width: 150px; /* Set a fixed width for all logos */
+            height: 100px; /* Set a fixed height for all logos */
+            object-fit: contain; /* Maintain the aspect ratio inside the fixed size */
+            flex-shrink: 0; /* Prevent shrinking of the images */
+        }
+
+        @keyframes scroll {
+            0% {
+                transform: translateX(0);
+            }
+            100% {
+                transform: translateX(-100%);
+            }
+        }
+
+
+       /* Team Section */
+        .team {
+            padding: 60px 0;
+            text-align: center;
+            background-color: #fff;
+        }
+
+        .team h2 {
+            font-size: 36px;
+            color: #038ba3;
+        }
+
+        .team-cards {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 50px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .team-card {
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            width: 350px; /* Set the width to 350px */
+            text-align: center;
+            margin-bottom: 20px; /* Space between rows */
+        }
+
+        .team-card i {
+            font-size: 100px; /* Icon size */
+            color: #038ba3; /* Icon color */
+            margin-bottom: 20px;
+        }
+
+        .team-card h3 {
+            font-size: 24px;
+            color: #333;
+        }
+
+        .team-card p {
+            font-size: 18px;
+            color: #777;
+        }
+
+
+
+
+        /* Contact Form */
+        .contact {
+            padding: 80px 0;
+            background: #fff;
+            text-align: center;
+        }
+
+        .contact h2 {
+            font-size: 36px;
+            color: #038ba3;
+        }
+
+        .contact-form {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .contact-form input, .contact-form textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+
+        .contact-form button {
+            padding: 10px 20px;
+            background-color: #00d4ff;
+            color: white;
+            border: none;
+            border-radius: 30px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+
+        .image-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr); 
+            grid-gap: 15px;
+            margin: 50px 40px; 
+            padding: 20px; 
+            border-radius: 10px; 
+            background: #fff;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); 
+        }
+
+        .image-grid img {
+            width: 50%; 
+            height: 80%;
+            max-height: 150px; 
+            border-radius: 8px; 
+            object-fit: cover; 
+            margin: 0 auto; 
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .image-grid-container {
+            text-align: center;
+            margin: 20px;
+            margin-top: 80px;
+        }
+
+        .image-grid-container h2 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #333;
+            font-weight: bold;
+        }
+
+        .image-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr); 
+            grid-gap: 15px;
+            margin: 20px 40px; 
+            padding: 20px; 
+            border-radius: 10px; 
+            background: #fff;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); 
+        }
+
+        .image-grid img {
+            width: 50%; 
+            height: 90%;
+            max-height: 150px; 
+            border-radius: 8px; 
+            object-fit: cover; 
+            margin: 0 auto; 
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+
+        .image-grid img:hover {
+            transform: scale(1.05); /* Slightly enlarge the image on hover */
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3); /* Increase shadow on hover */
+        }
+
+
+        .reviews-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr); /* Ensures two columns per row */
+            gap: 20px;
+            padding: 20px;
+        }
+
+        .review-card {
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            background-color: #fff;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .review-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        .student-info {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .student-photo {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            margin-right: 15px;
+            object-fit: cover;
+        }
+
+        .student-details {
+            flex-grow: 1;
+        }
+
+        .student-name {
+            font-size: 1.2em;
+            font-weight: 600;
+            margin: 0;
+        }
+
+        .course-name {
+            color: #888;
+            font-size: 0.9em;
+            margin-top: 5px;
+        }
+
+        .review-content {
+            font-size: 1em;
+            color: #555;
+            margin-bottom: 10px;
+            line-height: 1.6;
+        }
+
+        .review-rating {
+            font-size: 1.4em;
+            color: #f39c12;
+        }
+
+        .stars {
+            letter-spacing: 1px;
+        }
+
+        /* Mobile responsiveness */
+        @media (max-width: 768px) {
+            .reviews-container {
+                grid-template-columns: 1fr; /* For smaller screens, make it one card per row */
+            }
+        }
+
+        .whatsapp_float {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 100;
+            background-color: #25d366; /* WhatsApp green */
+            border-radius: 50%;
+            padding: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .whatsapp_float:hover {
+            transform: scale(1.1);
+            box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .whatsapp_float img {
+            width: 60px;
+            height: 60px;
+            display: block;
+        }
+
+        @media (max-width: 768px) {
+            .whatsapp_float {
+                bottom: 15px;
+                right: 15px;
+            }
+
+            .whatsapp_float img {
+                width: 50px;
+                height: 50px;
+            }
+        }
+
+        .social-icons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 15px;
+            color: #fff;
+        }
+
+        .social-icon {
+            width: 40px;
+            height: 40px;
+            background-color: #f0f0f0;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            text-decoration: none;
+            color: #fff;
+            font-size: 22px;
+        }
+
+        .social-icon i {
+            transition: color 0.3s ease;
+        }
+
+        .social-icon:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .facebook {
+            background-color: #3b5998;
+        }
+
+        .twitter {
+            background-color: #1da1f2;
+        }
+
+        .instagram {
+            background-color: #c13584;
+        }
+
+        .youtube {
+            background-color: red;
+        }
+
+
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="logo">
+            <img src="{{ url_for('static', filename='images/logo.jpg') }}" alt="Logo"> EDUFYI TECH SOLUTIONS </img>
+        </div>
+        <div class="menu-toggle">&#9776;</div>
+            <ul>
+                <li><a href="#home">Home</a></li>
+                <li><a href="{{ url_for('about') }}">About</a></li>
+                <li><a href="{{ url_for('login') }}">Login</a></li>
+                <li><a href="{{ url_for('register') }}">Register</a></li>
+            </ul>
+    </nav>
+
+    <!-- Landing Video Section -->
+    <div class="hero">
+        <video autoplay muted loop>
+            <source src="{{ url_for('static', filename='videos/landingpage_video.mp4') }}" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+        <div class="hero-content">
+            <h1>Welcome to Edufyi Tech Solutions</h1>
+            <p>"Transforming Education into Opportunity"</p>
+            <button class="btn">Start Learning</button>
+        </div>
+    </div>
+
+    <!-- About Us Section -->
+    <section class="about" id="about">
+        <div class="about-content">
+            <!-- Left side: About text -->
+            <div class="about-text">
+                <h2>Who We Are..?</h2>
+                <p>At Edufyi Tech Solutions, we are dedicated to transforming the educational journey for college
+                    students by offering cutting-edge virtual internships and comprehensive training programs.
+                    <strong>Our approach combines industry mentorship with practical experience,</strong> providing each student
+                    with six real-time and capstone projects per course or domain. These projects are designed to
+                    equip students with the <strong>skills and experience needed to secure their dream jobs upon
+                    graduation.</strong>
+                </p>
+
+                <p>
+                    We believe in more than just financial success; our mission is to deliver quality education that
+                    empowers students to excel in their careers. By bridging the gap between academic learning
+                    and real-world application, Edufyi Tech Solutions is committed to fostering a future where
+                    students thrive in their chosen fields.
+                </p>
+            </div>
+
+            <!-- Right side: Image -->
+            <div class="about-image">
+                <img src="static/images/undraw_educator_re_ju47.svg" alt="Education Graphic">
+<!--                <img src="static/images/undraw_undraw_chatting_lt27_5ak9.svg" alt="Education Graphic">-->
+            </div>
+        </div>
+    </section>
+
+
+    <!-- In-Demand Domains Section -->
+    <section id="in-demand-domains" class="domains-section">
+        <div class="container">
+            <h2>Our In-Demand Domains</h2>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="domain-card">
+                        <img src="static/images/aiml.png" alt="AI/ML">
+                        <div class="domain-info">
+                            <h3>AI/ML</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="domain-card">
+                        <img src="static/images/datascience.jpg" alt="Data Science">
+                        <div class="domain-info">
+                            <h3>Data Science</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="domain-card">
+                        <img src="static/images/cyber.png" alt="Cybersecurity">
+                        <div class="domain-info">
+                            <h3>Cybersecurity</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="domain-card">
+                        <img src="static/images/hr.png" alt="HR">
+                        <div class="domain-info">
+                            <h3>HR</h3>
+                        </div>
+                    </div>
+                </div>
+<!--                <div class="col-md-4">-->
+<!--                    <div class="domain-card">-->
+<!--                        <img src="static/images/python.jpg" alt="AWS">-->
+<!--                        <div class="domain-info">-->
+<!--                            <h3>AWS</h3>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+            </div>
+            <a href="#" class="btn btn-primary view-more">View More</a>
+        </div>
+    </section>
+
+    <section class="alumni-success">
+        <h2>Proudly Announcing the Success of Our Alumni</h2>
+        <div class="logo-container">
+            <div class="logo-slider" id="logoSlider">
+                <img src="{{ url_for('static', filename='images/alumni_company/accenture.jpg') }}" alt="Company 1">
+                <img src="{{ url_for('static', filename='images/alumni_company/amazon.jpg') }}" alt="Company 1">
+                <img src="{{ url_for('static', filename='images/alumni_company/apple.jpg') }}" alt="Company 1">
+                <img src="{{ url_for('static', filename='images/alumni_company/capgemini.jpg') }}" alt="Company 1">
+                <img src="{{ url_for('static', filename='images/alumni_company/deliotte.jpg') }}" alt="Company 1">
+                <img src="{{ url_for('static', filename='images/alumni_company/dxc.jpg') }}" alt="Company 1">
+                <img src="{{ url_for('static', filename='images/alumni_company/hcl.jpg') }}" alt="Company 1">
+                <img src="{{ url_for('static', filename='images/alumni_company/infosys.jpg') }}" alt="Company 1">
+                <img src="{{ url_for('static', filename='images/alumni_company/kpmg.jpg') }}" alt="Company 1">
+                <img src="{{ url_for('static', filename='images/alumni_company/tcs.jpg') }}" alt="Company 1">
+                <img src="{{ url_for('static', filename='images/alumni_company/tech.jpg') }}" alt="Company 1">
+                <img src="{{ url_for('static', filename='images/alumni_company/wipro.jpg') }}" alt="Company 1">
+            </div>
+        </div>
+    </section>
+
+    <div class="image-grid-container">
+        <h2>Tools to be learned here / Tools to be trained here</h2>
+        <div class="image-grid">
+            <img src="{{ url_for('static', filename='images/tools/android.png') }}" alt="Image 1">
+            <img src="{{ url_for('static', filename='images/tools/autocad.jpg') }}" alt="Image 2">
+            <img src="{{ url_for('static', filename='images/tools/MATLAB-Logo.png') }}" alt="Image 3">
+            <img src="{{ url_for('static', filename='images/tools/mqtt.png') }}" alt="Image 4">
+            <img src="{{ url_for('static', filename='images/tools/nodejs.webp') }}" alt="Image 5">
+            <img src="{{ url_for('static', filename='images/tools/wireshark.png') }}" alt="Image 6">
+            <img src="{{ url_for('static', filename='images/tools/reactjs.webp') }}" alt="Image 7">
+            <img src="{{ url_for('static', filename='images/tools/Java-Logo.png') }}" alt="Image 8">
+            <img src="{{ url_for('static', filename='images/tools/flask.png') }}" alt="Image 9">
+        </div>
+    </div>
+    
+
+    <!-- Team Section -->
+    <section class="team" id="team">
+        <h2>Meet Our Team</h2>
+        <div class="team-cards">
+            <div class="team-card">
+                <i class="material-icons profile-icon">person</i>
+                <h3>D Jagadish babu</h3>
+                <p>Founder & Director</p>
+            </div>
+            <div class="team-card">
+                <i class="material-icons profile-icon">person</i>
+                <h3>G Venkata Avinash</h3>
+                <p>Founder & Director</p>
+            </div>
+            <div class="team-card">
+                <i class="material-icons profile-icon">person</i>
+                <h3>M Raja</h3>
+                <p>Founder & Director</p>
+            </div>
+            <div class="team-card">
+                <i class="material-icons profile-icon">person</i>
+                <h3>D Manjula</h3>
+                <p>Founder & Director</p>
+            </div>
+        </div>
+    </section>
+
+
+    <h2 style="margin-left: 600px;">Students Reviews</h2>
+    <div class="reviews-container">
+        <div class="review-card">
+            <div class="student-info">
+                <img src="static/images/student.webp" alt="Student Photo" class="student-photo">
+                <div class="student-details">
+                    <h4 class="student-name">Abhishek Sharma</h4>
+                    <p class="course-name">Course: Web Development</p>
+                </div>
+            </div>
+            <div class="review-content">
+                <p>"This course was amazing! I learned so much and the instructors were top-notch."</p>
+            </div>
+            <div class="review-rating">
+                <span class="stars">★★★★☆</span>
+            </div>
+        </div>
+    
+        <div class="review-card">
+            <div class="student-info">
+                <img src="static/images/student.webp" alt="Student Photo" class="student-photo">
+                <div class="student-details">
+                    <h4 class="student-name">Pavithra Gowda</h4>
+                    <p class="course-name">Course: Data Science</p>
+                </div>
+            </div>
+            <div class="review-content">
+                <p>"The curriculum was well-structured, and I feel confident about my data science skills now."</p>
+            </div>
+            <div class="review-rating">
+                <span class="stars">★★★★★</span>
+            </div>
+        </div>
+    
+        <div class="review-card">
+            <div class="student-info">
+                <img src="static/images/student.webp" alt="Student Photo" class="student-photo">
+                <div class="student-details">
+                    <h4 class="student-name">Srikanth Reddy</h4>
+                    <p class="course-name">Course: AI & ML</p>
+                </div>
+            </div>
+            <div class="review-content">
+                <p>"An excellent course that covered all the basics of AI and ML. Highly recommend."</p>
+            </div>
+            <div class="review-rating">
+                <span class="stars">★★★★☆</span>
+            </div>
+        </div>
+    
+        <div class="review-card">
+            <div class="student-info">
+                <img src="static/images/student.webp" alt="Student Photo" class="student-photo">
+                <div class="student-details">
+                    <h4 class="student-name">Bhavana Rao</h4>
+                    <p class="course-name">Course: Cloud Computing</p>
+                </div>
+            </div>
+            <div class="review-content">
+                <p>"A well-organized course with a lot of hands-on practice. Very insightful."</p>
+            </div>
+            <div class="review-rating">
+                <span class="stars">★★★★☆</span>
+            </div>
+        </div>
+    </div>
+    
+    
+
+
+    <!-- Contact Section -->
+    <section class="contact" id="contact">
+        <h2>Contact Us</h2>
+        <form class="contact-form">
+            <input type="text" placeholder="Your Name" required>
+            <input type="email" placeholder="Your Email" required>
+            <input type="number" placeholder="Your Phone" required>
+            <input type="text" placeholder="Your course" required>
+            <textarea placeholder="Your Message" rows="5" required></textarea>
+            <button type="submit">Send Message</button>
+        </form>
+    </section>
+
+    <a href="https://wa.me/919739156665" class="whatsapp_float" target="_blank">
+        <img src="{{ url_for('static', filename='images/tools/WhatsApp_icon.png') }}" alt="WhatsApp Chat">
+    </a>
+
+    <!-- Footer Section -->
+    <footer class="footer">
+        <div class="footer-container">
+            <!-- Company Info -->
+            <div class="footer-section company-info">
+                <h3>About Us</h3>
+                <p>We are a global leader in e-learning, offering top-notch courses to help you enhance your skills and advance your career. Our mission is to make quality education accessible to everyone, everywhere.</p>
+            </div>
+
+            <!-- Useful Links -->
+            <div class="footer-section useful-links">
+                <h3>Useful Links</h3>
+                <ul>
+                    <li><a href="{{ url_for('dashboard_courses') }}">Courses</a></li>
+                    <li><a href="{{ url_for('profile') }}">Your Profile</a></li>
+                    <li><a href="{{ url_for('faq') }}">FAQ</a></li>
+                    <li><a href="{{ url_for('contact') }}">Contact Us</a></li>
+                </ul>
+            </div>
+
+            <!-- Contact Info -->
+            <div class="footer-section contact-info">
+                <h3>Contact Us</h3>
+                <p>Email: info@edufyitechsolutions.com</p>
+                <p>Phone: +91 6362000213</p>
+                <p>Address: Fourth Floor,#1664, 27th Main 19th Cross, Hsr Layout, Sector 2 Bangalore, Karnataka 560102</p>
+            </div>
+
+            <!-- Social Media Links -->
+            <div class="footer-section social-media">
+                <h3 style="margin-left: 90px;">Follow Us</h3>
+                <!-- <div class="social-icons"> -->
+                    <!-- <a href="#"><img src="{{ url_for('static', filename='img/facebook-icon.png') }}" alt="Facebook"></a> -->
+                    <!-- <a href="#"><img src="{{ url_for('static', filename='img/twitter-icon.png') }}" alt="Twitter"></a> -->
+                    <!-- <a href="#"><img src="{{ url_for('static', filename='img/linkedin-icon.png') }}" alt="LinkedIn"></a>
+                    <a href="#"><img src="{{ url_for('static', filename='img/instagram-icon.png') }}" alt="Instagram"></a>
+                </div> -->
+
+                <div class="social-icons">
+                    <a href="#" class="social-icon facebook" aria-label="Facebook">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                    <!-- <a href="#" class="social-icon twitter" aria-label="Twitter">
+                        <i class="fab fa-twitter"></i>
+                    </a> -->
+                    <a href="#" class="social-icon instagram" aria-label="Instagram">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="#" class="social-icon youtube" aria-label="Youtube">
+                        <i class="fab fa-youtube"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; 2024 E-Learning Inc. All Rights Reserved. | <a href="{{ url_for('terms') }}">Terms of Service</a> | <a href="{{ url_for('privacy') }}">Privacy Policy</a></p>
+        </div>
+    </footer>
+
+    <script>
+        const logoSlider = document.getElementById('logoSlider');
+
+        // Store all images in an array
+        const images = Array.from(logoSlider.children);
+
+        // Clone the original images at runtime (we don't duplicate them in HTML)
+        images.forEach(image => {
+            const clone = image.cloneNode(true);
+            logoSlider.appendChild(clone); // Add the cloned image at the end
+        });
+
+        // Dynamically set the animation duration based on the number of images
+        const totalWidth = images.length * (150 + 20); // Image width + margin (adjust as needed)
+        const animationDuration = totalWidth / 50; // Adjust speed by changing the divisor
+        logoSlider.style.animationDuration = `${animationDuration}s`;
+
+        document.addEventListener("DOMContentLoaded", function() {
+        const toggle = document.querySelector(".menu-toggle");
+        const menu = document.querySelector(".navbar ul");
+
+        toggle.addEventListener("click", function() {
+            menu.classList.toggle("show");
+            });
+        });
+
+
+    </script>
+    <script>
+
+</script>
+
+</body>
+</html>

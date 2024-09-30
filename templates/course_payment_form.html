@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Course Payment</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <style>
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 0 20px;
+        }
+
+        .card {
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
+            background-color: #ffffff;
+            transition: box-shadow 0.3s ease;
+        }
+
+        .card-header {
+            background: linear-gradient(45deg, #038ba3, #00d4ff);
+            border-radius: 15px 15px 0 0;
+            padding: 20px;
+            color: white;
+            text-align: center;
+            font-size: 26px;
+            font-weight: bold;
+        }
+
+        .card-body {
+            padding: 40px;
+        }
+
+        h2 {
+            text-align: center;
+            font-size: 28px;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 30px;
+            letter-spacing: 1px;
+        }
+
+        .form-group label {
+            font-weight: 500;
+            color: #555;
+        }
+
+        .form-control {
+            border-radius: 5px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            font-size: 16px;
+        }
+
+        .btn-primary {
+            background-color: #38bcd3;
+            padding: 10px;
+            font-size: 15px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            border-radius: 5px;
+        }
+
+
+        .btn-primary:hover {
+            background-color: #0a7794;
+        }
+
+        .alert {
+            margin-top: 20px;
+        }
+
+        .rzp-button {
+            background-color: #38bcd3;
+            color: #fff;
+            border: none;
+            padding: 14px;
+            border-radius: 5px;
+            width: 100%;
+            font-size: 18px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-top: 30px;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+
+        .rzp-button:hover {
+            background-color: #0a7794;
+            color: #fff;
+        }
+
+        /* For small screens */
+        @media (max-width: 768px) {
+            .card {
+                margin: 20px;
+            }
+
+            h2 {
+                font-size: 22px;
+            }
+
+            .form-control {
+                font-size: 14px;
+                padding: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="logo">
+            <img src="{{ url_for('static', filename='images/logo.jpg') }}" alt="Logo"> EDUFYI TECH SOLUTIONS
+        </div>
+        <div class="menu-toggle">&#9776;</div>
+            <ul>
+                <li><a href="#home">Home</a></li>
+                <li><a href="{{ url_for('about') }}">About</a></li>
+                <li><a href="{{ url_for('login') }}">Login</a></li>
+                <li><a href="{{ url_for('register') }}">Register</a></li>
+            </ul>
+    </nav>
+
+    <!-- Payment Form Section -->
+    <div class="container">
+        <div class="card">
+            <div class="card-header">
+                Payment for {{ course_name }}
+            </div>
+            <div class="card-body">
+                <h2>Complete Your Payment</h2>
+
+                <form method="POST" action="">
+                    {{ form.hidden_tag() }}
+
+                    <div class="form-group">
+                        <label for="name">Name</label>
+                        <input type="text" class="form-control" id="name" value="{{ name }}" readonly>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" class="form-control" id="email" value="{{ email }}" readonly>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="course_name">Course Name</label>
+                        <input type="text" class="form-control" id="course_name" value="{{ course_name }}" readonly>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="amount">Amount</label>
+                        <input type="text" class="form-control" id="amount" value="{{ amount }}" readonly>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="coupon">Coupon Code</label>
+                        {{ form.coupon(class="form-control", placeholder="Enter coupon code") }}
+                    </div>
+
+                    <button type="submit" class="btn btn-primary mt-3">Apply Coupon</button>
+                    <hr>
+
+                    <!-- Flash messages -->
+                    {% with messages = get_flashed_messages(with_categories=True) %}
+                        {% if messages %}
+                            <div class="alert alert-dismissible fade show" role="alert">
+                                {% for category, message in messages %}
+                                    <div class="alert alert-{{ category }}">{{ message }}</div>
+                                {% endfor %}
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                        {% endif %}
+                    {% endwith %}
+
+                </form>
+
+                <button type="button" class="rzp-button mt-4" id="rzp-button1">Proceed to Payment</button>
+
+                <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+                <script>
+                    var options = {
+                        "key": "{{ key }}", // Enter the Key ID generated from the Dashboard
+                        "amount": "{{ pdata[1] }}", // Amount is in currency subunits
+                        "currency": "INR",
+                        "name": "{{ company_name }}",
+                        "description": "Course payment",
+                        "image": "https://example.com/your_logo",
+                        "order_id": "{{ pdata[2] }}", // Pass the `id` obtained in the response
+                        "callback_url": "/payment_confirmation",
+                        "prefill": {
+                            "name": "{{ user_name }}",
+                            "email": "{{ email }}",
+                            "contact": "{{ phone_number }}"
+                        },
+                        "notes": {
+                            "address": "Razorpay Corporate Office"
+                        },
+                        "theme": {
+                            "color": "#5cffab"
+                        }
+                    };
+                    var rzp1 = new Razorpay(options);
+                    document.getElementById('rzp-button1').onclick = function(e){
+                        rzp1.open();
+                        e.preventDefault();
+                    }
+                </script>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer Section -->
+    <footer class="footer">
+        <div class="footer-container">
+            <!-- Company Info -->
+            <div class="footer-section company-info">
+                <h3>About Us</h3>
+                <p>We are a global leader in e-learning, offering top-notch courses to help you enhance your skills and advance your career. Our mission is to make quality education accessible to everyone, everywhere.</p>
+            </div>
+
+            <!-- Useful Links -->
+            <div class="footer-section useful-links">
+                <h3>Useful Links</h3>
+                <ul>
+                    <li><a href="{{ url_for('dashboard_courses') }}">Courses</a></li>
+                    <li><a href="{{ url_for('profile') }}">Your Profile</a></li>
+                    <li><a href="{{ url_for('faq') }}">FAQ</a></li>
+                    <li><a href="{{ url_for('contact') }}">Contact Us</a></li>
+                </ul>
+            </div>
+
+            <!-- Contact Info -->
+            <div class="footer-section contact-info">
+                <h3>Contact Us</h3>
+                <p>Email: support@elearning.com</p>
+                <p>Phone: +1 234 567 890</p>
+                <p>Address: 123 Learning Street, Knowledge City, World</p>
+            </div>
+
+            <!-- Social Media Links -->
+            <div class="footer-section social-media">
+                <h3>Follow Us</h3>
+                <div class="social-icons">
+                    <a href="#"><img src="{{ url_for('static', filename='img/facebook-icon.png') }}" alt="Facebook"></a>
+                    <a href="#"><img src="{{ url_for('static', filename='img/twitter-icon.png') }}" alt="Twitter"></a>
+                    <a href="#"><img src="{{ url_for('static', filename='img/linkedin-icon.png') }}" alt="LinkedIn"></a>
+                    <a href="#"><img src="{{ url_for('static', filename='img/instagram-icon.png') }}" alt="Instagram"></a>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; 2024 E-Learning Inc. All Rights Reserved. | <a href="{{ url_for('terms') }}">Terms of Service</a> | <a href="{{ url_for('privacy') }}">Privacy Policy</a></p>
+        </div>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

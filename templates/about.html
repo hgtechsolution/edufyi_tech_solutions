@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - Edufyi Tech Solutions</title>
+    <!-- <link rel="stylesheet" href="css/styles.css">  -->
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f4f7fc;
+            color: #333;
+        }
+
+        /* General Navbar Styling */
+        .navbar {
+            background: linear-gradient(45deg, #038ba3, #00d4ff); /* Gradient background */
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Box shadow for depth */
+            padding: 20px 30px;
+            position: sticky; /* Sticks the navbar on top */
+            top: 0;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        /* Navbar Branding/Logo */
+        .navbar .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: white;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            display: flex;
+            align-items: center;
+        }
+
+        .navbar .logo img {
+            width: 40px;
+            height: 40px;
+            margin-right: 10px;
+            border-radius: 100px;
+        }
+
+        /* Navigation Links */
+        .navbar ul {
+            list-style: none;
+            display: flex;
+            gap: 20px;
+            margin: 0;
+            padding: 0;
+        }
+
+        .navbar ul li {
+            position: relative;
+        }
+
+        .navbar ul li a {
+            text-decoration: none;
+            font-size: 16px;
+            color: white;
+            padding: 10px 20px;
+            transition: background-color 0.3s, transform 0.3s;
+            border-radius: 30px;
+        }
+
+        .navbar ul li a:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+            transform: scale(1.05);
+        }
+
+
+        /* Mobile Navigation Toggle */
+        .navbar .menu-toggle {
+            display: none;
+            font-size: 28px;
+            color: white;
+            cursor: pointer;
+        }
+
+        @media (max-width: 768px) {
+            .navbar ul {
+                flex-direction: column;
+                position: absolute;
+                top: 60px;
+                right: 0;
+                background: linear-gradient(45deg, #038ba3, #00d4ff);
+                width: 100%;
+                display: none;
+                gap: 10px;
+                padding: 20px 0;
+            }
+
+            .navbar ul li {
+                text-align: center;
+            }
+
+            .navbar ul.show {
+                display: flex;
+            }
+
+            .navbar .menu-toggle {
+                display: block;
+            }
+        }
+
+        section#About {
+            padding: 60px;
+            /* background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('static/images/blue-background.jpg') center/cover no-repeat;  */
+            color: #000;
+        }
+
+        section h3 {
+            font-size: 36px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        section p {
+            font-size: 18px;
+            line-height: 1.6;
+            text-align: justify;
+            margin-bottom: 15px;
+        }
+        .content {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        .vector-image {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+        .vector-image img {
+            width: 100%;
+            max-width: 300px;
+        }
+        .mission-vision {
+            display: flex;
+            justify-content: space-around;
+            text-align: center;
+            margin-top: 40px;
+        }
+        .mission-vision div {
+            width: 45%;
+        }
+        .process-list {
+            margin-top: 20px;
+            list-style-type: none;
+            padding: 0;
+        }
+        .process-list li {
+            margin-bottom: 10px;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+        }
+        .process-list li::before {
+            content: "✔";
+            color: #ffd700;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        /* Footer Section */
+        .footer {
+            background-color: #333;
+            color: #fff;
+            padding: 40px 20px;
+            font-size: 14px;
+        }
+
+        .footer-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .footer-section {
+            margin-bottom: 20px;
+        }
+
+        .footer-section h3 {
+            font-size: 18px;
+            margin-bottom: 15px;
+            color: #38bcd3;
+        }
+
+        .footer-section p,
+        .footer-section a,
+        .footer-section ul li {
+            color: #ddd;
+            margin-bottom: 10px;
+        }
+
+        .footer-section a {
+            text-decoration: none;
+            color: #38bcd3;
+            transition: color 0.3s;
+        }
+
+        .footer-section a:hover {
+            color: #0a7794;
+        }
+
+        .footer-section ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 10px;
+        }
+
+        .footer-section ul li a {
+            text-decoration: none;
+            color: #38bcd3;
+            transition: color 0.3s;
+        }
+
+        .footer-section ul li a:hover {
+            color: #0a7794;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #444;
+            font-size: 13px;
+            color: #bbb;
+        }
+
+        .footer-bottom a {
+            color: #38bcd3;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-bottom a:hover {
+            color: #0a7794;
+        }
+
+        /* Social Media Icons */
+        .social-icons {
+            display: flex;
+            gap: 15px;
+        }
+
+        .social-icons a img {
+            width: 30px;
+            height: 30px;
+            transition: transform 0.3s;
+        }
+
+        .social-icons a img:hover {
+            transform: scale(1.1);
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- Navbar (use the same navbar from your previous design) -->
+    <nav class="navbar">
+        <div class="logo">
+            <img src="{{ url_for('static', filename='images/logo.jpg') }}" alt="Logo"> EDUFYI TECH SOLUTIONS </img>
+        </div>
+        <div class="menu-toggle">&#9776;</div>
+            <ul>
+                <li><a href="{{ url_for('home') }}">Home</a></li>
+                <li><a href="{{ url_for('about') }}">About</a></li>
+                <li><a href="{{ url_for('login') }}">Login</a></li>
+                <li><a href="{{ url_for('register') }}">Register</a></li>
+            </ul>
+    </nav>
+
+    <section id="About">
+        <div class="content">
+            <h3>About Us</h3>
+            <p>At Edufyi Tech Solutions, we are committed to transforming the educational landscape through innovative online internships, comprehensive training programs, and expert mentorship. Our mission is to bridge the gap between academic learning and real-world application by providing students with practical experience and industry insights.</p>
+            <p>Our programs feature hands-on experience with 6-10 years of industry experts, personalized doubt-clearing sessions, and real-time projects from top MNCs. Each student benefits from a lifetime-access LMS portal, dedicated placement assistance, and 24/7 support, all designed to foster career readiness and success.</p>
+
+            <div class="vector-image">
+                <img src="static/images/undraw_undraw_chatting_lt27_5ak9.svg" alt="Education Graphic"> 
+            </div>
+
+            <p>With strategic college partnerships and a focus on flexibility and affordability, Edufyi Tech Solutions is dedicated to empowering students to achieve their career goals and excel in their chosen fields. Join us to unlock your potential and take the next step towards your dream career.</p>
+
+            <div class="mission-vision">
+                <div class="mission">
+                    <h4>Mission</h4>
+                    <p>To equip students with virtual internships and real-world projects for successful career placement through industry mentorship.</p>
+                </div>
+                <div class="vision">
+                    <h4>Vision</h4>
+                    <p>To transform education by linking academic learning with practical experience, helping students achieve their career goals.</p>
+                </div>
+            </div>
+
+            <p><strong>Students Rating on Experts: </strong>4.8 / 5</p>
+
+            <h4>Our Process</h4>
+            <ul class="process-list">
+                <li>Get a demo call to know more about programs</li>
+                <li>Choose the Program/Plan within your budget</li>
+                <li>Get enrolled with us</li>
+                <li>Stay with us for 2 - 3 months</li>
+                <li>Gain skills, knowledge & hands-on experience</li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- Footer Section -->
+    <footer class="footer">
+        <div class="footer-container">
+            <!-- Company Info -->
+            <div class="footer-section company-info">
+                <h3>About Us</h3>
+                <p>We are a global leader in e-learning, offering top-notch courses to help you enhance your skills and advance your career. Our mission is to make quality education accessible to everyone, everywhere.</p>
+            </div>
+
+            <!-- Useful Links -->
+            <div class="footer-section useful-links">
+                <h3>Useful Links</h3>
+                <ul>
+                    <li><a href="{{ url_for('dashboard_courses') }}">Courses</a></li>
+                    <li><a href="{{ url_for('profile') }}">Your Profile</a></li>
+                    <li><a href="{{ url_for('faq') }}">FAQ</a></li>
+                    <li><a href="{{ url_for('contact') }}">Contact Us</a></li>
+                </ul>
+            </div>
+
+            <!-- Contact Info -->
+            <div class="footer-section contact-info">
+                <h3>Contact Us</h3>
+                <p>Email: support@elearning.com</p>
+                <p>Phone: +1 234 567 890</p>
+                <p>Address: 123 Learning Street, Knowledge City, World</p>
+            </div>
+
+            <!-- Social Media Links -->
+            <div class="footer-section social-media">
+                <h3>Follow Us</h3>
+                <div class="social-icons">
+                    <a href="#"><img src="{{ url_for('static', filename='img/facebook-icon.png') }}" alt="Facebook"></a>
+                    <a href="#"><img src="{{ url_for('static', filename='img/twitter-icon.png') }}" alt="Twitter"></a>
+                    <a href="#"><img src="{{ url_for('static', filename='img/linkedin-icon.png') }}" alt="LinkedIn"></a>
+                    <a href="#"><img src="{{ url_for('static', filename='img/instagram-icon.png') }}" alt="Instagram"></a>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; 2024 E-Learning Inc. All Rights Reserved. | <a href="{{ url_for('terms') }}">Terms of Service</a> | <a href="{{ url_for('privacy') }}">Privacy Policy</a></p>
+        </div>
+    </footer>
+
+</body>
+</html>

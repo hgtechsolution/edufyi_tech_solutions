@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enroll in {{ course_name }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="course-banner">
+        <img src="static/images/python.jpg" alt="Course Banner" class="banner-img">
+    </div>
+
+    <div class="course-details">
+        <h1>Enroll in {{ course_name }}</h1>
+        <p>{{ overviews }}</p>
+        <p><strong>Price:</strong> {{ price }}</p>
+        <p><strong>Level:</strong> {{ level }}</p>
+        <p><strong>Duration:</strong> {{ duration }}</p>
+        <p><strong>Lessons:</strong> {{ lessons }}</p>
+        <p><strong>Quizzes:</strong> {{ quizzes }}</p>
+        <p><strong>Certifications:</strong> {{ certifications }}</p>
+    </div>
+
+    <div class="demo-video">
+        <h2>Course Demo</h2>
+        <!-- Display the demo video -->
+        <video width="600" controls>
+            <source src="{{ demo_video }}" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </div>
+
+    <div class="curriculum">
+        <h2>Curriculum</h2>
+        <ul>
+            {% for week in curriculum %}
+                <li>{{ week }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <footer>
+        <!-- Footer section -->
+        <p>&copy; 2024 Edufyi Tech Solutions. All rights reserved.</p>
+    </footer>
+</body>
+</html>

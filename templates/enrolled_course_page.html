@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Course Page</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f4f7fc;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1800px;
+            margin: 50px 45px;
+            display: flex;
+            gap: 20px; /* This adds space between the columns */
+        }
+
+        .left-column, .right-column {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .left-column {
+            width: 80%; /* Adjust width as needed */
+        }
+
+
+        .right-column {
+            width: 20%; /* Increased width */
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .video-card {
+            position: relative;
+            background: #f5f5f5;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            width: 250px; /* Set the fixed width */
+            height: 200px; /* Set the fixed height */
+        }
+
+        .course-video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Ensures the video scales correctly within the card */
+            border-radius: 8px;
+        }
+
+        .video-card .play-button {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 24px;
+            color: #fff;
+            background: rgba(0, 0, 0, 0.6);
+            padding: 15px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .video-card .play-button:hover {
+            background: rgba(0, 0, 0, 0.8);
+        }
+
+        .price-box {
+            background-color: #f2f9fa;
+            /* border: 2px solid #38bcd3; */
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            margin-top: 15px;
+        }
+
+        .price-box h3 {
+            color: #000;
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        .price-box p {
+            font-size: 18px;
+            color: #777;
+            text-decoration: line-through;
+        }
+
+        .price-box button {
+            background-color: #38bcd3;
+            color: #fff;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 18px;
+            transition: background-color 0.3s;
+        }
+
+        .price-box button:hover {
+            background-color: #038ba3   ;
+        }
+
+        .course-details-box {
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            margin-bottom: 20px;
+        }
+
+        .course-details-box h3 {
+            font-size: 22px;
+            margin-bottom: 15px;
+            color: #333;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-bottom: 2px solid #38bcd3;
+            padding-bottom: 10px;
+        }
+
+        .course-details-box ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .course-details-box ul li {
+            display: flex;
+            align-items: center;
+            font-size: 18px;
+            margin-bottom: 20px; /* Increased margin to add space between rows */
+            color: #555;
+            transition: color 0.3s ease;
+            padding-bottom: 15px; /* Extra padding for spacing */
+            border-bottom: 1px solid #ddd; /* Adds a line separator */
+        }
+
+        .course-details-box ul li:last-child {
+            border-bottom: none; /* Remove line after the last item */
+            margin-bottom: 0; /* No margin after the last item */
+        }
+
+        .course-details-box ul li i {
+            font-size: 22px;
+            margin-right: 10px;
+            color: #38bcd3;
+        }
+
+        .course-details-box ul li:hover {
+            color: #038ba3;
+        }
+
+        .course-details-box ul li span {
+            font-weight: bold;
+            color: #333;
+        }
+
+        .secure-payment {
+            background-color: #fff;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .secure-payment h3 {
+            font-size: 20px;
+            color: #333;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-bottom: 2px solid #38bcd3;
+            display: inline-block;
+            padding-bottom: 8px;
+        }
+
+        .payment-options {
+            display: flex;
+            justify-content: center;
+            gap: 10px; /* Adjust space between images */
+            margin-top: 15px;
+        }
+
+        .payment-icon {
+            width: 50px; /* Adjust the size of payment icons */
+            height: auto;
+            border: 2px solid #38bcd3; /* Add a border around the image */
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Shadow for the images */
+            transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth hover effect */
+            float: left; /* Make images float */
+            display: block;
+        }
+
+        .payment-icon:hover {
+            transform: scale(1.1); /* Slightly enlarge on hover */
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* Darker shadow on hover */
+        }
+
+        .payment-options img {
+            max-width: 100%;
+            max-height: 50px; /* Ensure image size fits */
+            object-fit: contain; /* Keep the aspect ratio */
+        }
+
+
+        .share-course {
+            background-color: #fff;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .share-course h3 {
+            font-size: 20px;
+            color: #333;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-bottom: 2px solid #38bcd3;
+            display: inline-block;
+            padding-bottom: 8px;
+        }
+
+        .social-icons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 15px;
+            color: #fff;
+        }
+
+        .social-icon {
+            width: 40px;
+            height: 40px;
+            background-color: #f0f0f0;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            text-decoration: none;
+            color: #fff;
+            font-size: 22px;
+        }
+
+        .social-icon i {
+            transition: color 0.3s ease;
+        }
+
+        .social-icon:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .facebook {
+            background-color: #3b5998;
+        }
+
+        .twitter {
+            background-color: #1da1f2;
+        }
+
+        .instagram {
+            background-color: #c13584;
+        }
+
+        .youtube {
+            background-color: red;
+        }
+
+
+        .course-header {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .course-image-container {
+            width: 100%;
+            height: 60vh; /* 25% of viewport height */
+            overflow: hidden;
+            position: relative;
+        }
+
+        .course-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Ensures image covers the container */
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .course-meta {
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .course-meta h1 {
+            font-size: 24px;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .course-details {
+            display: flex;
+            gap: 20px; /* Adjust the gap between details */
+            font-size: 16px;
+            color: #555;
+        }
+
+        .course-details p {
+            margin: 0;
+        }
+
+        .course-details strong {
+            color: #333;
+        }
+
+
+        .course-info {
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .course-info h2 {
+            font-size: 24px;
+            color: #333;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #38bcd3;
+            padding-bottom: 10px;
+            font-weight: bold;
+        }
+
+        .course-description,
+        .course-learnings {
+            margin-bottom: 20px;
+        }
+
+        .course-description h3,
+        .course-learnings h3 {
+            font-size: 20px;
+            color: #555;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        .course-description p {
+            font-size: 16px;
+            line-height: 1.6;
+            color: #666;
+        }
+
+        .course-learnings ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .course-learnings li {
+            font-size: 16px;
+            color: #333;
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .course-learnings li:last-child {
+            border-bottom: none;
+        }
+
+
+        .course-curriculum {
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .course-curriculum h2 {
+            font-size: 24px;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .curriculum-section {
+            margin-bottom: 15px;
+        }
+
+        .collapse-toggle {
+            background-color: #38bcd3;
+            color: #fff;
+            border: none;
+            padding: 10px 15px;
+            font-size: 18px;
+            font-weight: bold;
+            border-radius: 6px;
+            cursor: pointer;
+            text-align: left;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .collapse-toggle:hover {
+            background-color: #38bcd3;
+        }
+
+        .toggle-icon {
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .curriculum-content {
+            display: none;
+            padding-left: 20px;
+            list-style: none;
+            margin: 0;
+        }
+
+        .curriculum-content li {
+            margin-bottom: 10px;
+        }
+
+        .video-item {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .video-icon {
+            font-size: 18px;
+            color: #38bcd3;
+            display: inline-block;
+            width: 24px; /* Size of the play button */
+            height: 24px;
+        }
+
+
+
+
+        /* .course-info, .course-curriculum, .course-instructors, .course-reviews {
+            margin-bottom: 20px;
+        }
+
+        .course-curriculum .curriculum-content {
+            display: none;
+            list-style: none;
+            padding: 10px;
+            margin: 0;
+            border-top: 1px solid #ddd;
+        }
+
+        .course-curriculum .curriculum-section {
+            margin-bottom: 10px;
+        }
+
+        .collapse-toggle {
+            background: linear-gradient(135deg, #038ba3, #00d4ff);
+            color: #fff;
+            padding: 10px 15px;
+            width: 100%;
+            border: none;
+            text-align: left;
+            cursor: pointer;
+            font-size: 16px;
+            border-radius: 5px;
+            outline: none;
+            transition: background 0.3s;
+        }
+
+        .collapse-toggle:hover {
+            background-color: #027b92;
+        }
+
+        .price-box, .course-details-box, .secure-payment, .share-course {
+            margin-bottom: 20px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+
+        .price-box h3 {
+            color: #FF8C00;
+        }
+
+        button {
+            background-color: #FF8C00;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        button:hover {
+            background-color: #e67e00;
+        } */
+
+    </style>
+</head>
+
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="logo">
+            <img src="{{ url_for('static', filename='images/logo.jpg') }}" alt="Logo"> EDUFYI TECH SOLUTIONS
+        </div>
+        <div class="menu-toggle">&#9776;</div> <!-- For mobile view toggle -->
+            <ul>
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#courses">Courses</a></li>
+                <li>
+                    <a href="#services">Services &#9662;</a>
+                    <div class="dropdown">
+                        <a href="#web">Web Development</a>
+                        <a href="#design">Design</a>
+                        <a href="#marketing">Marketing</a>
+                    </div>
+                </li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+    </nav>
+
+    <!-- Course Details Section -->
+    <!-- Course Details Section -->
+
+    <div class="container">
+
+        <div class="right-column">
+            <!-- Demo Video Card -->
+            <div class="video-card">
+                <video controls class="course-video">
+                    <source src="{{ demo_video }}" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+                <div class="play-button">&#9658;</div>
+            </div>
+
+            <!-- Price Box -->
+            <!-- <div class="price-box">
+                <h3>Price: ₹{{ price }}</h3>
+                <a href="{{ url_for('course_payment', course_name=course_name, price=price) }}">
+                    <button>Pay Now</button>
+                </a>
+            </div> -->
+
+            <!-- Course Details Box -->
+            <div class="course-details-box">
+                <h3>Course Includes:</h3>
+                <ul>
+                    <li><i class="fas fa-chart-line"></i> <span>Level:</span>{{ level }}</li>
+                    <li><i class="fas fa-clock"></i> <span>Duration:</span> {{ duration }}</li>
+                    <li><i class="fas fa-book-open"></i> <span>Lessons:</span>{{ lessons }}</li>
+                    <li><i class="fas fa-tasks"></i> <span>Quizzes:</span> {{ quizzes }}</li>
+                    <li><i class="fas fa-certificate"></i> <span>Certifications:</span> {{ certifications }}</li>
+                </ul>
+            </div>
+
+            <!-- Secure Payment Section -->
+            <div class="secure-payment">
+                <h3>Secure Payment Options:</h3>
+                <div class="payment-options">
+                    <img src="{{ url_for('static', filename='images/visa.png') }}" alt="Visa" class="payment-icon">
+                    <img src="{{ url_for('static', filename='images/mastercard.png') }}" alt="MasterCard" class="payment-icon">
+                    <img src="{{ url_for('static', filename='images/paypal.png') }}" alt="PayPal" class="payment-icon">
+                    <img src="{{ url_for('static', filename='images/upi.jpg') }}" alt="Amex" class="payment-icon">
+                </div>
+            </div>
+
+            <!-- Share Course -->
+            <div class="share-course">
+                <h3>Share this Course:</h3>
+                <div class="social-icons">
+                    <a href="#" class="social-icon facebook" aria-label="Facebook">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                    <a href="#" class="social-icon twitter" aria-label="Twitter">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a href="#" class="social-icon instagram" aria-label="Instagram">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="#" class="social-icon youtube" aria-label="Youtube">
+                        <i class="fab fa-youtube"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="left-column">
+            <div class="course-header">
+                <div class="course-image-container">
+                    <img src="{{ banner_image }}" alt="Course Image" class="course-image">
+                </div>
+                <div class="course-meta">
+                    <h1>{{ course_name }}</h1>
+                </div>
+            </div>
+
+            <div class="course-info">
+                <h2>Overview</h2>
+                <p>{{ overviews }}</p>
+            </div>
+
+           <div class="course-curriculum">
+                <h2>Curriculum</h2>
+                {% for week in curriculum %}
+                    <div class="curriculum-section">
+                        <button class="collapse-toggle">Week {{ week['week'] }}: {{ week['title'] }}</button>
+
+                        <ul class="curriculum-content">
+                            {% for topic, video_file in week['topics_videos'] %}
+                                <li>
+                                    <a href="{{ url_for('video_page', video_file=video_file, course_name=course_name, week_topic_name=week['title'], course_topic=topic) }}">
+                                        {{ topic }}
+                                    </a>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                {% endfor %}
+            </div>
+
+            <div>
+                <button>
+                    <a href="{{ url_for('certificate',course_name=course_name) }}" class="btn btn-primary mt-4" role="button">
+                        Get Certificate
+                    </a>
+                </button>
+            </div>
+
+            <div class="course-instructors">
+                <h2>Instructors</h2>
+                <p>Instructor details go here...</p>
+            </div>
+        </div>
+
+    </div>
+
+
+    <!-- Footer Section -->
+    <footer class="footer">
+        <div class="footer-container">
+            <!-- Company Info -->
+            <div class="footer-section company-info">
+                <h3>About Us</h3>
+                <p>We are a global leader in e-learning, offering top-notch courses to help you enhance your skills and advance your career. Our mission is to make quality education accessible to everyone, everywhere.</p>
+            </div>
+
+            <!-- Useful Links -->
+            <div class="footer-section useful-links">
+                <h3>Useful Links</h3>
+                <ul>
+                    <li><a href="{{ url_for('dashboard_courses') }}">Courses</a></li>
+                    <li><a href="{{ url_for('profile') }}">Your Profile</a></li>
+                    <li><a href="{{ url_for('faq') }}">FAQ</a></li>
+                    <li><a href="{{ url_for('contact') }}">Contact Us</a></li>
+                </ul>
+            </div>
+
+            <!-- Contact Info -->
+            <div class="footer-section contact-info">
+                <h3>Contact Us</h3>
+                <p>Email: support@elearning.com</p>
+                <p>Phone: +1 234 567 890</p>
+                <p>Address: 123 Learning Street, Knowledge City, World</p>
+            </div>
+
+            <!-- Social Media Links -->
+            <div class="footer-section social-media">
+                <h3>Follow Us</h3>
+<!--                <div class="social-icons">-->
+<!--                    <a href="#"><img src="{{ url_for('static', filename='img/facebook-icon.png') }}" alt="Facebook"></a>-->
+<!--                    <a href="#"><img src="{{ url_for('static', filename='img/twitter-icon.png') }}" alt="Twitter"></a>-->
+<!--                    <a href="#"><img src="{{ url_for('static', filename='img/linkedin-icon.png') }}" alt="LinkedIn"></a>-->
+<!--                    <a href="#"><img src="{{ url_for('static', filename='img/instagram-icon.png') }}" alt="Instagram"></a>-->
+<!--                </div>-->
+                <div class="social-icons">
+                            <a href="#" class="social-icon facebook" aria-label="Facebook">
+                                <i class="fab fa-facebook-f"></i>
+                            </a>
+                            <a href="#" class="social-icon twitter" aria-label="Twitter">
+                                <i class="fab fa-twitter"></i>
+                            </a>
+                            <a href="#" class="social-icon instagram" aria-label="Instagram">
+                                <i class="fab fa-instagram"></i>
+                            </a>
+                            <a href="#" class="social-icon youtube" aria-label="Youtube">
+                                <i class="fab fa-youtube"></i>
+                            </a>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; 2024 E-Learning Inc. All Rights Reserved. | <a href="{{ url_for('terms') }}">Terms of Service</a> | <a href="{{ url_for('privacy') }}">Privacy Policy</a></p>
+        </div>
+    </footer>
+
+    <script>
+        const collapseToggles = document.querySelectorAll('.collapse-toggle');
+        collapseToggles.forEach(toggle => {
+            toggle.addEventListener('click', () => {
+                const content = toggle.nextElementSibling;
+                const icon = toggle.querySelector('.toggle-icon');
+                if (content.style.display === 'block') {
+                    content.style.display = 'none';
+                    icon.textContent = '+';
+                } else {
+                    content.style.display = 'block';
+                    icon.textContent = '-';
+                }
+            });
+        });
+    </script>
+
+</body>
+
+</html>
+
+
+
+
