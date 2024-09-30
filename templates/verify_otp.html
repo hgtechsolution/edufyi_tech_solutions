@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verify OTP</title>
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #fff;
+        }
+
+        .verify-otp-wrapper {
+            background: #fff;
+            width: 360px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            text-align: center;
+            padding: 20px;
+            position: relative;
+        }
+
+        .verify-otp-wrapper::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 50%;
+            background: linear-gradient(135deg, #38bcd3, #a777e3);
+            z-index: -1;
+        }
+
+        h1 {
+            margin: 20px 0;
+            color: #333;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-sizing: border-box;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus {
+            border-color: #0a7794;
+            outline: none;
+        }
+
+        .form-group label {
+            position: absolute;
+            top: -8px;
+            left: 15px;
+            background: #fff;
+            padding: 0 5px;
+            color: #38bcd3;
+            font-size: 14px;
+            transition: all 0.3s;
+            pointer-events: none;
+        }
+
+        .form-group input:focus + label,
+        .form-group input:not(:placeholder-shown) + label {
+            top: -18px;
+            left: 10px;
+            color: #0a7794;
+            font-size: 12px;
+        }
+
+        .error {
+            color: red;
+            font-size: 14px;
+            text-align: left;
+            margin-top: 5px;
+        }
+
+        .btn-primary {
+            background-color: #38bcd3;
+            color: #fff;
+            border: none;
+            padding: 12px;
+            border-radius: 5px;
+            width: 100%;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .btn-primary:hover {
+            background-color: #0a7794;
+        }
+
+        .flash-messages {
+            color: red; /* Default color for danger */
+            margin-top: 10px;
+        }
+
+        .flash-messages.success {
+            color: green;
+        }
+
+        .flash-messages.info {
+            color: blue;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="verify-otp-wrapper">
+        <h1>Verify OTP</h1>
+
+        <!-- Display flash messages -->
+        {% with messages = get_flashed_messages(with_categories=True) %}
+            {% if messages %}
+                <ul class="flash-messages">
+                    {% for category, message in messages %}
+                        <li class="{{ category }}">{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}
+
+        <form method="POST">
+            {{ form.hidden_tag() }}
+
+            <div class="form-group">
+                {{ form.otp.label }}
+                {{ form.otp(class="form-control") }}
+                {% if form.otp.errors %}
+                    <div class="error">
+                        {% for error in form.otp.errors %}
+                            <p>{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                {{ form.submit(class="btn btn-primary") }}
+            </div>
+        </form>
+    </div>
+
+</body>
+</html>
