@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Course Curriculum</title>
+    <style>
+        .week-container {
+            margin-bottom: 20px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            position: relative;
+        }
+        .remove-week-btn {
+            position: absolute;
+            right: 10px;
+            top: 10px;
+            background-color: red;
+            color: white;
+            border: none;
+            padding: 5px;
+            cursor: pointer;
+        }
+        .flashes {
+            list-style-type: none;
+            padding: 0;
+        }
+        .success {
+            color: green;
+        }
+        .error {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <h1>Course Curriculum</h1>
+    <form method="POST" enctype="multipart/form-data" id="CurriculumForm">
+        {{ form.hidden_tag() }}
+        <div id="course_name">
+            <label>Course Name</label>
+            {{ form.course_name(size=20) }}
+        </div>
+
+        <br><br>
+        <div id="overview">
+            <label>Overview</label>
+            {{ form.overview(size=20) }}
+        </div>
+
+        <br><br>
+        <div id="price">
+            <label>Price</label>
+            {{ form.price(size=20) }}
+        </div>
+
+        <br><br>
+        <div id="level">
+            <label>Level</label>
+            {{ form.level(size=20) }}
+        </div>
+
+        <br><br>
+        <div id="duration">
+            <label>Duration</label>
+            {{ form.duration(size=20) }}
+        </div>
+
+        <br><br>
+        <div id="lessons">
+            <label>Lessons</label>
+            {{ form.lessons(size=20) }}
+        </div>
+
+        <br><br>
+        <div id="quizzes">
+            <label>Quizzes</label>
+            {{ form.quizzes(size=20) }}
+        </div>
+
+        <br><br>
+        <div id="certifications">
+            <label>Certifications</label>
+            {{ form.certifications(size=20) }}
+        </div>
+
+        <br><br>
+        <div id="demo_video">
+            <label>Demo Video</label>
+            <input type="file" name="demo_video" accept="video/*">
+        </div>
+
+        <br><br>
+        <div id="banner_image">
+            <label>Banner Image</label>
+            <input type="file" name="banner_image" accept="image/*">
+        </div>
+
+        <br><br>
+        <div id="weeksContainer">
+            {% for week_form in form.weeks %}
+            <div class="week-container">
+                <button type="button" class="remove-week-btn">Remove</button>
+
+                {{ week_form.hidden_tag() }}
+                <label>Week</label>
+                {{ week_form.week.label }} {{ week_form.week(size=20) }}
+
+                <label>Title</label>
+                {{ week_form.title.label }} {{ week_form.title(size=40) }}
+
+                <label>Topics</label>
+                <ul>
+                    {% for topic in week_form.topics %}
+                    <li>
+                        {{ topic.hidden_tag() }}
+                        {{ topic.topic.label }} {{ topic.topic(size=40) }}
+                    </li>
+                    {% endfor %}
+                </ul>
+
+                <label>Upload Videos</label>
+<!--                <input type="file" name="file" multiple />-->
+                <input type="file" name="videos" multiple accept="video/*" />
+            </div>
+            <hr>
+            {% endfor %}
+        </div>
+
+        <button type="button" id="addWeekBtn">+ Add Week</button>
+
+        <br><br>
+        {{ form.submit() }}
+    </form>
+
+    <script>
+        // Function to add a new week section
+        document.getElementById('addWeekBtn').addEventListener('click', function () {
+            const weeksContainer = document.getElementById('weeksContainer');
+
+            // Clone the last week form element
+            const lastWeek = weeksContainer.lastElementChild.previousElementSibling;
+            const newWeek = lastWeek.cloneNode(true);
+
+            // Find the number of weeks currently present in the form
+            const weekCount = weeksContainer.querySelectorAll('.week-container').length;
+
+            // Update names and ids for the inputs to have unique identifiers
+            const inputs = newWeek.querySelectorAll('input');
+            inputs.forEach(function (input) {
+                const name = input.name.replace(/(\d+)/, weekCount); // Update index with weekCount
+                input.name = name;
+                input.id = name;
+                input.value = ''; // Clear the input value
+            });
+
+            weeksContainer.appendChild(newWeek);
+            addRemoveButtonFunctionality();
+        });
+
+        // Function to add remove button functionality
+        function addRemoveButtonFunctionality() {
+            const removeButtons = document.querySelectorAll('.remove-week-btn');
+            removeButtons.forEach(function (button) {
+                button.addEventListener('click', function () {
+                    const weekContainer = button.parentElement;
+                    weekContainer.parentElement.removeChild(weekContainer);
+                });
+            });
+        }
+
+        // Initial setup for remove buttons
+        addRemoveButtonFunctionality();
+    </script>
+
+    <ul class="flashes">
+        {% with messages = get_flashed_messages(with_categories=True) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <li class="{{ category }}">{{ message }}</li>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+    </ul>
+</body>
+</html>

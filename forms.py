@@ -3,7 +3,7 @@ from flask_wtf.file import FileRequired, FileAllowed
 from wtforms import StringField, PasswordField, SubmitField, FileField, IntegerField
 from wtforms.fields.form import FormField
 from wtforms.fields.list import FieldList
-from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError, Regexp
+from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError, Regexp, Optional
 from models import User, Admin
 
 
@@ -150,5 +150,46 @@ class CurriculumForm(FlaskForm):
     banner_image = FileField('Banner Image')
     weeks = FieldList(FormField(WeekForm), min_entries=1)
     submit = SubmitField('Submit')
+
+
+class CourseVideo(FlaskForm):
+    course_id = IntegerField('Course ID', validators=[DataRequired()])
+    week_number = IntegerField('Week Number', validators=[DataRequired()])
+    video_name = StringField('Video Name', validators=[DataRequired()])
+    video_number = IntegerField('Video Number', validators=[DataRequired()])
+    week_topic = StringField('Week Topic', validators=[DataRequired()])
+    submit = SubmitField('Submit')
+
+
+# Form for each Topic
+class TopicForm(FlaskForm):
+    topic = StringField('Topic', validators=[DataRequired()])  # Topic name
+
+# Form for each Video
+class VideoForm(FlaskForm):
+    video = FileField('Upload Video', validators=[Optional()])  # Upload Video
+
+# Form for each Week
+class WeekForm(FlaskForm):
+    week = StringField('Week', validators=[DataRequired()])  # Week number or title
+    title = StringField('Title', validators=[DataRequired()])  # Title of the week
+    topics = FieldList(FormField(TopicForm), min_entries=1)  # List of topics for the week
+    videos = FieldList(FormField(VideoForm), min_entries=1)  # List of video uploads for the week
+
+# Main Form for the Curriculum
+class CurriculumForm(FlaskForm):
+    weeks = FieldList(FormField(WeekForm), min_entries=1)  # At least one week is required
+    course_name = StringField('Course Name', validators=[DataRequired()])  # Name of the course
+    overview = StringField('Overview', validators=[DataRequired()])  # Course overview
+    price = StringField('Price', validators=[DataRequired()])  # Price of the course
+    level = StringField('Level', validators=[DataRequired()])  # Difficulty level
+    duration = StringField('Duration', validators=[DataRequired()])  # Duration of the course
+    lessons = StringField('Lessons', validators=[DataRequired()])  # Number of lessons
+    quizzes = StringField('Quizzes', validators=[DataRequired()])  # Number of quizzes
+    certifications = StringField('Certifications', validators=[DataRequired()])  # Certifications offered
+    demo_video = StringField('Demo Video', validators=[DataRequired()])  # URL for the demo video
+    banner_image = StringField('Banner Image', validators=[DataRequired()])  # URL for the banner image
+    submit = SubmitField('Submit')  # Submit button
+
 
 

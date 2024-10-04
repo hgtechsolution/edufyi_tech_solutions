@@ -3,11 +3,11 @@ import traceback
 import psycopg2
 
 
-def get_curriculum(course_name):
-    global conn
+def get_curriculum(conn,course_name):
+    # global conn
     try:
         # Connect to the database
-        conn = psycopg2.connect("dbname=edtech user=postgres password=123456789")
+        # conn = psycopg2.connect("dbname=edtech user=postgres password=123456789")
         cursor = conn.cursor()
 
         # Fetch the course data
@@ -24,22 +24,22 @@ def get_curriculum(course_name):
             conn.close()
             return course_data
         else:
-            conn.close()
+            conn.rollback()
             return None
     except Exception as e:
         print(f"Error fetching curriculum: {e}")
         error_ex = traceback.format_exc()
         print(error_ex)
         if conn:
-            conn.close()
+            conn.rollback()
         return None
 
 
-def enrolled_course_get_curriculum(course_name):
-    global conn
+def enrolled_course_get_curriculum(conn,course_name):
+    # global conn
     try:
         # Connect to the database
-        conn = psycopg2.connect("dbname=edtech user=postgres password=123456789")
+        # conn = psycopg2.connect("dbname=edtech user=postgres password=123456789")
         cursor = conn.cursor()
 
         # Fetch the course data
@@ -53,15 +53,15 @@ def enrolled_course_get_curriculum(course_name):
             # Create a dictionary by zipping column names and values
             course_data = dict(zip(column_names, result))
 
-            conn.close()
+            # conn.rollback()
             return course_data
         else:
-            conn.close()
+            conn.rollback()
             return None
     except Exception as e:
         print(f"Error fetching curriculum: {e}")
         error_ex = traceback.format_exc()
         print(error_ex)
         if conn:
-            conn.close()
+            conn.rollback()
         return None

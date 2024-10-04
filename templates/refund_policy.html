@@ -3,76 +3,67 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>About Us - Edufyi Tech Solutions</title>
+    <title>Refund Policy - Edufyi Tech Solutions</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-
-        section#About {
-            padding: 60px;
-            /* background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('static/images/blue-background.jpg') center/cover no-repeat;  */
-            color: #000;
-        }
-
-        section h3 {
-            font-size: 36px;
-            margin-bottom: 20px;
-            text-align: center;
-        }
-        section p {
-            font-size: 18px;
-            line-height: 1.6;
-            text-align: justify;
-            margin-bottom: 15px;
-        }
-        .content {
-            max-width: 1200px;
-            margin: 0 auto;
-            background-color: rgba(255, 255, 255, 0.1);
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
-        }
-        .vector-image {
-            display: flex;
-            justify-content: center;
-            margin-bottom: 30px;
-        }
-        .vector-image img {
-            width: 100%;
-            max-width: 300px;
-        }
-        .mission-vision {
-            display: flex;
-            justify-content: space-around;
-            text-align: center;
-            margin-top: 40px;
-        }
-        .mission-vision div {
-            width: 45%;
-        }
-        .process-list {
-            margin-top: 20px;
-            list-style-type: none;
+        * {
+            box-sizing: border-box;
+            margin: 0;
             padding: 0;
         }
-        .process-list li {
-            margin-bottom: 10px;
-            font-size: 18px;
-            display: flex;
-            align-items: center;
-        }
-        .process-list li::before {
-            content: "✔";
-            color: #ffd700;
-            font-weight: bold;
-            margin-right: 10px;
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            line-height: 1.6;
+            background-color: #f9f9f9;
+            color: #333;
         }
 
+        .container {
+            max-width: 1000px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        header p {
+            font-size: 1em;
+            color: #777;
+        }
+
+        main {
+            margin-bottom: 20px;
+        }
+
+        section {
+            margin-bottom: 20px;
+        }
+
+        h2 {
+            font-size: 1.5em;
+            margin-bottom: 10px;
+            color: #000; /* Change to your desired color */
+        }
+
+        p {
+            margin-bottom: 15px;
+        }
     </style>
 </head>
 <body>
-
     <!-- Navbar (use the same navbar from your previous design) -->
     <nav class="navbar">
         <div class="logo">
@@ -87,41 +78,39 @@
             </ul>
     </nav>
 
-    <section id="About">
-        <div class="content">
-            <h3>About Us</h3>
-            <p>At Edufyi Tech Solutions, we are committed to transforming the educational landscape through innovative online internships, comprehensive training programs, and expert mentorship. Our mission is to bridge the gap between academic learning and real-world application by providing students with practical experience and industry insights.</p>
-            <p>Our programs feature hands-on experience with 6-10 years of industry experts, personalized doubt-clearing sessions, and real-time projects from top MNCs. Each student benefits from a lifetime-access LMS portal, dedicated placement assistance, and 24/7 support, all designed to foster career readiness and success.</p>
+    <div class="container">
+        <header>
+            <h1>Refund Policy</h1>
+            <p>Last updated: October 2024</p>
+        </header>
 
-            <div class="vector-image">
-                <img src="static/images/undraw_undraw_chatting_lt27_5ak9.svg" alt="Education Graphic"> 
-            </div>
+        <main>
+            <section>
+                <h2>1. Overview</h2>
+                <p>Our refund policy varies depending on the type of course you enroll in. Please read the following details carefully to understand our terms regarding refunds.</p>
+            </section>
 
-            <p>With strategic college partnerships and a focus on flexibility and affordability, Edufyi Tech Solutions is dedicated to empowering students to achieve their career goals and excel in their chosen fields. Join us to unlock your potential and take the next step towards your dream career.</p>
+            <section>
+                <h2>2. Self-Paced Programs</h2>
+                <p>Self-paced programs are non-refundable unless canceled by Edufyi Tech Solutions. In such cases, a full refund will be issued to the participant.</p>
+            </section>
 
-            <div class="mission-vision">
-                <div class="mission">
-                    <h4>Mission</h4>
-                    <p>To equip students with virtual internships and real-world projects for successful career placement through industry mentorship.</p>
-                </div>
-                <div class="vision">
-                    <h4>Vision</h4>
-                    <p>To transform education by linking academic learning with practical experience, helping students achieve their career goals.</p>
-                </div>
-            </div>
+            <section>
+                <h2>3. Mentor-Led or Professional Programs</h2>
+                <p>Refunds for mentor-led or professional programs are provided only if Edufyi Tech Solutions cancels the program. If a program's start is delayed beyond 45 days, participants may request a full refund.</p>
+            </section>
 
-            <p><strong>Students Rating on Experts: </strong>4.8 / 5</p>
+            <section>
+                <h2>4. Requesting a Refund</h2>
+                <p>To request a refund, please contact us at <a href="mailto:info@edufyitechsolutions.com">info@edufyitechsolutions.com</a> within the specified time frame. Make sure to include your course details and reason for the refund in your request.</p>
+            </section>
 
-            <h4>Our Process</h4>
-            <ul class="process-list">
-                <li>Get a demo call to know more about programs</li>
-                <li>Choose the Program/Plan within your budget</li>
-                <li>Get enrolled with us</li>
-                <li>Stay with us for 2 - 3 months</li>
-                <li>Gain skills, knowledge & hands-on experience</li>
-            </ul>
-        </div>
-    </section>
+            <section>
+                <h2>5. Processing of Refunds</h2>
+                <p>Approved refunds will be processed within 15-20 business days, depending on the payment method used. Please allow additional time for your bank to reflect the refund in your account.</p>
+            </section>
+        </main>
+    </div>
 
     <!-- Footer Section -->
     <footer class="footer">

@@ -3,12 +3,121 @@
 BEGIN;
 
 
+CREATE TABLE IF NOT EXISTS public.admin
+(
+    id integer NOT NULL DEFAULT nextval('admin_inputs_id_seq'::regclass),
+    username character varying(50) COLLATE pg_catalog."default" NOT NULL,
+    email character varying(100) COLLATE pg_catalog."default" NOT NULL,
+    phone_number text COLLATE pg_catalog."default" NOT NULL,
+    password character varying(255) COLLATE pg_catalog."default" NOT NULL,
+    encryption_password text COLLATE pg_catalog."default",
+    town text COLLATE pg_catalog."default" NOT NULL,
+    city text COLLATE pg_catalog."default",
+    CONSTRAINT admin_inputs_pkey PRIMARY KEY (id),
+    CONSTRAINT admin_inputs_email_key UNIQUE (email)
+);
+
+CREATE TABLE IF NOT EXISTS public.coupons
+(
+    id serial NOT NULL,
+    code character varying(50) COLLATE pg_catalog."default" NOT NULL,
+    discount numeric(5, 2) NOT NULL,
+    expiry_date date,
+    is_active boolean DEFAULT true,
+    CONSTRAINT coupons_pkey PRIMARY KEY (id),
+    CONSTRAINT coupons_code_key UNIQUE (code)
+);
+
 CREATE TABLE IF NOT EXISTS public.course
 (
     id serial NOT NULL,
     title text COLLATE pg_catalog."default",
     url text COLLATE pg_catalog."default",
+    course_category text COLLATE pg_catalog."default",
     CONSTRAINT course_pkey PRIMARY KEY (id)
+);
+
+CREATE TABLE IF NOT EXISTS public.course_curriculum
+(
+    id serial NOT NULL,
+    course_name text COLLATE pg_catalog."default",
+    curriculum json,
+    overview text COLLATE pg_catalog."default",
+    price bigint,
+    level text COLLATE pg_catalog."default",
+    duration text COLLATE pg_catalog."default",
+    lessons text COLLATE pg_catalog."default",
+    quizzes text COLLATE pg_catalog."default",
+    certifications text COLLATE pg_catalog."default",
+    demo_video text COLLATE pg_catalog."default",
+    banner_image text COLLATE pg_catalog."default",
+    CONSTRAINT course_curriculum_pkey PRIMARY KEY (id)
+);
+
+CREATE TABLE IF NOT EXISTS public.course_payments
+(
+    id serial NOT NULL,
+    user_id integer,
+    course_id integer,
+    payment_id text COLLATE pg_catalog."default",
+    transaction_id character varying(255) COLLATE pg_catalog."default" NOT NULL,
+    order_id text COLLATE pg_catalog."default",
+    signature text COLLATE pg_catalog."default",
+    course_name text COLLATE pg_catalog."default",
+    course_category text COLLATE pg_catalog."default",
+    amount numeric(10, 2) NOT NULL,
+    payment_date timestamp without time zone DEFAULT CURRENT_TIMESTAMP,
+    payment_status character varying(20) COLLATE pg_catalog."default" NOT NULL,
+    course_expire_date timestamp without time zone,
+    CONSTRAINT course_payments_pkey PRIMARY KEY (id),
+    CONSTRAINT course_payments_transaction_id_key UNIQUE (transaction_id)
+);
+
+CREATE TABLE IF NOT EXISTS public.course_transactions
+(
+    id serial NOT NULL,
+    entity text COLLATE pg_catalog."default",
+    amount integer,
+    currency text COLLATE pg_catalog."default",
+    status text COLLATE pg_catalog."default",
+    order_id text COLLATE pg_catalog."default",
+    invoice_id text COLLATE pg_catalog."default",
+    international boolean,
+    method text COLLATE pg_catalog."default",
+    amount_refunded integer,
+    refund_status text COLLATE pg_catalog."default",
+    captured boolean,
+    description text COLLATE pg_catalog."default",
+    card_id text COLLATE pg_catalog."default",
+    bank text COLLATE pg_catalog."default",
+    wallet text COLLATE pg_catalog."default",
+    vpa text COLLATE pg_catalog."default",
+    email text COLLATE pg_catalog."default",
+    contact text COLLATE pg_catalog."default",
+    notes jsonb,
+    fee integer,
+    tax integer,
+    error_code text COLLATE pg_catalog."default",
+    error_description text COLLATE pg_catalog."default",
+    error_source text COLLATE pg_catalog."default",
+    error_step text COLLATE pg_catalog."default",
+    error_reason text COLLATE pg_catalog."default",
+    acquirer_data jsonb,
+    created_at timestamp without time zone,
+    payment_id text COLLATE pg_catalog."default",
+    user_id bigint,
+    CONSTRAINT course_transactions_pkey PRIMARY KEY (id)
+);
+
+CREATE TABLE IF NOT EXISTS public.course_videos
+(
+    id serial NOT NULL,
+    course_id bigint NOT NULL,
+    week_number bigint NOT NULL,
+    video_name character varying(255) COLLATE pg_catalog."default" NOT NULL,
+    video_number bigint NOT NULL,
+    week_topic text COLLATE pg_catalog."default",
+    CONSTRAINT course_videos_pkey PRIMARY KEY (id)
 );
 
 CREATE TABLE IF NOT EXISTS public.encry_key
@@ -19,7 +128,86 @@ CREATE TABLE IF NOT EXISTS public.encry_key
     CONSTRAINT encry_key_pkey PRIMARY KEY (id)
 );
 
-CREATE TABLE IF NOT EXISTS public.users_input
+CREATE TABLE IF NOT EXISTS public.enrolled_course_curriculum
+(
+    id serial NOT NULL,
+    course_name text COLLATE pg_catalog."default",
+    curriculum json,
+    overview text COLLATE pg_catalog."default",
+    price bigint,
+    level text COLLATE pg_catalog."default",
+    duration text COLLATE pg_catalog."default",
+    lessons text COLLATE pg_catalog."default",
+    quizzes text COLLATE pg_catalog."default",
+    certifications text COLLATE pg_catalog."default",
+    demo_video text COLLATE pg_catalog."default",
+    banner_image text COLLATE pg_catalog."default",
+    CONSTRAINT enrolled_course_curriculum_pkey PRIMARY KEY (id)
+);
+
+CREATE TABLE IF NOT EXISTS public.registration_payment
+(
+    id integer NOT NULL DEFAULT nextval('payment_id_seq'::regclass),
+    amount numeric(10, 2) NOT NULL,
+    payment_id character varying(255) COLLATE pg_catalog."default" NOT NULL,
+    order_id character varying(255) COLLATE pg_catalog."default" NOT NULL,
+    signature text COLLATE pg_catalog."default" NOT NULL,
+    status character varying(50) COLLATE pg_catalog."default" NOT NULL,
+    created_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP,
+    transaction_id bigint,
+    user_id bigint,
+    registration_expiry_time timestamp without time zone,
+    CONSTRAINT payment_pkey PRIMARY KEY (id)
+);
+
+CREATE TABLE IF NOT EXISTS public.registration_transactions
+(
+    id serial NOT NULL,
+    entity text COLLATE pg_catalog."default",
+    amount integer,
+    currency text COLLATE pg_catalog."default",
+    status text COLLATE pg_catalog."default",
+    order_id text COLLATE pg_catalog."default",
+    invoice_id text COLLATE pg_catalog."default",
+    international boolean,
+    method text COLLATE pg_catalog."default",
+    amount_refunded integer,
+    refund_status text COLLATE pg_catalog."default",
+    captured boolean,
+    description text COLLATE pg_catalog."default",
+    card_id text COLLATE pg_catalog."default",
+    bank text COLLATE pg_catalog."default",
+    wallet text COLLATE pg_catalog."default",
+    vpa text COLLATE pg_catalog."default",
+    email text COLLATE pg_catalog."default",
+    contact text COLLATE pg_catalog."default",
+    notes jsonb,
+    fee integer,
+    tax integer,
+    error_code text COLLATE pg_catalog."default",
+    error_description text COLLATE pg_catalog."default",
+    error_source text COLLATE pg_catalog."default",
+    error_step text COLLATE pg_catalog."default",
+    error_reason text COLLATE pg_catalog."default",
+    acquirer_data jsonb,
+    created_at timestamp without time zone,
+    payment_id text COLLATE pg_catalog."default",
+    user_id bigint,
+    CONSTRAINT registration_transactions_pkey PRIMARY KEY (id)
+);
+
+CREATE TABLE IF NOT EXISTS public.user_enrolled_course_tracker
+(
+    id serial NOT NULL,
+    user_id bigint NOT NULL,
+    course_id bigint NOT NULL,
+    week_number bigint NOT NULL,
+    video_id bigint NOT NULL,
+    status boolean,
+    CONSTRAINT user_enrolled_course_tracker_pkey PRIMARY KEY (id)
+);
+
+CREATE TABLE IF NOT EXISTS public.users
 (
     id integer NOT NULL DEFAULT nextval('user_inputs_id_seq'::regclass),
     username character varying(50) COLLATE pg_catalog."default" NOT NULL,
@@ -32,4 +220,18 @@ CREATE TABLE IF NOT EXISTS public.users_input
     CONSTRAINT user_inputs_pkey PRIMARY KEY (id),
     CONSTRAINT user_inputs_email_key UNIQUE (email)
 );
+
+ALTER TABLE IF EXISTS public.course_payments
+    ADD CONSTRAINT course_payments_course_id_fkey FOREIGN KEY (course_id)
+    REFERENCES public.course (id) MATCH SIMPLE
+    ON UPDATE NO ACTION
+    ON DELETE NO ACTION;
+
+
+ALTER TABLE IF EXISTS public.course_payments
+    ADD CONSTRAINT course_payments_user_id_fkey FOREIGN KEY (user_id)
+    REFERENCES public.users (id) MATCH SIMPLE
+    ON UPDATE NO ACTION
+    ON DELETE NO ACTION;
+
 END;
