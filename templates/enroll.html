@@ -216,7 +216,7 @@
             padding: 20px;
             text-align: center;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-            margin-top: 15px;
+            margin-top: 30px;
         }
 
         .price-box h3 {
@@ -526,6 +526,7 @@
             background-color: #f9f9f9;
             border-radius: 8px;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            margin-bottom: 50px
         }
 
         .course-curriculum h2 {
@@ -754,6 +755,114 @@
             transform: scale(1.1);
         }
 
+        /* Pricing Table Container */
+        .pricing-table {
+            display: flex;
+            gap: 30px;
+            flex-wrap: wrap;
+            justify-content: center;
+            max-width: 1200px;
+            width: 100%;
+        }
+
+        /* Individual Card Styles */
+        .card {
+            background-color: #ffffff;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            width: 300px;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 35px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Card Header */
+        .card-header {
+            background-color: #3B73D1;
+            color: #ffffff;
+            padding: 30px 20px 20px 20px;
+            position: relative;
+            text-align: center;
+        }
+
+        .card-header h2 {
+            font-size: 1.6em;
+            margin-bottom: 10px;
+        }
+
+        .card-header .price {
+            font-size: 2.5em;
+            font-weight: bold;
+        }
+
+        .card-header .duration {
+            font-size: 0.9em;
+            opacity: 0.8;
+        }
+
+        /* Card Body */
+        .card-body {
+            padding: 20px;
+            text-align: left;
+        }
+
+        .card-body ul {
+            list-style: none;
+            margin-bottom: 20px;
+        }
+
+        .card-body ul li {
+            padding: 10px 0;
+            border-bottom: 1px solid #f0f0f0;
+            display: flex;
+            align-items: center;
+            font-size: 0.95em;
+            color: #555555;
+        }
+
+        .card-body ul li:last-child {
+            border-bottom: none;
+        }
+
+        .card-body ul li::before {
+            content: '✔️';
+            margin-right: 10px;
+            color: #3B73D1;
+        }
+
+        /* Buy Now Button */
+        .buy-now {
+            display: block;
+            width: 100%;
+            padding: 15px 0;
+            background-color: #3B73D1;
+            color: #ffffff;
+            border: none;
+            border-radius: 30px;
+            font-size: 1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            text-align: center;
+            text-decoration: none;
+        }
+
+        .buy-now:hover {
+            background-color: #335bb5;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1000px) {
+            .pricing-table {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+
     </style>
 </head>
 
@@ -796,13 +905,13 @@
                 </div>
 
 
-                <!-- Price Box -->
+                <!-- Price Box
                 <div class="price-box">
                     <h3>Price: ${{ price }}</h3>
                     <a href="{{ url_for('course_payment', course_name=course_name, price=price) }}">
                         <button>Enroll Now</button>
                     </a>
-                </div>
+                </div> -->
 
                 <!-- Course Details Box -->
                 <div class="course-details-box">
@@ -906,6 +1015,62 @@
                             {% endif %}
                         </div>
                     {% endfor %}
+                </div>
+
+                <div class="pricing-table">
+                    <!-- Card 1 -->
+                    <div class="card">
+                        <div class="card-header" style="background-color: #3B73D1;">
+                            <h2>Five Page Starter</h2>
+                            <div class="price">&#8377;29</div>
+                            <div class="duration">per month</div>
+                        </div>
+                        <div class="card-body">
+                            <ul>
+                                <li>1 Full User</li>
+                                <li>1,000 Email Previews</li>
+                                <li>5 Contacts per Client</li>
+                                <li>5 Coffee Cups</li>
+                            </ul>
+                            <a href="{{ url_for('course_payment', course_name=course_name, price=price) }}" class="buy-now">Buy Now</a>
+                        </div>
+                    </div>
+
+                    <!-- Card 2 -->
+                    <div class="card">
+                        <div class="card-header" style="background-color: #4AD7D1;">
+                            <h2>10 Page Business</h2>
+                            <div class="price">&#8377;59</div>
+                            <div class="duration">per month</div>
+                        </div>
+                        <div class="card-body">
+                            <ul>
+                                <li>10 Full Users</li>
+                                <li>2,000 Email Previews</li>
+                                <li>5 Contacts per Client</li>
+                                <li>10 Coffee Cups</li>
+                            </ul>
+                            <a href="{{ url_for('course_payment', course_name=course_name, price=price) }}" class="buy-now">Buy Now</a>
+                        </div>
+                    </div>
+
+                    <!-- Card 3 -->
+                    <div class="card">
+                        <div class="card-header" style="background-color: #F85979;">
+                            <h2>eCommerce Starter</h2>
+                            <div class="price">&#8377;119</div>
+                            <div class="duration">per month</div>
+                        </div>
+                        <div class="card-body">
+                            <ul>
+                                <li>1 Full User</li>
+                                <li>3,000 Email Previews</li>
+                                <li>5 Contacts per Client</li>
+                                <li>15 Coffee Cups</li>
+                            </ul>
+                            <a href="{{ url_for('course_payment', course_name=course_name, price=price) }}" class="buy-now">Buy Now</a>
+                        </div>
+                    </div>
                 </div>
                 
             </div>

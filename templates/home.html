@@ -537,6 +537,7 @@
         .contact-form {
             max-width: 600px;
             margin: 0 auto;
+            padding: 20px;
         }
 
         .contact-form input, .contact-form textarea {
@@ -709,19 +710,19 @@
         }
 
         /* Mobile responsiveness */
-        @media (max-width: 768px) {
+        /* @media (max-width: 768px) {
             .reviews-container {
-                grid-template-columns: 1fr; /* For smaller screens, make it one card per row */
+                grid-template-columns: 1fr;  */
                 /* display: grid; */
                 /* gap: 20px; */
-                padding: 40px 0;
+                /* padding: 40px 0;
                 margin: 20px 40px;
                 text-align: center;
             }
             
             
 
-        }
+        } */
 
 
         .whatsapp_float {
@@ -808,16 +809,18 @@
 
         .slider-container {
             height: 100vh;
-            width: 100%;
-            max-width: 1440px; /* Adjust to your desired max width */
+            width: calc(100% - 80px); /* Subtract the total margin (40px on each side) */
             display: flex;
             align-items: center;
             justify-content: center;
             background-color: #000;
-            margin: 20px auto; /* This centers the container with equal margins on both sides */
             padding: 80px 0;
+            margin: 20px auto; /* Centered without pushing it out of the screen */
             border-radius: 10px;
+            position: relative;
+            overflow: hidden;
         }
+
 
         .testimonial {
             position: relative;
@@ -892,6 +895,7 @@
         .swiper-pagination-bullet-active {
             background-color: #4070f4;
         }
+        
         @media screen and (max-width: 768px) {
             .slide p {
                 padding: 0 20px;
