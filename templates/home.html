@@ -5,6 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>User Dashboard</title>
+    <!-- Swiper CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/swiper@latest/swiper-bundle.min.css" />
+
+    <!-- Boxicons CSS -->
+    <link href="https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
@@ -14,7 +19,15 @@
 
     <!-- Custom CSS -->
     <style>
-        /* Landing Page with Video */
+         @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap");
+
+         * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Poppins", sans-serif;
+        }
+
         /* Landing Page with Video */
         .hero {
             position: relative;
@@ -73,14 +86,16 @@
             cursor: pointer;
         }
 
-        /* About Us Section */
         .about {
             padding: 80px 0;
-            background: #000;
+            background: #fff;
             margin: 20px 40px;
             display: flex;
             justify-content: center;
             align-items: center;
+            border-radius: 10px;
+            position: relative;
+            overflow: hidden;
         }
 
         .about-content {
@@ -106,9 +121,9 @@
         }
 
         .about p {
-            font-size: 15px;
+            font-size: 18px;
             margin: 20px 0;
-            color: #fff;
+            color: #000;
             line-height: 1.6;
             font-family: 'Roboto', sans-serif; /* Clean font for paragraphs */
         }
@@ -119,10 +134,76 @@
             margin-top: 40px;
         }
 
+        /* Image floating animation */
         .about-image img {
             max-width: 80%;
             height: auto;
             padding: 20px;
+            animation: float 5s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        /* Background shapes bounce animation */
+        .about::before, .about::after {
+            content: '';
+            position: absolute;
+            background: rgba(90, 176, 246, 0.1);
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            animation: bounce 15s infinite ease-in-out;
+        }
+
+        .about::before {
+            top: 0;
+            left: 0;
+            animation-delay: 0s;
+        }
+
+        .about::after {
+            bottom: 0;
+            right: 0;
+            animation-delay: 2.5s;
+        }
+
+        @keyframes bounce {
+            0% {
+                transform: translate(10, 10);
+            }
+            20% {
+                transform: translate(130%, -40%);
+            }
+            40% {
+                transform: translate(-70%, 130%);
+            }
+            60% {
+                transform: translate(100%, 80%);
+            }
+            80% {
+                transform: translate(-100%, -100%);
+            }
+            100% {
+                transform: translate(10, 10);
+            }
+        }
+
+
+        /* Particle background */
+        #particles-js {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            top: 0;
+            left: 0;
         }
 
         /* Media Query for smaller screens */
@@ -148,15 +229,18 @@
 
         /* Demand Section */
         .domains-section {
-            padding: 50px 0;
+            padding: 80px 0;
+            background: #24232348;
+            margin: 20px 40px;
+            display: flex;
+            justify-content: center;
             text-align: center;
-            background-color: #525252;
-            margin: 0 140px;
+            border-radius: 10px;
         }
 
         .domains-section h2 {
             font-size: 2.5rem;
-            color: #333;
+            color: #000;
             margin-bottom: 60px;
         }
 
@@ -177,13 +261,13 @@
             min-width: 200px; /* Ensures all cards have a minimum width */
             flex: 0 0 auto; /* Prevents cards from shrinking */
             position: relative;
-            height: 150px; /* Reduced overall card height */
+            height: 140px; /* Reduced overall card height */
             margin-bottom: 50px;
         }
 
         .domain-card img {
             width: 100%;
-            height: 150px; /* Reduced image height */
+            height: 160px; /* Reduced image height */
             object-fit: cover; /* Ensures the image fills the container without distortion */
             transition: transform 0.3s ease;
         }
@@ -256,7 +340,15 @@
             .domain-card {
                 margin-right: 0; /* Removes right margin when stacking vertically */
                 width: 70%; 
+                height: 100px;
                 margin: 10px auto;
+            }
+
+            .domain-card img {
+                width: 100%;
+                height: 100px; /* Reduced image height */
+                object-fit: cover; /* Ensures the image fills the container without distortion */
+                transition: transform 0.3s ease;
             }
         }
 
@@ -274,14 +366,29 @@
                 height: 100%; /* Adjusts height dynamically for very small screens */
             }
 
+            .domain-card {
+                margin-right: 0; /* Removes right margin when stacking vertically */
+                width: 70%; 
+                height: 100px;
+                margin: 10px auto;
+            }
+
+            .domain-card img {
+                width: 100%;
+                height: 100px; /* Reduced image height */
+                object-fit: cover; /* Ensures the image fills the container without distortion */
+                transition: transform 0.3s ease;
+            }
+
         }
 
         /* Alumni Moving Images */
         .alumni-success {
+            padding: 80px 0;
+            background: #000;
+            margin: 20px 40px;
             text-align: center;
-            padding: 50px 20px;
-            background-color: #fff;
-            margin-bottom: 50px;
+            border-radius: 10px;
         }
 
         h2 {
@@ -300,7 +407,7 @@
             justify-content: space-around;
             align-items: center;
             gap: 20px; /* Space between images */
-            animation: scroll 30s linear infinite; /* This will be overridden by JavaScript */
+            animation: scroll 30s linear infinite;
         }
 
         .logo-slider img {
@@ -319,12 +426,57 @@
             }
         }
 
+        /* Tablet version */
+        @media (max-width: 768px) {
+            .alumni-success {
+                padding: 60px 20px;
+                margin: 10px 20px;
+            }
+
+            h2 {
+                font-size: 1.5rem;
+                margin-bottom: 40px;
+            }
+
+            .logo-slider {
+                gap: 15px;
+            }
+
+            .logo-slider img {
+                width: 100px; /* Reduced width for tablet */
+                height: 60px; /* Reduced height for tablet */
+            }
+        }
+
+        /* Mobile version */
+        @media (max-width: 480px) {
+            .alumni-success {
+                padding: 40px 10px;
+                margin: 10px 10px;
+            }
+
+            h2 {
+                font-size: 1.3rem;
+                margin-bottom: 30px;
+            }
+
+            .logo-slider {
+                gap: 10px;
+            }
+
+            .logo-slider img {
+                width: 80px; /* Reduced width for mobile */
+                height: 50px; /* Reduced height for mobile */
+            }
+        }
+
+
 
        /* Team Section */
         .team {
             padding: 60px 0;
             text-align: center;
-            background-color: #fff;
+            background-color: #000;
         }
 
         .team h2 {
@@ -368,13 +520,13 @@
         }
 
 
-
-
         /* Contact Form */
         .contact {
             padding: 80px 0;
-            background: #fff;
+            background: #000;
+            margin: 20px 40px;
             text-align: center;
+            border-radius: 10px;
         }
 
         .contact h2 {
@@ -406,55 +558,29 @@
         }
 
 
+        /* Image Grid */
         .image-grid {
             display: grid;
-            grid-template-columns: repeat(3, 1fr); 
+            grid-template-columns: repeat(3, 1fr); /* 3 images per row by default */
             grid-gap: 15px;
-            margin: 50px 40px; 
-            padding: 20px; 
+            margin: 20px 40px;
+            padding: 80px 0;
             border-radius: 10px; 
-            background: #fff;
+            background: #000;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); 
-        }
-
-        .image-grid img {
-            width: 50%; 
-            height: 80%;
-            max-height: 150px; 
-            border-radius: 8px; 
-            object-fit: cover; 
-            margin: 0 auto; 
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .image-grid-container {
             text-align: center;
-            margin: 20px;
-            margin-top: 80px;
         }
 
-        .image-grid-container h2 {
-            font-size: 24px;
-            margin-bottom: 20px;
-            color: #333;
-            font-weight: bold;
-        }
-
-        .image-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr); 
-            grid-gap: 15px;
-            margin: 20px 40px; 
-            padding: 20px; 
-            border-radius: 10px; 
-            background: #fff;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); 
+        .image-grid h2 {
+            grid-column: span 3; /* Make the heading span all columns */
+            font-size: 2rem;
+            margin-top: 20px;
+            color: #fff; /* Set text color to white for visibility */
         }
 
         .image-grid img {
             width: 50%; 
-            height: 90%;
+            height: auto; /* Adjust height to maintain aspect ratio */
             max-height: 150px; 
             border-radius: 8px; 
             object-fit: cover; 
@@ -462,26 +588,72 @@
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
-
 
         .image-grid img:hover {
             transform: scale(1.05); /* Slightly enlarge the image on hover */
             box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3); /* Increase shadow on hover */
         }
 
+        /* Tablet version */
+        @media (max-width: 768px) {
+            .image-grid {
+                grid-template-columns: repeat(2, 1fr); /* 2 images per row */
+                padding: 60px 20px;
+                margin: 10px 20px;
+            }
+
+            .image-grid h2 {
+                grid-column: span 2; /* Adjust heading to span 2 columns */
+                font-size: 1.5rem;
+            }
+
+            .image-grid img {
+                max-height: 120px; /* Slightly smaller images on tablet */
+            }
+        }
+
+        /* Mobile version */
+        @media (max-width: 480px) {
+            .image-grid {
+                grid-template-columns: repeat(2, 1fr); /* 2 images per row */
+                padding: 40px 10px;
+                margin: 10px 10px;
+            }
+
+            .image-grid h2 {
+                grid-column: span 2; /* Heading spans 2 columns on mobile */
+                font-size: 1.rem;
+            }
+
+            .image-grid img {
+                width: 70%; /* Increase image size for better visibility on small screens */
+                max-height: 100px; /* Smaller height on mobile */
+            }
+        }
+
+
 
         .reviews-container {
             display: grid;
             grid-template-columns: repeat(2, 1fr); /* Ensures two columns per row */
             gap: 20px;
-            padding: 20px;
+            padding: 80px 0;
+            margin: 20px 40px;
+            text-align: center;
+        }
+
+        .reviews-container h2 {
+            grid-column: span 2; /* Make the heading span both columns */
+            font-size: 2rem; /* Adjust font size as needed */
+            margin-bottom: 40px; /* Space between heading and cards */
+            color: #000; /* Set text color to white for visibility */
         }
 
         .review-card {
             padding: 20px;
             border-radius: 10px;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            background-color: #fff;
+            background-color: #000;
             transition: transform 0.3s, box-shadow 0.3s;
         }
 
@@ -540,8 +712,17 @@
         @media (max-width: 768px) {
             .reviews-container {
                 grid-template-columns: 1fr; /* For smaller screens, make it one card per row */
+                /* display: grid; */
+                /* gap: 20px; */
+                padding: 40px 0;
+                margin: 20px 40px;
+                text-align: center;
             }
+            
+            
+
         }
+
 
         .whatsapp_float {
             position: fixed;
@@ -625,23 +806,131 @@
             background-color: red;
         }
 
+        .slider-container {
+            height: 100vh;
+            width: 100%;
+            max-width: 1440px; /* Adjust to your desired max width */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #000;
+            margin: 20px auto; /* This centers the container with equal margins on both sides */
+            padding: 80px 0;
+            border-radius: 10px;
+        }
 
+        .testimonial {
+            position: relative;
+            max-width: 900px;
+            width: 100%;
+            padding: 50px 0;
+            overflow: hidden;
+        }
+        .testimonial .image {
+            height: 170px;
+            width: 170px;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+        .testimonial .slide {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            row-gap: 30px;
+            height: 100%;
+            width: 100%;
+        }
+        .slide p {
+            text-align: center;
+            padding: 0 160px;
+            font-size: 14px;
+            font-weight: 400;
+            color: #333;
+        }
+        .slide .quote-icon {
+            font-size: 30px;
+            color: #4070f4;
+        }
+        .slide .details {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .details .name {
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+        }
+        .details .job {
+            font-size: 12px;
+            font-weight: 400;
+            color: #333;
+        }
+
+        
+        /* swiper button css */
+        .nav-btn {
+            height: 40px;
+            width: 40px;
+            border-radius: 50%;
+            transform: translateY(30px);
+            background-color: rgba(0, 0, 0, 0.1);
+            transition: 0.2s;
+        }
+        .nav-btn:hover {
+            background-color: rgba(0, 0, 0, 0.2);
+        }
+        .nav-btn::after,
+        .nav-btn::before {
+            font-size: 20px;
+            color: #fff;
+        }
+        .swiper-pagination-bullet {
+            background-color: rgba(0, 0, 0, 0.8);
+        }
+        .swiper-pagination-bullet-active {
+            background-color: #4070f4;
+        }
+        @media screen and (max-width: 768px) {
+            .slide p {
+                padding: 0 20px;
+            }
+            .nav-btn {
+                display: none;
+            }
+        }
+        
     </style>
 </head>
 <body>
 
     <nav class="navbar">
         <div class="logo">
-            <img src="{{ url_for('static', filename='images/logo.jpg') }}" alt="Logo"> EDUFYI TECH SOLUTIONS </img>
+            <img src="{{ url_for('static', filename='images/logo.jpg') }}" alt="Logo"> EDUFYI TECH SOLUTIONS
         </div>
-        <div class="menu-toggle">&#9776;</div>
-            <ul>
-                <li><a href="#home">Home</a></li>
-                <li><a href="{{ url_for('about') }}">About</a></li>
-                <li><a href="{{ url_for('login') }}">Login</a></li>
-                <li><a href="{{ url_for('register') }}">Register</a></li>
-            </ul>
+        <div class="menu-toggle">&#9776;</div> <!-- For mobile view toggle -->
+        <ul>
+            <li><a href="#home">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#contact">Contact</a></li>
+            <li class="dropdown-toggle">
+                <a href="#services">Login &#9662;</a>
+                <div class="dropdown">
+                    <a href="{{ url_for('login') }}">User Login</a>
+                    <a href="{{ url_for('admin_login') }}">Admin Login</a>
+                </div>
+            </li>
+            <li class="dropdown-toggle">
+                <a href="#services">Register &#9662;</a>
+                <div class="dropdown">
+                    <a href="{{ url_for('register') }}">User Register</a>
+                    <a href="{{ url_for('admin_register') }}">Admin Register</a>
+                </div>
+            </li>
+        </ul>
     </nav>
+    
 
     <!-- Landing Video Section -->
     <div class="hero">
@@ -658,6 +947,7 @@
 
     <!-- About Us Section -->
     <section class="about" id="about">
+        <div id="particles-js"></div> <!-- Particle background -->
         <div class="about-content">
             <!-- Left side: About text -->
             <div class="about-text">
@@ -678,10 +968,9 @@
                 </p>
             </div>
 
-            <!-- Right side: Image -->
+            <!-- Right side: Image with animation -->
             <div class="about-image">
                 <img src="static/images/undraw_educator_re_ju47.svg" alt="Education Graphic">
-<!--                <img src="static/images/undraw_undraw_chatting_lt27_5ak9.svg" alt="Education Graphic">-->
             </div>
         </div>
     </section>
@@ -757,24 +1046,36 @@
         </div>
     </section>
 
-    <div class="image-grid-container">
+    <div class="image-grid">
         <h2>Tools to be learned here / Tools to be trained here</h2>
-        <div class="image-grid">
-            <img src="{{ url_for('static', filename='images/tools/android.png') }}" alt="Image 1">
-            <img src="{{ url_for('static', filename='images/tools/autocad.jpg') }}" alt="Image 2">
-            <img src="{{ url_for('static', filename='images/tools/MATLAB-Logo.png') }}" alt="Image 3">
-            <img src="{{ url_for('static', filename='images/tools/mqtt.png') }}" alt="Image 4">
-            <img src="{{ url_for('static', filename='images/tools/nodejs.webp') }}" alt="Image 5">
-            <img src="{{ url_for('static', filename='images/tools/wireshark.png') }}" alt="Image 6">
-            <img src="{{ url_for('static', filename='images/tools/reactjs.webp') }}" alt="Image 7">
-            <img src="{{ url_for('static', filename='images/tools/Java-Logo.png') }}" alt="Image 8">
-            <img src="{{ url_for('static', filename='images/tools/flask.png') }}" alt="Image 9">
-        </div>
+        
+        <!-- Container for animated background and message -->
+        <!-- <div class="container">
+            <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/221808/sky.jpg" class="background">
+            <p class="message">All your dreams can come true<br>if you have the courage to pursue them</p> -->
+            <!-- Loop for animated circles -->
+            <!-- - for (i = 1; i <= 100; i++)
+              <div class="circle-container">
+                <div class="circle"></div>
+              </div>
+        </div> -->
+    
+        <img src="{{ url_for('static', filename='images/tools/android.png') }}" alt="Image 1">
+        <img src="{{ url_for('static', filename='images/tools/autocad.jpg') }}" alt="Image 2">
+        <img src="{{ url_for('static', filename='images/tools/MATLAB-Logo.png') }}" alt="Image 3">
+        <img src="{{ url_for('static', filename='images/tools/mqtt.png') }}" alt="Image 4">
+        <img src="{{ url_for('static', filename='images/tools/nodejs.webp') }}" alt="Image 5">
+        <img src="{{ url_for('static', filename='images/tools/wireshark.png') }}" alt="Image 6">
+        <img src="{{ url_for('static', filename='images/tools/reactjs.webp') }}" alt="Image 7">
+        <img src="{{ url_for('static', filename='images/tools/Java-Logo.png') }}" alt="Image 8">
+        <img src="{{ url_for('static', filename='images/tools/flask.png') }}" alt="Image 9">
     </div>
+    
+    
     
 
     <!-- Team Section -->
-    <section class="team" id="team">
+    <!-- <section class="team" id="team">
         <h2>Meet Our Team</h2>
         <div class="team-cards">
             <div class="team-card">
@@ -798,11 +1099,69 @@
                 <p>Founder & Director</p>
             </div>
         </div>
+    </section> -->
+
+    <section class="slider-container">
+        <div class="testimonial mySwiper">
+            <div class="testi-content swiper-wrapper">
+                <div class="slide swiper-slide">
+                    <img src="#" alt="" class="image" />
+                    <p>
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam,
+                        saepe provident dolorem a quaerat quo error facere nihil deleniti
+                        eligendi ipsum adipisci, fugit, architecto amet asperiores
+                        doloremque deserunt eum nemo.
+                    </p>
+
+                    <i class="bx bxs-quote-alt-left quote-icon"></i>
+
+                    <div class="details">
+                        <span class="name">Marnie Lotter</span>
+                        <span class="job">Web Developer</span>
+                    </div>
+                </div>
+                <div class="slide swiper-slide">
+                    <img src="#" alt="" class="image" />
+                    <p>
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam,
+                        saepe provident dolorem a quaerat quo error facere nihil deleniti
+                        eligendi ipsum adipisci, fugit, architecto amet asperiores
+                        doloremque deserunt eum nemo.
+                    </p>
+
+                    <i class="bx bxs-quote-alt-left quote-icon"></i>
+
+                    <div class="details">
+                        <span class="name">Marnie Lotter</span>
+                        <span class="job">Web Developer</span>
+                    </div>
+                </div>
+                <div class="slide swiper-slide">
+                    <img src="#" alt="" class="image" />
+                    <p>
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam,
+                        saepe provident dolorem a quaerat quo error facere nihil deleniti
+                        eligendi ipsum adipisci, fugit, architecto amet asperiores
+                        doloremque deserunt eum nemo.
+                    </p>
+
+                    <i class="bx bxs-quote-alt-left quote-icon"></i>
+
+                    <div class="details">
+                        <span class="name">Marnie Lotter</span>
+                        <span class="job">Web Developer</span>
+                    </div>
+                </div>
+            </div>
+            <div class="swiper-button-next nav-btn"></div>
+            <div class="swiper-button-prev nav-btn"></div>
+            <div class="swiper-pagination"></div>
+        </div>
     </section>
 
 
-    <h2 style="margin-left: 600px;">Students Reviews</h2>
     <div class="reviews-container">
+        <h2>Students Reviews</h2>
         <div class="review-card">
             <div class="student-info">
                 <img src="static/images/student.webp" alt="Student Photo" class="student-photo">
@@ -884,7 +1243,7 @@
         </form>
     </section>
 
-    <a href="https://wa.me/919739156665" class="whatsapp_float" target="_blank">
+    <a href="https://wa.me/919740193052" class="whatsapp_float" target="_blank">
         <img src="{{ url_for('static', filename='images/tools/WhatsApp_icon.png') }}" alt="WhatsApp Chat">
     </a>
 
@@ -948,7 +1307,45 @@
         </div>
     </footer>
 
+
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script src="https://unpkg.com/swiper@latest/swiper-bundle.min.js"></script>
     <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const dropdownToggles = document.querySelectorAll('.dropdown-toggle');
+
+            dropdownToggles.forEach(toggle => {
+                const dropdown = toggle.querySelector('.dropdown');
+                const button = toggle.querySelector('a');
+
+                button.addEventListener('click', (event) => {
+                    event.preventDefault(); // Prevent default anchor click behavior
+                    // Toggle the dropdown visibility
+                    dropdown.style.display = (dropdown.style.display === 'block') ? 'none' : 'block';
+                });
+            });
+
+            // Prevent dropdown from closing when clicking inside it
+            const dropdownLinks = document.querySelectorAll('.dropdown a');
+            dropdownLinks.forEach(link => {
+                link.addEventListener('click', (event) => {
+                    event.stopPropagation(); // Prevent click event from bubbling up to navbar
+                });
+            });
+
+            // Close dropdown when clicking outside of it
+            document.addEventListener('click', (event) => {
+                dropdownToggles.forEach(toggle => {
+                    const dropdown = toggle.querySelector('.dropdown');
+                    // Check if the click is outside the dropdown or the button
+                    if (!toggle.contains(event.target)) {
+                        dropdown.style.display = 'none'; // Close the dropdown
+                    }
+                });
+            });
+        });
+
+
         const logoSlider = document.getElementById('logoSlider');
 
         // Store all images in an array
@@ -974,11 +1371,38 @@
             });
         });
 
+        var swiper = new Swiper(".mySwiper", {
+            slidesPerView: 1,
+            grabCursor: true,
+            loop: true,
+            autoplay: {
+                delay: 3000, // Change slide every 3 seconds
+                disableOnInteraction: false, // Allow manual interactions while autoplay is running
+            },
+            pagination: {
+                el: ".swiper-pagination",
+                clickable: true,
+            },
+            navigation: {
+                nextEl: ".swiper-button-next",
+                prevEl: ".swiper-button-prev",
+            },
+        });
+
+        // Initialize particle.js for background effect
+        particlesJS('particles-js', {
+            particles: {
+                number: { value: 80 },
+                color: { value: "#038ba3" },
+                shape: { type: "circle" },
+                opacity: { value: 0.5 },
+                size: { value: 3 },
+                line_linked: { enable: true, distance: 150, color: "#038ba3", opacity: 0.4, width: 1 }
+            }
+        });
+
 
     </script>
-    <script>
-
-</script>
 
 </body>
 </html>

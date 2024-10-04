@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Privay Policy - Edufyi Tech Solutions</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <style>
         body {
@@ -16,7 +17,7 @@
         }
 
         .container {
-            max-width: 800px;
+            max-width: 1000px;
             margin: auto;
             margin-top: 30px;
             padding: 20px;
@@ -36,8 +37,8 @@
         }
 
         h2 {
-            font-size: 1.8em;
-            color: #2980b9;
+            font-size: 1.5em;
+            color: #000;
             margin-top: 20px;
         }
 
@@ -176,19 +177,34 @@
             <!-- Contact Info -->
             <div class="footer-section contact-info">
                 <h3>Contact Us</h3>
-                <p>Email: support@elearning.com</p>
-                <p>Phone: +1 234 567 890</p>
-                <p>Address: 123 Learning Street, Knowledge City, World</p>
+                <p>Email: info@edufyitechsolutions.com</p>
+                <p>Phone: +91 6362000213</p>
+                <p>Address: Fourth Floor,#1664, 27th Main 19th Cross, Hsr Layout, Sector 2 Bangalore, Karnataka 560102</p>
             </div>
 
             <!-- Social Media Links -->
             <div class="footer-section social-media">
-                <h3>Follow Us</h3>
-                <div class="social-icons">
-                    <a href="#"><img src="{{ url_for('static', filename='img/facebook-icon.png') }}" alt="Facebook"></a>
-                    <a href="#"><img src="{{ url_for('static', filename='img/twitter-icon.png') }}" alt="Twitter"></a>
-                    <a href="#"><img src="{{ url_for('static', filename='img/linkedin-icon.png') }}" alt="LinkedIn"></a>
+                <h3 style="margin-left: 90px;">Follow Us</h3>
+                <!-- <div class="social-icons"> -->
+                    <!-- <a href="#"><img src="{{ url_for('static', filename='img/facebook-icon.png') }}" alt="Facebook"></a> -->
+                    <!-- <a href="#"><img src="{{ url_for('static', filename='img/twitter-icon.png') }}" alt="Twitter"></a> -->
+                    <!-- <a href="#"><img src="{{ url_for('static', filename='img/linkedin-icon.png') }}" alt="LinkedIn"></a>
                     <a href="#"><img src="{{ url_for('static', filename='img/instagram-icon.png') }}" alt="Instagram"></a>
+                </div> -->
+
+                <div class="social-icons">
+                    <a href="#" class="social-icon facebook" aria-label="Facebook">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                    <!-- <a href="#" class="social-icon twitter" aria-label="Twitter">
+                        <i class="fab fa-twitter"></i>
+                    </a> -->
+                    <a href="#" class="social-icon instagram" aria-label="Instagram">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="#" class="social-icon youtube" aria-label="Youtube">
+                        <i class="fab fa-youtube"></i>
+                    </a>
                 </div>
             </div>
         </div>

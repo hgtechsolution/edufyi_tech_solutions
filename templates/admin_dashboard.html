@@ -553,7 +553,7 @@
                 <div id="course-list" class="course-list">
                     {% for course in technical_courses %}
                         <div class="course-card technical-course">
-                            <a href="{{ url_for('admin_enroll_course', course_name=course.title) }}">
+                            <a href="{{ url_for('enroll_course_page', course_name=course.title) }}">
                                 <img src="{{ course.url }}" alt="{{ course.title }}">
                             </a>
                             <div class="course-content">

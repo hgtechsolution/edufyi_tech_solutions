@@ -4,40 +4,149 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Video Page</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f7f8;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .video-container {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        video {
+            width: 100%;
+            max-width: 600px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .course-details {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .detail {
+            background-color: #007bff;
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            flex: 1 1 30%;
+            margin: 10px;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .detail h3 {
+            margin: 0;
+            font-size: 20px;
+        }
+
+        .detail p {
+            margin: 5px 0;
+            font-size: 14px;
+        }
+
+        form {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        button {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #218838;
+            transform: translateY(-2px);
+        }
+
+        .flash-messages {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .alert {
+            background-color: #28a745;
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .alert.error {
+            background-color: #dc3545;
+        }
+    </style>
 </head>
 <body>
-    <h1>Video Page</h1>
+    <div class="container">
+        <h1>Video Page</h1>
 
-    <p>
-        {{ course_name }}
-    </p>
-    <p>
-        {{ course_topic }}
-    </p>
+        <div class="video-container">
+            <video controls>
+                <source src="{{ video_file }}" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
 
-    <p>
-        {{ week_topic_name }}
-    </p>
-    <video width="600" controls>
-        <source src="{{ video_file }}" type="video/mp4">
-        Your browser does not support the video tag.
-    </video>
-
-    <form method="POST" action="">
-        <button type="submit">Complete</button>
-    </form>
-
-    <!-- Display Flash Messages -->
-    {% with messages = get_flashed_messages() %}
-        {% if messages %}
-            <div class="flash-messages">
-                {% for message in messages %}
-                    <div class="alert">{{ message }}</div>
-                {% endfor %}
+        <div class="course-details">
+            <div class="detail">
+                <h3>Course Name</h3>
+                <p>{{ course_name }}</p>
             </div>
-        {% endif %}
-    {% endwith %}
+            <div class="detail">
+                <h3>Course Topic</h3>
+                <p>{{ course_topic }}</p>
+            </div>
+            <div class="detail">
+                <h3>Week Topic</h3>
+                <p>{{ week_topic_name }}</p>
+            </div>
+        </div>
 
+        <form method="POST" action="">
+            <button type="submit">Complete</button>
+        </form>
+
+        <!-- Display Flash Messages -->
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <div class="flash-messages">
+                    {% for message in messages %}
+                        <div class="alert">{{ message }}</div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+    </div>
 </body>
 </html>
-
