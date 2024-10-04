@@ -114,7 +114,7 @@
         }
 
         .about h2 {
-            font-size: 36px;
+            font-size: 38px;
             color: #038ba3;
             font-family: 'Poppins', sans-serif; /* Modern font for headings */
             margin-bottom: 20px;
@@ -155,7 +155,7 @@
         .about::before, .about::after {
             content: '';
             position: absolute;
-            background: rgba(90, 176, 246, 0.1);
+            background: rgba(6, 99, 175, 0.1);
             width: 200px;
             height: 200px;
             border-radius: 50%;
@@ -385,7 +385,7 @@
         /* Alumni Moving Images */
         .alumni-success {
             padding: 80px 0;
-            background: #000;
+            background: #000000c7;
             margin: 20px 40px;
             text-align: center;
             border-radius: 10px;
@@ -394,6 +394,7 @@
         h2 {
             font-size: 2rem;
             margin-bottom: 50px;
+            color: #fff;
         }
 
         .logo-container {
@@ -523,7 +524,7 @@
         /* Contact Form */
         .contact {
             padding: 80px 0;
-            background: #000;
+            background: #fff;
             margin: 20px 40px;
             text-align: center;
             border-radius: 10px;
@@ -567,7 +568,7 @@
             margin: 20px 40px;
             padding: 80px 0;
             border-radius: 10px; 
-            background: #000;
+            background: #fff;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); 
             text-align: center;
         }
@@ -576,7 +577,7 @@
             grid-column: span 3; /* Make the heading span all columns */
             font-size: 2rem;
             margin-top: 20px;
-            color: #fff; /* Set text color to white for visibility */
+            color: #000; /* Set text color to white for visibility */
         }
 
         .image-grid img {
@@ -654,7 +655,7 @@
             padding: 20px;
             border-radius: 10px;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            background-color: #000;
+            background-color: #fff;
             transition: transform 0.3s, box-shadow 0.3s;
         }
 
@@ -813,12 +814,28 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            background-color: #000;
             padding: 80px 0;
             margin: 20px auto; /* Centered without pushing it out of the screen */
             border-radius: 10px;
             position: relative;
             overflow: hidden;
+            background: url('static/images/17973908.jpg') center/cover no-repeat; /* Background image */
+        }
+
+        .slider-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5); /* Black transparent overlay */
+            z-index: 1; /* Ensure the overlay is above the image but below the content */
+        }
+
+        .slider-container > * {
+            position: relative;
+            z-index: 2; /* Ensure the content is above the overlay */
         }
 
 
@@ -849,7 +866,11 @@
             padding: 0 160px;
             font-size: 14px;
             font-weight: 400;
-            color: #333;
+            color: #fff;
+        }
+
+        .slide h3 {
+            color: #fff;
         }
         .slide .quote-icon {
             font-size: 30px;
@@ -863,12 +884,12 @@
         .details .name {
             font-size: 14px;
             font-weight: 600;
-            color: #333;
+            color: #fff;
         }
         .details .job {
             font-size: 12px;
             font-weight: 400;
-            color: #333;
+            color: #fff;
         }
 
         
@@ -1109,51 +1130,59 @@
         <div class="testimonial mySwiper">
             <div class="testi-content swiper-wrapper">
                 <div class="slide swiper-slide">
-                    <img src="#" alt="" class="image" />
+                    <img src="{{ url_for('static', filename='images/person/person1.jpg') }}" alt="" class="image" />
+                    <h3>Edufyi Made My Career Dreams a Reality</h3>
                     <p>
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam,
-                        saepe provident dolorem a quaerat quo error facere nihil deleniti
-                        eligendi ipsum adipisci, fugit, architecto amet asperiores
-                        doloremque deserunt eum nemo.
+                        After completing my tech course at Edufyi, I was placed in an internship with one of their partner companies. The experience gave me the exposure and skills I needed to secure a full-time position at Tata Consultancy Services (TCS). Edufyi truly opens doors for students to achieve their career aspirations in the tech world.
                     </p>
 
                     <i class="bx bxs-quote-alt-left quote-icon"></i>
 
                     <div class="details">
-                        <span class="name">Marnie Lotter</span>
-                        <span class="job">Web Developer</span>
+                        <span class="name">Sneha Pillai</span>
+                        <span class="job">Systems Engineer, TCS</span>
                     </div>
                 </div>
                 <div class="slide swiper-slide">
-                    <img src="#" alt="" class="image" />
+                    <img src="{{ url_for('static', filename='images/person/person2.jpeg') }}" alt="" class="image" />
+                    <h3>Internship Success Led to a Job at an MNC!</h3>
                     <p>
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam,
-                        saepe provident dolorem a quaerat quo error facere nihil deleniti
-                        eligendi ipsum adipisci, fugit, architecto amet asperiores
-                        doloremque deserunt eum nemo.
+                        Edufyi Tech Solutions helped me land an internship that allowed me to apply my skills in a real-world setting. This internship was the perfect gateway to my current role at Deloitte. The learning experience at Edufyi, combined with the practical exposure, was key to my placement success!
                     </p>
 
                     <i class="bx bxs-quote-alt-left quote-icon"></i>
 
                     <div class="details">
-                        <span class="name">Marnie Lotter</span>
-                        <span class="job">Web Developer</span>
+                        <span class="name">Ankit Rathi</span>
+                        <span class="job">Cybersecurity Analyst, Deloitte</span>
                     </div>
                 </div>
                 <div class="slide swiper-slide">
-                    <img src="#" alt="" class="image" />
+                    <img src="{{ url_for('static', filename='images/person/person3.jpg') }}" alt="" class="image" />
+                    <h3>Secured My Dream Job at an MNC!</h3>
                     <p>
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam,
-                        saepe provident dolorem a quaerat quo error facere nihil deleniti
-                        eligendi ipsum adipisci, fugit, architecto amet asperiores
-                        doloremque deserunt eum nemo.
+                        Edufyi Tech Solutions provided me with an internship that perfectly aligned with my career goals. The hands-on training and support during the internship were phenomenal. Soon after completing it, I received a job offer from Cognizant. Edufyi's commitment to helping students succeed in their careers is truly unmatched!
                     </p>
 
                     <i class="bx bxs-quote-alt-left quote-icon"></i>
 
                     <div class="details">
-                        <span class="name">Marnie Lotter</span>
-                        <span class="job">Web Developer</span>
+                        <span class="name">sowjanya</span>
+                        <span class="job">Web Developer, TCS</span>
+                    </div>
+                </div>
+                <div class="slide swiper-slide">
+                    <img src="{{ url_for('static', filename='images/person/person4.jpeg') }}" alt="" class="image" />
+                    <h3>From Intern to Full-Time Role at an MNC!</h3>
+                    <p>
+                        The internship opportunities provided by Edufyi are second to none. I got the chance to work on live projects with a reputed firm, which boosted my skills and confidence. Shortly after, I received a job offer from HCL. I owe my success to Edufyi's guidance and mentorship throughout the journey!
+                    </p>
+
+                    <i class="bx bxs-quote-alt-left quote-icon"></i>
+
+                    <div class="details">
+                        <span class="name">Vishal Khanna</span>
+                        <span class="job">Software Developer, HCL Technologies</span>
                     </div>
                 </div>
             </div>
