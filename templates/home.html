@@ -634,10 +634,10 @@
         }
 
 
-
+        /* Default layout for larger screens */
         .reviews-container {
             display: grid;
-            grid-template-columns: repeat(2, 1fr); /* Ensures two columns per row */
+            grid-template-columns: repeat(2, 1fr); /* Two columns per row */
             gap: 20px;
             padding: 80px 0;
             margin: 20px 40px;
@@ -646,9 +646,9 @@
 
         .reviews-container h2 {
             grid-column: span 2; /* Make the heading span both columns */
-            font-size: 2rem; /* Adjust font size as needed */
-            margin-bottom: 40px; /* Space between heading and cards */
-            color: #000; /* Set text color to white for visibility */
+            font-size: 2rem; 
+            margin-bottom: 40px; 
+            color: #000;
         }
 
         .review-card {
@@ -710,20 +710,123 @@
             letter-spacing: 1px;
         }
 
-        /* Mobile responsiveness */
-        /* @media (max-width: 768px) {
+        /* Mobile version */
+        @media (max-width: 480px) {
             .reviews-container {
-                grid-template-columns: 1fr;  */
-                /* display: grid; */
-                /* gap: 20px; */
-                /* padding: 40px 0;
-                margin: 20px 40px;
-                text-align: center;
+                grid-template-columns: 1fr; /* Single column layout for mobile */
+                gap: 20px;
+                padding: 40px 10px; /* Adjust padding for smaller screens */
+                margin: 10px 20px; /* Reduced margin */
             }
-            
-            
 
-        } */
+            .reviews-container h2 {
+                font-size: 1.5rem; /* Reduce font size for heading */
+                margin-bottom: 30px;
+            }
+
+            .review-card {
+                padding: 15px; /* Reduce padding for mobile */
+                margin: 0 10px; /* Add some margin for better spacing */
+                border-radius: 8px;
+            }
+
+            .student-photo {
+                width: 50px; /* Adjust size of student photo */
+                height: 50px;
+            }
+
+            .student-name {
+                font-size: 1.1em;
+            }
+
+            .course-name {
+                font-size: 0.85em;
+            }
+
+            .review-content {
+                font-size: 0.95em;
+            }
+
+            .review-rating {
+                font-size: 1.2em;
+            }
+        }
+
+        /* For screens up to 480px */
+        /* For screens up to 480px */
+        @media (max-width: 480px) {
+            .reviews-container {
+                display: block; /* Remove the grid layout */
+                padding: 20px 5px; /* Reduced padding for mobile */
+                margin: 5px 10px; /* Adjusted margins */
+            }
+
+            .review-card {
+                width: 100%; /* Ensure each card takes full width */
+                padding: 15px;
+                margin-bottom: 20px; /* Space between cards */
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Card shadow for a better look */
+            }
+
+            .student-photo {
+                width: 50px; /* Smaller photo for mobile */
+                height: 50px;
+            }
+
+            .student-name {
+                font-size: 1em; /* Adjusted font size */
+            }
+
+            .course-name {
+                font-size: 0.9em; /* Adjusted font size */
+            }
+
+            .review-content {
+                font-size: 0.9em; /* Adjusted font size */
+            }
+
+            .review-rating {
+                font-size: 1.2em; /* Adjusted font size for ratings */
+            }
+        }
+
+        /* For even smaller screens, like 380px */
+        @media (max-width: 380px) {
+            .reviews-container {
+                display: block; /* No grid */
+                padding: 15px 5px; /* Further reduced padding */
+                margin: 5px 5px; /* Tighter margins */
+            }
+
+            .review-card {
+                padding: 10px; /* More compact padding */
+                margin-bottom: 15px; /* Slightly reduced space between cards */
+            }
+
+            .student-photo {
+                width: 40px; /* Smaller student photo */
+                height: 40px;
+            }
+
+            .student-name {
+                font-size: 0.9em; /* Adjusted font size */
+            }
+
+            .course-name {
+                font-size: 0.8em; /* Adjusted font size */
+            }
+
+            .review-content {
+                font-size: 0.85em; /* Adjusted font size */
+            }
+
+            .review-rating {
+                font-size: 1.1em; /* Adjusted font size for ratings */
+            }
+        }
+
+
+
 
 
         .whatsapp_float {
@@ -808,6 +911,7 @@
             background-color: red;
         }
 
+        /* Base styling for larger screens (as you've written already) */
         .slider-container {
             height: 100vh;
             width: calc(100% - 80px); /* Subtract the total margin (40px on each side) */
@@ -838,7 +942,6 @@
             z-index: 2; /* Ensure the content is above the overlay */
         }
 
-
         .testimonial {
             position: relative;
             max-width: 900px;
@@ -846,12 +949,14 @@
             padding: 50px 0;
             overflow: hidden;
         }
+
         .testimonial .image {
             height: 170px;
             width: 170px;
             object-fit: cover;
             border-radius: 50%;
         }
+
         .testimonial .slide {
             display: flex;
             align-items: center;
@@ -861,6 +966,7 @@
             height: 100%;
             width: 100%;
         }
+
         .slide p {
             text-align: center;
             padding: 0 160px;
@@ -872,28 +978,31 @@
         .slide h3 {
             color: #fff;
         }
+
         .slide .quote-icon {
             font-size: 30px;
             color: #4070f4;
         }
+
         .slide .details {
             display: flex;
             flex-direction: column;
             align-items: center;
         }
+
         .details .name {
             font-size: 14px;
             font-weight: 600;
             color: #fff;
         }
+
         .details .job {
             font-size: 12px;
             font-weight: 400;
             color: #fff;
         }
 
-        
-        /* swiper button css */
+        /* Swiper button css */
         .nav-btn {
             height: 40px;
             width: 40px;
@@ -902,29 +1011,71 @@
             background-color: rgba(0, 0, 0, 0.1);
             transition: 0.2s;
         }
+
         .nav-btn:hover {
             background-color: rgba(0, 0, 0, 0.2);
         }
+
         .nav-btn::after,
         .nav-btn::before {
             font-size: 20px;
             color: #fff;
         }
+
         .swiper-pagination-bullet {
             background-color: rgba(0, 0, 0, 0.8);
         }
+
         .swiper-pagination-bullet-active {
             background-color: #4070f4;
         }
-        
-        @media screen and (max-width: 768px) {
-            .slide p {
-                padding: 0 20px;
+
+
+        /* Screens 700px and below */
+        @media (max-width: 700px) {
+            .slider-container {
+                padding: 20px 0; /* Reduced vertical padding */
+                margin: 0 auto; /* Center the container with equal side margins */
+                width: calc(100% - 30px); /* Ensure full width with small side margins */
+                height: auto; /* Let the content dictate the height */
+                border-radius: 8px; /* Slightly smaller border-radius */
             }
+
+            .testimonial .image {
+                height: 90px; /* Decreased height */
+                width: 90px; /* Decreased width for smaller screens */
+            }
+
+            .slide p {
+                padding: 20px 20px; /* More compact padding */
+                font-size: 8px; /* Slightly larger font size for readability */
+            }
+
+            .slide h3 {
+                font-size: 12px; /* Adjusted font size for smaller screens */
+                margin: 10px 0; /* Add some margin for spacing */
+                line-height: 1.2; /* Ensure a good line height */
+                color: #fff; /* Keep the text color for readability */
+            }
+
+            .slide .quote-icon {
+                font-size: 18px; /* Smaller quote icon */
+            }
+
+            .details .name {
+                font-size: 0.9em; /* Slightly smaller font size */
+            }
+
+            .details .job {
+                font-size: 0.75em; /* Adjusted font size */
+            }
+
             .nav-btn {
-                display: none;
+                height: 28px; /* Slightly smaller navigation buttons */
+                width: 28px;
             }
         }
+
         
     </style>
 </head>
@@ -936,23 +1087,12 @@
         </div>
         <div class="menu-toggle">&#9776;</div> <!-- For mobile view toggle -->
         <ul>
-            <li><a href="#home">Home</a></li>
-            <li><a href="#about">About</a></li>
-            <li><a href="#contact">Contact</a></li>
-            <li class="dropdown-toggle">
-                <a href="#services">Login &#9662;</a>
-                <div class="dropdown">
-                    <a href="{{ url_for('login') }}">User Login</a>
-                    <a href="{{ url_for('admin_login') }}">Admin Login</a>
-                </div>
-            </li>
-            <li class="dropdown-toggle">
-                <a href="#services">Register &#9662;</a>
-                <div class="dropdown">
-                    <a href="{{ url_for('register') }}">User Register</a>
-                    <a href="{{ url_for('admin_register') }}">Admin Register</a>
-                </div>
-            </li>
+            <li><a href="{{ url_for('home') }}">Home</a></li>
+            <li><a href="{{ url_for('about') }}">About</a></li>
+            <li><a href="{{ url_for('contact') }}">Contact</a></li>
+            <li><a href="{{ url_for('dashboard_courses') }}">Dashboard</a></li>
+            <li><a href="{{ url_for('login') }}">Login</a></li>
+            <li><a href="{{ url_for('register') }}">Register</a></li>
         </ul>
     </nav>
     
@@ -1276,7 +1416,7 @@
         </form>
     </section>
 
-    <a href="https://wa.me/919740193052" class="whatsapp_float" target="_blank">
+    <a href="https://wa.me/916362000213" class="whatsapp_float" target="_blank">
         <img src="{{ url_for('static', filename='images/tools/WhatsApp_icon.png') }}" alt="WhatsApp Chat">
     </a>
 
@@ -1310,7 +1450,7 @@
 
             <!-- Social Media Links -->
             <div class="footer-section social-media">
-                <h3 style="margin-left: 90px;">Follow Us</h3>
+                <h3>Follow Us</h3>
                 <!-- <div class="social-icons"> -->
                     <!-- <a href="#"><img src="{{ url_for('static', filename='img/facebook-icon.png') }}" alt="Facebook"></a> -->
                     <!-- <a href="#"><img src="{{ url_for('static', filename='img/twitter-icon.png') }}" alt="Twitter"></a> -->

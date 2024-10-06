@@ -166,6 +166,16 @@ body, html {
         display: block;
         position: relative;
     }
+
+    .navbar .logo {
+        font-size: 18px;
+        font-weight: bold;
+        color: white;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        display: flex;
+        align-items: center;
+    }
 }
 
 /* Smooth toggle transition for mobile navigation */
@@ -266,7 +276,7 @@ body, html {
 .social-icons {
     display: flex;
     gap: 15px;
-    justify-content: center; /* Center icons */
+    justify-content: left; 
     margin-top: 20px;
 }
 
@@ -293,6 +303,14 @@ body, html {
     .footer-section {
         margin-bottom: 30px;
     }
+
+    .social-icons {
+        justify-content: left; /* Align icons to the left */
+        margin-left: 0;
+        text-align: left; /* Ensure proper alignment */
+    }
 }
+
+
 
 

@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Course Page</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
@@ -23,128 +23,7 @@
             color: #333;
         }
 
-        /* General Navbar Styling */
-        .navbar {
-            background: linear-gradient(45deg, #038ba3, #00d4ff); /* Gradient background */
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Box shadow for depth */
-            padding: 20px 30px;
-            position: sticky; /* Sticks the navbar on top */
-            top: 0;
-            z-index: 1000;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        /* Navbar Branding/Logo */
-        .navbar .logo {
-            font-size: 24px;
-            font-weight: bold;
-            color: white;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            display: flex;
-            align-items: center;
-        }
-
-        .navbar .logo img {
-            width: 40px;
-            height: 40px;
-            margin-right: 10px;
-            border-radius: 100px;
-        }
-
-        /* Navigation Links */
-        .navbar ul {
-            list-style: none;
-            display: flex;
-            gap: 20px;
-            margin: 0;
-            padding: 0;
-        }
-
-        .navbar ul li {
-            position: relative;
-        }
-
-        .navbar ul li a {
-            text-decoration: none;
-            font-size: 16px;
-            color: white;
-            padding: 10px 20px;
-            transition: background-color 0.3s, transform 0.3s;
-            border-radius: 30px;
-        }
-
-        .navbar ul li a:hover {
-            background-color: rgba(255, 255, 255, 0.2);
-            transform: scale(1.05);
-        }
-
-        /* Dropdown Menu Styling */
-        .navbar ul li:hover .dropdown {
-            display: block;
-        }
-
-        .navbar ul li .dropdown {
-            display: none;
-            position: absolute;
-            top: 40px;
-            background-color: white;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            border-radius: 10px;
-            padding: 10px;
-            z-index: 1;
-        }
-
-        .navbar ul li .dropdown a {
-            color: #038ba3;
-            padding: 10px;
-            display: block;
-            white-space: nowrap;
-            transition: background-color 0.3s;
-        }
-
-        .navbar ul li .dropdown a:hover {
-            background-color: #f0f0f0;
-        }
-
-        /* Mobile Navigation Toggle */
-        .navbar .menu-toggle {
-            display: none;
-            font-size: 28px;
-            color: white;
-            cursor: pointer;
-        }
-
-        @media (max-width: 768px) {
-            .navbar ul {
-                flex-direction: column;
-                position: absolute;
-                top: 60px;
-                right: 0;
-                background: linear-gradient(45deg, #038ba3, #00d4ff);
-                width: 100%;
-                display: none;
-                gap: 10px;
-                padding: 20px 0;
-            }
-
-            .navbar ul li {
-                text-align: center;
-            }
-
-            .navbar ul.show {
-                display: flex;
-            }
-
-            .navbar .menu-toggle {
-                display: block;
-            }
-        }
-
         .container {
-            max-width: 1800px;
             margin: 50px 45px;
             display: flex;
             gap: 20px; /* This adds space between the columns */
@@ -426,17 +305,21 @@
 
         .course-image-container {
             width: 100%;
-            height: 60vh; /* 25% of viewport height */
+            height: auto; /* 25% of viewport height */
             overflow: hidden;
             position: relative;
         }
 
         .course-image {
-            width: 100%;
-            height: 100%;
-            object-fit: cover; /* Ensures image covers the container */
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            background-image: url('path/to/your/banner-image.jpg'); /* Replace with your image path */
+            background-size: contain; /* Ensures the whole image is visible */
+            background-repeat: no-repeat; /* Prevents the image from repeating */
+            background-position: center; /* Centers the image within the container */
+            height: 300px; /* Adjust height as necessary */
+            width: 100%; /* Full width */
+            display: flex; /* Optional: Use flexbox for content alignment */
+            justify-content: center; /* Optional: Center content horizontally */
+            align-items: center; /* Optional: Center content vertically */
         }
 
         .course-meta {
@@ -540,7 +423,7 @@
         }
 
         .collapse-toggle {
-            background-color: #38bcd3;
+            background: linear-gradient(135deg, #038ba3, #00d4ff);
             color: #fff;
             border: none;
             padding: 10px 15px;
@@ -596,42 +479,6 @@
         }
 
 
-
-
-        /* .course-info, .course-curriculum, .course-instructors, .course-reviews {
-            margin-bottom: 20px;
-        }
-
-        .course-curriculum .curriculum-content {
-            display: none;
-            list-style: none;
-            padding: 10px;
-            margin: 0;
-            border-top: 1px solid #ddd;
-        }
-
-        .course-curriculum .curriculum-section {
-            margin-bottom: 10px;
-        }
-
-        .collapse-toggle {
-            background: linear-gradient(135deg, #038ba3, #00d4ff);
-            color: #fff;
-            padding: 10px 15px;
-            width: 100%;
-            border: none;
-            text-align: left;
-            cursor: pointer;
-            font-size: 16px;
-            border-radius: 5px;
-            outline: none;
-            transition: background 0.3s;
-        }
-
-        .collapse-toggle:hover {
-            background-color: #027b92;
-        }
-
         .price-box, .course-details-box, .secure-payment, .share-course {
             margin-bottom: 20px;
             padding: 15px;
@@ -655,104 +502,6 @@
 
         button:hover {
             background-color: #e67e00;
-        } */
-
-        /* Footer Section */
-        .footer {
-            background-color: #333;
-            color: #fff;
-            padding: 40px 20px;
-            margin-top: 50px;
-            font-size: 14px;
-        }
-
-        .footer-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 30px;
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-
-        .footer-section {
-            margin-bottom: 20px;
-        }
-
-        .footer-section h3 {
-            font-size: 18px;
-            margin-bottom: 15px;
-            color: #38bcd3;
-        }
-
-        .footer-section p,
-        .footer-section a,
-        .footer-section ul li {
-            color: #ddd;
-            margin-bottom: 10px;
-        }
-
-        .footer-section a {
-            text-decoration: none;
-            color: #38bcd3;
-            transition: color 0.3s;
-        }
-
-        .footer-section a:hover {
-            color: #0a7794;
-        }
-
-        .footer-section ul {
-            list-style: none;
-            padding: 0;
-        }
-
-        .footer-section ul li {
-            margin-bottom: 10px;
-        }
-
-        .footer-section ul li a {
-            text-decoration: none;
-            color: #38bcd3;
-            transition: color 0.3s;
-        }
-
-        .footer-section ul li a:hover {
-            color: #0a7794;
-        }
-
-        .footer-bottom {
-            text-align: center;
-            margin-top: 30px;
-            padding-top: 20px;
-            border-top: 1px solid #444;
-            font-size: 13px;
-            color: #bbb;
-        }
-
-        .footer-bottom a {
-            color: #38bcd3;
-            text-decoration: none;
-            transition: color 0.3s;
-        }
-
-        .footer-bottom a:hover {
-            color: #0a7794;
-        }
-
-        /* Social Media Icons */
-        .social-icons {
-            display: flex;
-            gap: 15px;
-        }
-
-        .social-icons a img {
-            width: 30px;
-            height: 30px;
-            transition: transform 0.3s;
-        }
-
-        .social-icons a img:hover {
-            transform: scale(1.1);
         }
 
         /* Pricing Table Container */
@@ -834,6 +583,11 @@
             color: #3B73D1;
         }
 
+        .card-body ul li.x-symbol::before {
+            content: '❌'; /* X symbol */
+            color: #D63D3D; /* You can change the color for X symbol */
+        }
+
         /* Buy Now Button */
         .buy-now {
             display: block;
@@ -855,13 +609,55 @@
             background-color: #335bb5;
         }
 
-        /* Responsive Design */
-        @media (max-width: 1000px) {
-            .pricing-table {
-                flex-direction: column;
-                align-items: center;
-            }
+        @media (max-width: 1526px) {
+        .container {
+            margin: 20px; /* Reduced margin on mobile */
+            flex-direction: column; /* Stack columns on mobile */
         }
+
+        .left-column, .right-column {
+            width: 100%; /* Full width on mobile */
+        }
+
+        .video-card {
+            width: 100%; /* Full width for video cards */
+            height: auto; /* Auto height for responsiveness */
+        }
+
+        .price-box {
+            margin-top: 20px; /* Increased margin on mobile */
+        }
+
+        .course-details-box ul li {
+            flex-direction: column; /* Stack icon and text */
+            align-items: flex-start; /* Align text to the start */
+        }
+
+        .course-details-box ul li i {
+            margin-bottom: 5px; /* Space between icon and text */
+        }
+
+        .payment-icon {
+            width: 40px; /* Smaller payment icons */
+            height: auto;
+        }
+
+        .share-course, .secure-payment {
+            padding: 15px; /* Reduced padding for mobile */
+        }
+
+        .course-header {
+            gap: 10px; /* Reduced gap for mobile */
+        }
+
+        .course-meta h1 {
+            font-size: 20px; /* Adjusted font size for mobile */
+        }
+
+        .course-meta p {
+            font-size: 14px; /* Adjusted font size for mobile */
+        }
+    }
 
     </style>
 </head>
@@ -891,192 +687,209 @@
 
     <!-- Course Details Section -->
     <!-- Course Details Section -->
-    <section class="course-details">
-        <div class="container">
+    <div class="container">
 
-            <div class="right-column">
-                <!-- Demo Video Card -->
-                <div class="video-card">
-                    <video controls class="course-video">
-                        <source src="{{ demo_video }}" type="video/mp4">
-                        Your browser does not support the video tag.
-                    </video>
-                    <div class="play-button">&#9658;</div>
-                </div>
+        <div class="right-column">
+            <!-- Demo Video Card -->
+            <div class="video-card">
+                <video controls class="course-video">
+                    <source src="{{ demo_video }}" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+                <div class="play-button">&#9658;</div>
+            </div>
 
 
-                <!-- Price Box
-                <div class="price-box">
-                    <h3>Price: ${{ price }}</h3>
-                    <a href="{{ url_for('course_payment', course_name=course_name, price=price) }}">
-                        <button>Enroll Now</button>
-                    </a>
-                </div> -->
+            <!-- Price Box
+            <div class="price-box">
+                <h3>Price: ${{ price }}</h3>
+                <a href="{{ url_for('course_payment', course_name=course_name, price=price) }}">
+                    <button>Enroll Now</button>
+                </a>
+            </div> -->
 
-                <!-- Course Details Box -->
-                <div class="course-details-box">
-                    <h3>Course Includes:</h3>
-                    <ul>
-                        <li><i class="fas fa-chart-line"></i> <span>Level:</span>{{ level }}</li>
-                        <li><i class="fas fa-clock"></i> <span>Duration:</span> {{ duration }}</li>
-                        <li><i class="fas fa-book-open"></i> <span>Lessons:</span>{{ lessons }}</li>
-                        <li><i class="fas fa-tasks"></i> <span>Quizzes:</span> {{ quizzes }}</li>
-                        <li><i class="fas fa-certificate"></i> <span>Certifications:</span> {{ certifications }}</li>
-                    </ul>
-                </div>
+            <!-- Course Details Box -->
+            <div class="course-details-box">
+                <h3>Course Includes:</h3>
+                <ul>
+                    <li><i class="fas fa-chart-line"></i> <span>Level:</span>{{ level }}</li>
+                    <li><i class="fas fa-clock"></i> <span>Duration:</span> {{ duration }}</li>
+                    <li><i class="fas fa-book-open"></i> <span>Lessons:</span>{{ lessons }}</li>
+                    <li><i class="fas fa-tasks"></i> <span>Quizzes:</span> {{ quizzes }}</li>
+                    <li><i class="fas fa-certificate"></i> <span>Certifications:</span> {{ certifications }}</li>
+                </ul>
+            </div>
 
-                <!-- Secure Payment Section -->
-                <div class="secure-payment">
-                    <h3>Secure Payment Options:</h3>
-                    <div class="payment-options">
-                        <img src="{{ url_for('static', filename='images/visa.png') }}" alt="Visa" class="payment-icon">
-                        <img src="{{ url_for('static', filename='images/mastercard.png') }}" alt="MasterCard" class="payment-icon">
-                        <img src="{{ url_for('static', filename='images/paypal.png') }}" alt="PayPal" class="payment-icon">
-                        <img src="{{ url_for('static', filename='images/upi.jpg') }}" alt="Amex" class="payment-icon">
-                    </div>
-                </div>
-
-                <!-- Share Course -->
-                <div class="share-course">
-                    <h3>Share this Course:</h3>
-                    <div class="social-icons">
-                        <a href="#" class="social-icon facebook" aria-label="Facebook">
-                            <i class="fab fa-facebook-f"></i>
-                        </a>
-                        <a href="#" class="social-icon twitter" aria-label="Twitter">
-                            <i class="fab fa-twitter"></i>
-                        </a>
-                        <a href="#" class="social-icon instagram" aria-label="Instagram">
-                            <i class="fab fa-instagram"></i>
-                        </a>
-                        <a href="#" class="social-icon youtube" aria-label="Youtube">
-                            <i class="fab fa-youtube"></i>
-                        </a>
-                    </div>
+            <!-- Secure Payment Section -->
+            <div class="secure-payment">
+                <h3>Secure Payment Options:</h3>
+                <div class="payment-options">
+                    <img src="{{ url_for('static', filename='images/visa.png') }}" alt="Visa" class="payment-icon">
+                    <img src="{{ url_for('static', filename='images/mastercard.png') }}" alt="MasterCard" class="payment-icon">
+                    <img src="{{ url_for('static', filename='images/paypal.png') }}" alt="PayPal" class="payment-icon">
+                    <img src="{{ url_for('static', filename='images/upi.jpg') }}" alt="Amex" class="payment-icon">
                 </div>
             </div>
 
-            <div class="left-column">
-                <div class="course-header">
-                    <div class="course-image-container">
-                        <img src="{{ banner_image }}" alt="Course Image" class="course-image">
-                    </div>
-                    <div class="course-meta">
-                        <h1>{{ course_name }}</h1>
-                    </div>
+            <!-- Share Course -->
+            <div class="share-course">
+                <h3>Share this Course:</h3>
+                <div class="social-icons">
+                    <a href="#" class="social-icon facebook" aria-label="Facebook">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                    <a href="#" class="social-icon twitter" aria-label="Twitter">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a href="#" class="social-icon instagram" aria-label="Instagram">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="#" class="social-icon youtube" aria-label="Youtube">
+                        <i class="fab fa-youtube"></i>
+                    </a>
                 </div>
+            </div>
+        </div>
 
-                <div class="course-info">
-                    <h2>Overview</h2>
-                    <p>{{ overviews }}</p>
+        <div class="left-column">
+            <div class="course-header">
+                <div class="course-image-container">
+                    <img src="{{ banner_image }}" alt="Course Image" class="course-image">
                 </div>
+                <div class="course-meta">
+                    <h1>{{ course_name }}</h1>
+                </div>
+            </div>
 
-                <!-- <div class="course-curriculum">
-                    <h2>Curriculum</h2>
-                    {% for week in curriculum %}
-                        <div class="curriculum-section">
-                            <button class="collapse-toggle">
-                                Week {{ week['week'] }}: {{ week['title'] }} <span class="toggle-icon">+</span>
-                            </button>
+            <div class="course-info">
+                <h2>Overview</h2>
+                <p>{{ overviews }}</p>
+            </div>
+
+            <!-- <div class="course-curriculum">
+                <h2>Curriculum</h2>
+                {% for week in curriculum %}
+                    <div class="curriculum-section">
+                        <button class="collapse-toggle">
+                            Week {{ week['week'] }}: {{ week['title'] }} <span class="toggle-icon">+</span>
+                        </button>
+                        <ul class="curriculum-content">
+                            {% for topic in week['topics'] %}
+                                <li>
+                                    <div class="video-item">
+                                        <span class="video-icon">&#9654;</span> 
+                                        {{ topic }}
+                                    </div>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                {% endfor %}
+            </div> -->
+
+            <div class="course-curriculum">
+                <h2>Curriculum</h2>
+                {% for week in curriculum %}
+                    <div class="curriculum-section">
+                        <button class="collapse-toggle">
+                            Week {{ week['week'] }}: {{ week['title'] }} 
+                            <span class="toggle-icon">+</span>
+                        </button>
+                        {% if loop.first %}
+                            <!-- Display content only for Week 1 -->
                             <ul class="curriculum-content">
                                 {% for topic in week['topics'] %}
                                     <li>
                                         <div class="video-item">
-                                            <span class="video-icon">&#9654;</span> 
+                                            <span class="video-icon">&#9654;</span> <!-- Play button symbol -->
                                             {{ topic }}
                                         </div>
                                     </li>
                                 {% endfor %}
                             </ul>
-                        </div>
-                    {% endfor %}
-                </div> -->
-
-                <div class="course-curriculum">
-                    <h2>Curriculum</h2>
-                    {% for week in curriculum %}
-                        <div class="curriculum-section">
-                            <button class="collapse-toggle">
-                                Week {{ week['week'] }}: {{ week['title'] }} 
-                                <span class="toggle-icon">+</span>
-                            </button>
-                            {% if loop.first %}
-                                <!-- Display content only for Week 1 -->
-                                <ul class="curriculum-content">
-                                    {% for topic in week['topics'] %}
-                                        <li>
-                                            <div class="video-item">
-                                                <span class="video-icon">&#9654;</span> <!-- Play button symbol -->
-                                                {{ topic }}
-                                            </div>
-                                        </li>
-                                    {% endfor %}
-                                </ul>
-                            {% endif %}
-                        </div>
-                    {% endfor %}
-                </div>
-
-                <div class="pricing-table">
-                    <!-- Card 1 -->
-                    <div class="card">
-                        <div class="card-header" style="background-color: #3B73D1;">
-                            <h2>Five Page Starter</h2>
-                            <div class="price">&#8377;29</div>
-                            <div class="duration">per month</div>
-                        </div>
-                        <div class="card-body">
-                            <ul>
-                                <li>1 Full User</li>
-                                <li>1,000 Email Previews</li>
-                                <li>5 Contacts per Client</li>
-                                <li>5 Coffee Cups</li>
-                            </ul>
-                            <a href="{{ url_for('course_payment', course_name=course_name, price=price) }}" class="buy-now">Buy Now</a>
-                        </div>
+                        {% endif %}
                     </div>
-
-                    <!-- Card 2 -->
-                    <div class="card">
-                        <div class="card-header" style="background-color: #4AD7D1;">
-                            <h2>10 Page Business</h2>
-                            <div class="price">&#8377;59</div>
-                            <div class="duration">per month</div>
-                        </div>
-                        <div class="card-body">
-                            <ul>
-                                <li>10 Full Users</li>
-                                <li>2,000 Email Previews</li>
-                                <li>5 Contacts per Client</li>
-                                <li>10 Coffee Cups</li>
-                            </ul>
-                            <a href="{{ url_for('course_payment', course_name=course_name, price=price) }}" class="buy-now">Buy Now</a>
-                        </div>
-                    </div>
-
-                    <!-- Card 3 -->
-                    <div class="card">
-                        <div class="card-header" style="background-color: #F85979;">
-                            <h2>eCommerce Starter</h2>
-                            <div class="price">&#8377;119</div>
-                            <div class="duration">per month</div>
-                        </div>
-                        <div class="card-body">
-                            <ul>
-                                <li>1 Full User</li>
-                                <li>3,000 Email Previews</li>
-                                <li>5 Contacts per Client</li>
-                                <li>15 Coffee Cups</li>
-                            </ul>
-                            <a href="{{ url_for('course_payment', course_name=course_name, price=price) }}" class="buy-now">Buy Now</a>
-                        </div>
-                    </div>
-                </div>
-                
+                {% endfor %}
             </div>
 
+            <div class="pricing-table">
+                <!-- Card 1 -->
+                <div class="card">
+                    <div class="card-header" style="background-color: #3B73D1;">
+                        <h2>Self Paced</h2>
+                        <div class="price">&#8377;6000/M</div>
+                        <div class="duration">Learn at yourown palace</div>
+                    </div>
+                    <div class="card-body">
+                        <ul>
+                            <li>Recorded Sessions</li>
+                            <li>Hands-on Projects</li>
+                            <li>Certifications</li>
+                            <li>Live Sessions</li>
+                            <li class="x-symbol">Doubt Clearing Sessions</li>
+                            <li class="x-symbol">Mentor Guidance</li>
+                            <li class="x-symbol">Placement Assistance</li>
+                            <li class="x-symbol">Mock Interview</li>
+                            <li class="x-symbol">Resume Building Classes</li>
+                            <li class="x-symbol">Aptitude classes</li>
+                        </ul>
+                        <a href="{{ url_for('course_payment', course_name=course_name, price=price) }}" class="buy-now">Buy Now</a>
+                    </div>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="card">
+                    <div class="card-header" style="background-color: #4AD7D1;">
+                        <h2>Mentor Led</h2>
+                        <div class="price">&#8377;7500/M</div>
+                        <div class="duration">Get Real Time Assistance</div>
+                    </div>
+                    <div class="card-body">
+                        <ul>
+                            <li>Recorded Sessions</li>
+                            <li>Hands-on Projects</li>
+                            <li>Certifications</li>
+                            <li>Live Sessions</i>
+                            <li>Doubt Clearing Sessions</li>
+                            <li>Mentor Guidance</li>
+                            <li class="x-symbol">Placement Assistance</li>
+                            <li class="x-symbol">Mock Interview</li>
+                            <li class="x-symbol">Resume Building Classes</li>
+                            <li class="x-symbol">Aptitude classes</li>
+                        </ul>
+                        <a href="{{ url_for('course_payment', course_name=course_name, price=price) }}" class="buy-now">Buy Now</a>
+                    </div>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="card">
+                    <div class="card-header" style="background-color: #F85979;">
+                        <h2>Professional</h2>
+                        <div class="price">&#8377;10000/M</div>
+                        <div class="duration">Be Placement Ready</div>
+                    </div>
+                    <div class="card-body">
+                        <ul>
+                            <li>Recorded Sessions</li>
+                            <li>Hands-on Projects</li>
+                            <li>Certifications</li>
+                            <li>Live Sessions</i>
+                            <li>Doubt Clearing Sessions</li>
+                            <li>Mentor Guidance</li>
+                            <li>Placement Assistance</li>
+                            <li>Mock Interview</li>
+                            <li>Resume Building Classes</li>
+                            <li>Aptitude classes</li>
+                        </ul>
+                        <a href="{{ url_for('course_payment', course_name=course_name, price=price) }}" class="buy-now">Buy Now</a>
+                    </div>
+                </div>
+            </div>
+            
         </div>
-    </section>
+
+    </div>
+
 
 
     <!-- Footer Section -->

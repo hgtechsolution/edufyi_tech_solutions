@@ -15,15 +15,12 @@ import razorpay
 from flask_mail import Mail, Message
 from flask import Flask, render_template, url_for, flash, redirect, session, request, jsonify, make_response
 
-from admin_db_codes.admin_insert_course_video import insert_course_video
-from admin_db_codes.admin_insert_enrolled_course import insert_enrolled_course
-from admin_db_codes.insert_curriculum_data import insert_course
-from admin_db_codes.insert_dashboard_courses_admin import insert_dashboard_course
 from code_files.forgot_password_send_otp import forget_password_send_otp_code
 from code_files.regristration_conditions import regristration_conditions_db
 from code_files.save_user_courese_transactions_details import save_user_course_transaction_details_client
 from code_files.save_user_regristration_code import save_user_register_payments
 from code_files.send_user_regristration_recipt_code import send_user_registration_payment
+from code_files.smtp_contact_info import send_email
 from code_files.verify_otp_code import verify_otp_code_
 from code_files.fetch_enroll_details import get_curriculum, enrolled_course_get_curriculum
 from config import Config
@@ -38,9 +35,8 @@ from database_code.save_recipt_user import save_payment
 from database_code.save_transaction import insert_transaction_data
 from database_code.save_user_credintials_db import save_user_credintial_registerform
 from database_code.update_course_payment_table import update_course_payment_db
-from models import db, bcrypt, User, Encry_Key, Course, Admin
-from forms import RegistrationForm, LoginForm, VideoUploadForm, OTPVerificationForm, ForgotPasswordForm, PaymentForm, \
-    AdminLoginForm, AdminRegistrationForm, CoursePage, CurriculumForm, CourseVideo
+from models import db, bcrypt, User, Encry_Key, Course, Admin, Employee
+from forms import RegistrationForm, LoginForm, VideoUploadForm, OTPVerificationForm, ForgotPasswordForm, PaymentForm, CoursePage, CurriculumForm, CourseVideo
 from password_encryption import encrypt_message
 from send_user_course_recipt_to_client import send_user_course_transaction_receipt
 
@@ -112,6 +108,12 @@ def register():
         key = Encry_Key.query.filter_by(key_type='password').first()
         ency_password = encrypt_message(key.key, form.password.data)
 
+        if form.reference_id.data is not None:
+            employee_id = Employee.query.filter_by(reference_id = form.reference_id.data).first()
+            if not employee_id:
+                flash('Invalid Reference Id')
+                return render_template('register.html', form=form)
+
         # Temporarily store user data in session for the registration payment
         session['user_data'] = {
             'username': form.username.data,
@@ -120,7 +122,8 @@ def register():
             'password': hashed_password,
             'encryption_password': ency_password,
             'town': form.town.data,
-            'city': form.city.data
+            'city': form.city.data,
+            'reference_id':form.reference_id.data
         }
 
         # Redirect to the payment confirmation page
@@ -162,7 +165,6 @@ def registration_fee(user_name, email, phone_number):
     return render_template('registration_payment_form.html', amount=amount,
                            user_name=user_name, email=email,
                            phone_number=phone_number, pdata=pdata, key=key)
-
 
 
 @app.route('/register_payment_done', methods=['POST'])
@@ -211,22 +213,50 @@ def register_payment_done():
                 save_user_credintial_registerform(connection_pool, user_data,
                                                   'users')
 
-            # save user register transaction details and recipt
-            save_user_register_payments(conn, User, user_data, payment_data,
-                               payment_record)
+                # save user register transaction details and recipt
+                save_user_register_payments(conn, User, user_data, payment_data,
+                                            payment_record)
 
-            # send transaction receipt email to client
-            send_user_registration_payment(User, connection_pool, payment_data, user_data)
+                # send transaction receipt email to client
+                send_user_registration_payment(User, connection_pool, payment_data, user_data)
 
-            flash(
-                'Your payment was successful and your account has been created!',
-                'success')
+                # for sending email
+                user = User.query.filter_by(email=user_data['email']).first()
+                email_body = f"""
+                Hello {user.name},
 
-            connection_pool.putconn(conn)
+                Thank you for registering with EdufyTech Solutions! We’re excited to have you on board as part of our learning community.
 
-            # Redirect to a confirmation or homepage
-            return redirect("/", code=301)
+                Here’s what you can look forward to:
+                - Access to a wide range of courses and learning materials.
+                - Opportunities to engage with expert instructors and fellow learners.
+                - Support to help you achieve your learning goals.
 
+                Welcome to EdufyTech Solutions!
+
+                Best regards,  
+                EdufyTech Solutions Team
+                """
+                send_email(
+                    smtp_server='mail.edufyitechsolutions.com',
+                    port=587,
+                    sender_email='team@edufyitechsolutions.com',
+                    sender_password='621FJaPlZm',
+                    recipient_email=user.email,
+                    subject='Thanks For Registration',
+                    body=email_body
+                )
+
+                flash(
+                    'Your payment was successful and your account has been created!',
+                    'success')
+
+                connection_pool.putconn(conn)
+
+                # Redirect to a confirmation or homepage
+                return redirect("/", code=301)
+            else:
+                return "Payment verification failed. Please try again.", 400
         else:
             connection_pool.putconn(conn)
             return "Payment verification failed. Please try again.", 400
@@ -246,7 +276,6 @@ def register_payment_done():
         error_ex = traceback.format_exc()
         print(error_ex)
         return "Signature verification failed. Possible fraudulent payment.", 500
-
 
 
 
@@ -342,58 +371,6 @@ def dashboard_courses():
         flash('Session Has Expired, Please Login Again')
         return redirect(url_for('login'))
     return render_template('course.html', technical_courses=technical_courses, non_technicals=non_technicals,live_sessions=live_sessions)
-
-
-@app.route('/admin_dashboard')
-def admin_dashboard():
-    # reading the stored cookie
-    user_id = request.cookies.get('admin_user_id')
-    if user_id is not None:
-
-        # session['id'] = user_id
-        search_query = request.args.get('search','')  # Get the search query from the URL
-
-        b2_api = connect_to_backblaze()
-        # image_file_name = 'course_images/ai.jpg'
-        image_bucket_name = 'course-images-dashboard'
-
-        if search_query:
-            # Filter courses based on the search term
-            image_query = Course.query.filter(
-                Course.title.ilike(f'%{search_query}%')).all()
-
-            images = [{'title': course.title,
-                       'url': url_for('static', filename=f'{course.url}')} for
-                      course in image_query]
-
-            return render_template('admin_dashboard.html', images=images)
-
-        else:
-            # Fetch all courses if no search query is provided
-            # image_query = Course.query.all()
-
-            # Prepare a list of dictionaries with titles and image URLs
-
-            technical = Course.query.filter_by(course_category='technical').all()
-            technical_courses = [{'title': course.title,
-                                  'url': get_file_url(b2_api, image_bucket_name, f'course_images/{course.url}')} for
-                                 course in technical]
-
-            non_technical = Course.query.filter_by(course_category='non_technical').all()
-            non_technicals = [{'title': course.title,
-                               'url': get_file_url(b2_api, image_bucket_name, f'course_images/{course.url}')} for
-                              course in non_technical]
-
-            live_session = Course.query.filter_by(course_category='live_session').all()
-            live_sessions = [{'title': course.title,
-                              'url': get_file_url(b2_api, image_bucket_name, f'course_images/{course.url}')} for
-                             course in live_session]
-
-    else:
-        flash('Session Has Expired, Please Login Again')
-        return redirect(url_for('admin_login'))
-    return render_template('admin_dashboard.html', technical_courses=technical_courses, non_technicals=non_technicals,live_sessions=live_sessions)
-
 
 @app.route('/enroll_course/<course_name>')
 def enroll_course_page(course_name):
@@ -663,8 +640,6 @@ def certificate(course_name):
     return render_template('certificate.html')
 
 
-
-
 @app.route('/course_payment/<course_name>/<price>', methods=['GET', 'POST'])
 def course_payment(course_name, price):
     user_id = request.cookies.get('user_id')
@@ -833,416 +808,6 @@ def verify_otp():
         return redirect(url_for('forgot_password'))
 
     return render_template('verify_otp.html', form=form)
-
-
-@app.route("/admin_register", methods=['GET', 'POST'])
-def admin_register():
-    form = AdminRegistrationForm()
-    if form.validate_on_submit():
-        # Encrypt password
-        hashed_password = bcrypt.generate_password_hash(
-            form.password.data).decode('utf-8')
-
-        # password is encrypted and store in db
-        key = Encry_Key.query.filter_by(key_type='password').first()
-        ency_password = encrypt_message(key.key, form.password.data)
-
-        # Temporarily store user data in session for the registration payment
-        user_data= {
-            'username': form.username.data,
-            'email': form.email.data,
-            'phone_number': form.phone_number.data,
-            'password': hashed_password,
-            'encryption_password': ency_password,
-            'town': form.town.data,
-            'city': form.city.data
-        }
-
-        # Redirect to the payment confirmation page
-        # return redirect(
-        #     url_for('registration_fee', user_name=form.username.data,
-        #             email=form.email.data,
-        #             phone_number=form.phone_number.data))
-
-        # Fetch user from the database
-        user = Admin.query.filter_by(email=user_data['email']).first()
-        if not user:
-            save_user_credintial_registerform(connection_pool, user_data,
-                                              'admin')
-        else:
-            return flash("Credentials Already Present, Please Login")
-
-        flash("Admin Registration Successful", "success")
-        return redirect(
-            url_for("admin_login")
-        )
-
-    return render_template('admin_register.html', form=form)
-
-
-
-@app.route("/admin_login", methods=['GET', 'POST'])
-def admin_login():
-    form = AdminLoginForm()
-    if form.validate_on_submit():
-        user = Admin.query.filter_by(email=form.email.data).first()
-
-        if user and bcrypt.check_password_hash(user.password,form.password.data):
-            # Create a response object
-            response = make_response(redirect(url_for('admin_dashboard')))
-
-            # Set the cookie with an expiration time of 1 week (in seconds)
-            response.set_cookie('admin_user_id', f'{user.id}',
-                                max_age=7 * 24 * 60 * 60)
-
-            return response
-        else:
-            flash('Admin Login Unsuccessful. Please check email and password',
-                  'danger')
-
-    return render_template('admin_login.html', form=form)
-
-
-@app.route('/admin_add_course', methods=['GET', 'POST'])
-def admin_add_course():
-    form = CoursePage()
-    image_url = None  # Initialize image_url
-
-    if form.validate_on_submit():
-        # Extract data from the form
-        title = form.title.data
-        image_name = form.image_name.data
-        course_category = form.course_category.data
-
-        # Connect to Backblaze
-        b2_api = connect_to_backblaze()
-        bucket_name = 'course-images-dashboard'
-        bucket = b2_api.get_bucket_by_name(bucket_name)
-
-        # Handle file upload
-        file = form.image.data
-        if file:
-            try:
-                # Secure the filename
-                filename = secure_filename(file.filename)
-
-                # Upload directly to Backblaze without saving locally
-                file_data = file.read()  # Read file data from the form
-                bucket.upload_bytes(file_data, f'course_images/{filename}')
-
-                # Construct the image URL
-                # image_url = f"https://f002.backblazeb2.com/file/{bucket_name}/{filename}"
-                image_url = filename
-
-            except Exception as e:
-                logging.error(f"Error uploading to Backblaze: {e}")
-                flash("There was an error uploading the image.", "error")
-                return render_template('admin_templates/admin_course_page.html', form=form)
-
-        curriculum_data = {
-            "title": title,
-            "course_category": course_category,
-            "image_url": image_url
-        }
-        # insert dashboard courses
-        insert_dashboard_course(connection_pool, curriculum_data,'course')
-
-        flash("Course added successfully!", "success")
-        return redirect(url_for('admin_add_course'))  # Redirect after successful submission
-
-    # If GET request or form validation fails, render the template
-    return render_template('admin_course_page.html', form=form)
-
-
-def upload_videos_image_backblaze(file_to_upload, bucket_name, file_name_image_videos, filename):
-    b2_api = connect_to_backblaze()
-    bucket = b2_api.get_bucket_by_name(bucket_name)
-
-    # Secure the filename
-    filename = secure_filename(filename)
-
-    # Upload directly to Backblaze without saving locally
-    file_data = file_to_upload.read()  # Read file data from the form
-    bucket.upload_bytes(file_data, f'{file_name_image_videos}/{filename}')
-
-
-@app.route('/admin_add_enroll_course', methods=['GET', 'POST'])
-def admin_add_enroll_course():
-    form = CurriculumForm()
-    if form.validate_on_submit():
-        # Extract form data
-        course_name = form.course_name.data
-        overview = form.overview.data
-        price = form.price.data
-        level = form.level.data
-        duration = form.duration.data
-        lessons = form.lessons.data
-        quizzes = form.quizzes.data
-        certifications = form.certifications.data
-
-        # For the demo video and banner image, check and upload directly to Backblaze
-        if form.demo_video.data:
-            demo_video_stream = form.demo_video.data.stream
-            demo_video_filename = form.demo_video.data.filename
-            upload_videos_image_backblaze(demo_video_stream, 'demo-videos-enroll-course', 'demo_videos', demo_video_filename)
-
-        if form.banner_image.data:
-            banner_image_stream = form.banner_image.data.stream
-            banner_image_filename = form.banner_image.data.filename
-            upload_videos_image_backblaze(banner_image_stream, 'course-images-dashboard', 'banner_images', banner_image_filename)
-
-        curriculum_data = {
-            "course_name": course_name,
-            "overview": overview,
-            "price": price,
-            "level": level,
-            "duration": duration,
-            "lessons": lessons,
-            "quizzes": quizzes,
-            "certifications": certifications,
-            "demo_video": demo_video_filename if form.demo_video.data else None,
-            "banner_image": banner_image_filename if form.banner_image.data else None,
-            "curriculum": None
-        }
-
-        # Capture all weeks and topics
-        weeks = []
-        for week in form.weeks:
-            week_data = {
-                "week": week.week.data,
-                "title": week.title.data,
-                "topics": [topic_form.topic.data for topic_form in week.topics]
-            }
-            weeks.append(week_data)
-
-        curriculum_data['curriculum'] = {'weeks': weeks}
-        insert_course(connection_pool, curriculum_data, 'course_curriculum')
-        flash("Data is successfully saved")
-    else:
-        print(form.errors)
-
-    return render_template('admin_course_curriculum.html', form=form)
-
-
-@app.route('/admin_enroll_course/<course_name>')
-def admin_enroll_course_page(course_name):
-    # reading the stored cookie
-    user_id = request.cookies.get('admin_user_id')
-    if user_id is not None:
-        # registration login
-        bool_val_registration_cond = regristration_conditions_db(
-            connection_pool,
-            'registration_payment',
-            'registration_transactions',
-            user_id)
-        if bool_val_registration_cond == False:
-            flash(
-                'Registration is expired, please register again and purchase courses.')
-            return redirect(url_for('register'))
-
-        data = get_curriculum(course_name)
-        b2_api = connect_to_backblaze()
-        # image_file_name = 'course_images/ai.jpg'
-        demo_video_bucket_name = 'demo-videos-enroll-course'
-        banner_images_bucket_name = 'course-images-dashboard'
-
-        if data is None:
-            return "Course not found or error retrieving course details.", 404
-
-        curriculum_weeks = data.get('curriculum', {}).get('weeks', [])
-        for week in curriculum_weeks:
-            topics = week['topics'][0].split(',')
-            week['topics'] = topics
-
-        print(curriculum_weeks)
-
-        overview = data.get('overview')
-        price = data.get('price')
-        level = data.get('level')
-        duration = data.get('duration')
-        lessons = data.get('lessons')
-        quizzes = data.get('quizzes')
-        certifications = data.get('certifications')
-        demo_video = get_file_url(b2_api, demo_video_bucket_name, f'demo_videos/{data.get('demo_video')}')
-        # banner_image = data.get('banner_image')
-        banner_image = get_file_url(b2_api, banner_images_bucket_name, f'banner_images/{data.get('banner_image')}')
-        print(demo_video,banner_image)
-
-        return render_template('enroll.html', curriculum=curriculum_weeks,
-                               overviews=overview,
-                               course_name=course_name, price=price,
-                               level=level, duration=duration, lessons=lessons,
-                               quizzes=quizzes,
-                               certifications=certifications, demo_video=demo_video, banner_image=banner_image)
-    flash('Session has expired, please login again.')
-    return redirect(url_for('login'))
-
-
-@app.route('/admin_course_video', methods=['GET', 'POST'])
-def admin_course_video():
-    form = CourseVideo()
-
-    if form.validate_on_submit():
-        conn = connection_pool.getconn()
-
-        # Handle form submission
-        course_id = form.course_id.data
-        week_number = form.week_number.data
-        video_name = form.video_name.data
-        video_number = form.video_number.data
-        week_topic = form.week_topic.data
-
-        insert_course_video(conn, course_id, week_number, video_name,
-                            video_number, week_topic,'course_videos')
-
-        connection_pool.putconn(conn)
-        # After submission, redirect to a success page or the same form
-        return redirect(url_for('admin_course_video'))
-    else:
-        # print(form.errors)
-        pass
-    # Render the HTML template with the form
-    return render_template('admin_course_video.html', form=form)
-
-
-@app.route('/admin_enrolled_course/<course_name>')
-def admin_enrolled_course(course_name):
-    # Reading the stored cookie
-    user_id = request.cookies.get('admin_user_id')
-    if user_id is not None:
-        conn = connection_pool.getconn()
-        data = enrolled_course_get_curriculum(conn,course_name)
-        b2_api = connect_to_backblaze()
-        # image_file_name = 'course_images/ai.jpg'
-        demo_video_bucket_name = 'demo-videos-enroll-course'
-        banner_images_bucket_name = 'course-images-dashboard'
-
-        if data is None:
-            return "Course not found or error retrieving course details.", 404
-
-        curriculum_weeks = data.get('curriculum', {}).get('weeks', [])
-        for week in curriculum_weeks:
-            topics = week['topics'][0].split(',')
-            videos = week['videos'][0].split(',')
-            week['topics_videos'] = list(zip(topics, videos))  # Correctly update the week dictionary
-
-        # Extract additional course details
-        overview = data.get('overview')
-        price = data.get('price')
-        level = data.get('level')
-        duration = data.get('duration')
-        lessons = data.get('lessons')
-        quizzes = data.get('quizzes')
-        certifications = data.get('certifications')
-        demo_video = get_file_url(b2_api, demo_video_bucket_name, f'demo_videos/{data.get('demo_video')}')
-        # banner_image = data.get('banner_image')
-        banner_image = get_file_url(b2_api, banner_images_bucket_name, f'banner_images/{data.get('banner_image')}')
-        # print(demo_video, banner_image)
-
-        # Handle form submission for downloading certificate
-
-        connection_pool.putconn(conn)
-        return render_template('enrolled_course_page.html',
-                               curriculum=curriculum_weeks,
-                               overview=overview,
-                               course_name=course_name,
-                               price=price,
-                               level=level,
-                               duration=duration,
-                               lessons=lessons,
-                               quizzes=quizzes,
-                               certifications=certifications,demo_video=demo_video,banner_image=banner_image)
-    flash('Session Has Expired, Please Login Again')
-    return redirect(url_for('admin_login'))
-
-
-@app.route('/admin_add_enrolled_curriculum', methods=['GET', 'POST'])
-def admin_add_enrolled_curriculum():
-    user_id = request.cookies.get('admin_user_id')
-
-    # Check if user is authenticated
-    if user_id is None:
-        return render_template('admin_login.html')
-
-    form = CurriculumForm()
-    if form.validate_on_submit():
-        image_bucket_name = 'course-images-dashboard'
-        demo_video, banner_image = None, None
-        uploaded_videos = []  # List to store uploaded video URLs
-
-        # Extracting form data
-        curriculum_data = {
-            "course_name": form.course_name.data,
-            "overview": form.overview.data,
-            "price": form.price.data,
-            "level": form.level.data,
-            "duration": form.duration.data,
-            "lessons": form.lessons.data,
-            "quizzes": form.quizzes.data,
-            "certifications": form.certifications.data,
-            "curriculum": None
-        }
-
-        # Handle demo video upload
-        if form.demo_video.data:
-            demo_video_stream = form.demo_video.data.stream
-            demo_video_filename = secure_filename(form.demo_video.data.filename)
-            upload_videos_image_backblaze(demo_video_stream, 'demo-videos-enroll-course', 'demo_videos',
-                                          demo_video_filename)
-
-        # Handle banner image upload
-        if form.banner_image.data:
-            banner_image_stream = form.banner_image.data.stream
-            banner_image_filename = secure_filename(form.banner_image.data.filename)
-            upload_videos_image_backblaze(banner_image_stream, image_bucket_name, 'banner_images',
-                                          banner_image_filename)
-
-        curriculum_data['demo_video'] = f'videos/{demo_video}' if demo_video else None
-        curriculum_data['banner_image'] = f'enroll_course_image/{banner_image}' if banner_image else None
-
-        # Capture all weeks and their respective topics and videos
-        weeks = []
-        for week in form.weeks:
-            week_data = {
-                "week": week.week.data,
-                "title": week.title.data,
-                "topics": [topic_form.topic.data for topic_form in week.topics],
-                "videos": []  # List to store video URLs for this week
-            }
-
-            # Iterate for each file in the uploaded videos
-            files = request.files.getlist("file")
-
-            for file in files:
-                video_stream = file.stream  # Use file.stream
-                video_filename = secure_filename(file.filename)  # Use file.filename
-
-                # Upload and get the full video URL
-                upload_videos_image_backblaze(video_stream, 'course-videos-edutech', 'course_videos',
-                                                          video_filename)
-
-                # Append the video URL to the list
-                week_data['videos'].append(video_filename)
-
-            weeks.append(week_data)
-
-        curriculum_data['curriculum'] = {'weeks': weeks}
-
-        # Insert curriculum data into the database
-        if insert_enrolled_course(connection_pool, curriculum_data, 'enrolled_course_curriculum'):
-            flash('Curriculum added successfully!', 'success')
-            return redirect(url_for('success_page'))  # Adjust 'success_page' as per your app
-        else:
-            flash('Failed to add curriculum. Please try again.', 'danger')
-
-    else:
-        pass
-        # # Handle form errors
-        # for field, errors in form.errors.items():
-        #     for error in errors:
-        #         flash(f"Error in {getattr(form, field).label.text}: {error}", 'danger')
-
-    return render_template('admin_add_enrolled_page.html', form=form)
 
 
 @app.route('/refund')

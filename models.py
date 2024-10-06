@@ -52,4 +52,14 @@ class Encry_Key(db.Model):
     #     return f"Key('{self.key_value}', '{self.description}')"
 
 
+class Employee(db.Model):
+    __tablename__ = 'employee_id'
+
+    id = db.Column(db.Integer, primary_key=True)
+    reference_id = db.Column(db.Text, nullable=False)
+
+    def __repr__(self):
+        return f"<Employee id={self.id} reference_id='{self.reference_id}'>"
+
+
 

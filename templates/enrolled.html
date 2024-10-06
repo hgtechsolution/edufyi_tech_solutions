@@ -23,128 +23,7 @@
             color: #333;
         }
 
-        /* General Navbar Styling */
-        .navbar {
-            background: linear-gradient(45deg, #038ba3, #00d4ff); /* Gradient background */
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Box shadow for depth */
-            padding: 20px 30px;
-            position: sticky; /* Sticks the navbar on top */
-            top: 0;
-            z-index: 1000;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        /* Navbar Branding/Logo */
-        .navbar .logo {
-            font-size: 24px;
-            font-weight: bold;
-            color: white;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            display: flex;
-            align-items: center;
-        }
-
-        .navbar .logo img {
-            width: 40px;
-            height: 40px;
-            margin-right: 10px;
-            border-radius: 100px;
-        }
-
-        /* Navigation Links */
-        .navbar ul {
-            list-style: none;
-            display: flex;
-            gap: 20px;
-            margin: 0;
-            padding: 0;
-        }
-
-        .navbar ul li {
-            position: relative;
-        }
-
-        .navbar ul li a {
-            text-decoration: none;
-            font-size: 16px;
-            color: white;
-            padding: 10px 20px;
-            transition: background-color 0.3s, transform 0.3s;
-            border-radius: 30px;
-        }
-
-        .navbar ul li a:hover {
-            background-color: rgba(255, 255, 255, 0.2);
-            transform: scale(1.05);
-        }
-
-        /* Dropdown Menu Styling */
-        .navbar ul li:hover .dropdown {
-            display: block;
-        }
-
-        .navbar ul li .dropdown {
-            display: none;
-            position: absolute;
-            top: 40px;
-            background-color: white;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            border-radius: 10px;
-            padding: 10px;
-            z-index: 1;
-        }
-
-        .navbar ul li .dropdown a {
-            color: #038ba3;
-            padding: 10px;
-            display: block;
-            white-space: nowrap;
-            transition: background-color 0.3s;
-        }
-
-        .navbar ul li .dropdown a:hover {
-            background-color: #f0f0f0;
-        }
-
-        /* Mobile Navigation Toggle */
-        .navbar .menu-toggle {
-            display: none;
-            font-size: 28px;
-            color: white;
-            cursor: pointer;
-        }
-
-        @media (max-width: 768px) {
-            .navbar ul {
-                flex-direction: column;
-                position: absolute;
-                top: 60px;
-                right: 0;
-                background: linear-gradient(45deg, #038ba3, #00d4ff);
-                width: 100%;
-                display: none;
-                gap: 10px;
-                padding: 20px 0;
-            }
-
-            .navbar ul li {
-                text-align: center;
-            }
-
-            .navbar ul.show {
-                display: flex;
-            }
-
-            .navbar .menu-toggle {
-                display: block;
-            }
-        }
-
         .container {
-            max-width: 1800px;
             margin: 50px 45px;
             display: flex;
             gap: 20px; /* This adds space between the columns */
@@ -179,11 +58,14 @@
             border-radius: 8px;
             overflow: hidden;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            width: 250px; /* Set the fixed width */
+            height: 200px; /* Set the fixed height */
         }
 
-        .video-card img {
+        .course-video {
             width: 100%;
             height: 100%;
+            object-fit: cover; /* Ensures the video scales correctly within the card */
             border-radius: 8px;
         }
 
@@ -205,6 +87,7 @@
             background: rgba(0, 0, 0, 0.8);
         }
 
+
         .price-box {
             background-color: #f2f9fa;
             /* border: 2px solid #38bcd3; */
@@ -212,7 +95,7 @@
             padding: 20px;
             text-align: center;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-            margin-top: 15px;
+            margin-top: 30px;
         }
 
         .price-box h3 {
@@ -324,9 +207,10 @@
         }
 
         .payment-icon {
-            width: 50px; /* Adjust the size of payment icons */
+            width: 50px; 
             height: auto;
-            border: 2px solid #38bcd3; /* Add a border around the image */
+            border-radius: 8px; /* Rounded corners for images */
+            /* border: 2px solid #38bcd3;  */
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Shadow for the images */
             transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth hover effect */
             float: left; /* Make images float */
@@ -343,7 +227,6 @@
             max-height: 50px; /* Ensure image size fits */
             object-fit: contain; /* Keep the aspect ratio */
         }
-
 
         .share-course {
             background-color: #fff;
@@ -422,17 +305,21 @@
 
         .course-image-container {
             width: 100%;
-            height: 60vh; /* 25% of viewport height */
+            height: auto; /* 25% of viewport height */
             overflow: hidden;
             position: relative;
         }
 
         .course-image {
-            width: 100%;
-            height: 100%;
-            object-fit: cover; /* Ensures image covers the container */
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            background-image: url('path/to/your/banner-image.jpg'); /* Replace with your image path */
+            background-size: contain; /* Ensures the whole image is visible */
+            background-repeat: no-repeat; /* Prevents the image from repeating */
+            background-position: center; /* Centers the image within the container */
+            height: 300px; /* Adjust height as necessary */
+            width: 100%; /* Full width */
+            display: flex; /* Optional: Use flexbox for content alignment */
+            justify-content: center; /* Optional: Center content horizontally */
+            align-items: center; /* Optional: Center content vertically */
         }
 
         .course-meta {
@@ -522,6 +409,7 @@
             background-color: #f9f9f9;
             border-radius: 8px;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            margin-bottom: 50px
         }
 
         .course-curriculum h2 {
@@ -535,7 +423,7 @@
         }
 
         .collapse-toggle {
-            background-color: #38bcd3;
+            background: linear-gradient(135deg, #038ba3, #00d4ff);
             color: #fff;
             border: none;
             padding: 10px 15px;
@@ -591,42 +479,6 @@
         }
 
 
-
-
-        /* .course-info, .course-curriculum, .course-instructors, .course-reviews {
-            margin-bottom: 20px;
-        }
-
-        .course-curriculum .curriculum-content {
-            display: none;
-            list-style: none;
-            padding: 10px;
-            margin: 0;
-            border-top: 1px solid #ddd;
-        }
-
-        .course-curriculum .curriculum-section {
-            margin-bottom: 10px;
-        }
-
-        .collapse-toggle {
-            background: linear-gradient(135deg, #038ba3, #00d4ff);
-            color: #fff;
-            padding: 10px 15px;
-            width: 100%;
-            border: none;
-            text-align: left;
-            cursor: pointer;
-            font-size: 16px;
-            border-radius: 5px;
-            outline: none;
-            transition: background 0.3s;
-        }
-
-        .collapse-toggle:hover {
-            background-color: #027b92;
-        }
-
         .price-box, .course-details-box, .secure-payment, .share-course {
             margin-bottom: 20px;
             padding: 15px;
@@ -650,105 +502,162 @@
 
         button:hover {
             background-color: #e67e00;
-        } */
-
-        /* Footer Section */
-        .footer {
-            background-color: #333;
-            color: #fff;
-            padding: 40px 20px;
-            margin-top: 50px;
-            font-size: 14px;
         }
 
-        .footer-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        /* Pricing Table Container */
+        .pricing-table {
+            display: flex;
             gap: 30px;
-            max-width: 1400px;
-            margin: 0 auto;
+            flex-wrap: wrap;
+            justify-content: center;
+            max-width: 1200px;
+            width: 100%;
         }
 
-        .footer-section {
+        /* Individual Card Styles */
+        .card {
+            background-color: #ffffff;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            width: 300px;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 35px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Card Header */
+        .card-header {
+            background-color: #3B73D1;
+            color: #ffffff;
+            padding: 30px 20px 20px 20px;
+            position: relative;
+            text-align: center;
+        }
+
+        .card-header h2 {
+            font-size: 1.6em;
+            margin-bottom: 10px;
+        }
+
+        .card-header .price {
+            font-size: 2.5em;
+            font-weight: bold;
+        }
+
+        .card-header .duration {
+            font-size: 0.9em;
+            opacity: 0.8;
+        }
+
+        /* Card Body */
+        .card-body {
+            padding: 20px;
+            text-align: left;
+        }
+
+        .card-body ul {
+            list-style: none;
             margin-bottom: 20px;
         }
 
-        .footer-section h3 {
-            font-size: 18px;
-            margin-bottom: 15px;
-            color: #38bcd3;
-        }
-
-        .footer-section p,
-        .footer-section a,
-        .footer-section ul li {
-            color: #ddd;
-            margin-bottom: 10px;
-        }
-
-        .footer-section a {
-            text-decoration: none;
-            color: #38bcd3;
-            transition: color 0.3s;
-        }
-
-        .footer-section a:hover {
-            color: #0a7794;
-        }
-
-        .footer-section ul {
-            list-style: none;
-            padding: 0;
-        }
-
-        .footer-section ul li {
-            margin-bottom: 10px;
-        }
-
-        .footer-section ul li a {
-            text-decoration: none;
-            color: #38bcd3;
-            transition: color 0.3s;
-        }
-
-        .footer-section ul li a:hover {
-            color: #0a7794;
-        }
-
-        .footer-bottom {
-            text-align: center;
-            margin-top: 30px;
-            padding-top: 20px;
-            border-top: 1px solid #444;
-            font-size: 13px;
-            color: #bbb;
-        }
-
-        .footer-bottom a {
-            color: #38bcd3;
-            text-decoration: none;
-            transition: color 0.3s;
-        }
-
-        .footer-bottom a:hover {
-            color: #0a7794;
-        }
-
-        /* Social Media Icons */
-        .social-icons {
+        .card-body ul li {
+            padding: 10px 0;
+            border-bottom: 1px solid #f0f0f0;
             display: flex;
-            gap: 15px;
+            align-items: center;
+            font-size: 0.95em;
+            color: #555555;
         }
 
-        .social-icons a img {
-            width: 30px;
-            height: 30px;
-            transition: transform 0.3s;
+        .card-body ul li:last-child {
+            border-bottom: none;
         }
 
-        .social-icons a img:hover {
-            transform: scale(1.1);
+        .card-body ul li::before {
+            content: '✔️';
+            margin-right: 10px;
+            color: #3B73D1;
         }
+
+        .card-body ul li.x-symbol::before {
+            content: '❌'; /* X symbol */
+            color: #D63D3D; /* You can change the color for X symbol */
+        }
+
+        /* Buy Now Button */
+        .buy-now {
+            display: block;
+            width: 100%;
+            padding: 15px 0;
+            background-color: #3B73D1;
+            color: #ffffff;
+            border: none;
+            border-radius: 30px;
+            font-size: 1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            text-align: center;
+            text-decoration: none;
+        }
+
+        .buy-now:hover {
+            background-color: #335bb5;
+        }
+
+        @media (max-width: 1526px) {
+        .container {
+            margin: 20px; /* Reduced margin on mobile */
+            flex-direction: column; /* Stack columns on mobile */
+        }
+
+        .left-column, .right-column {
+            width: 100%; /* Full width on mobile */
+        }
+
+        .video-card {
+            width: 100%; /* Full width for video cards */
+            height: auto; /* Auto height for responsiveness */
+        }
+
+        .price-box {
+            margin-top: 20px; /* Increased margin on mobile */
+        }
+
+        .course-details-box ul li {
+            flex-direction: column; /* Stack icon and text */
+            align-items: flex-start; /* Align text to the start */
+        }
+
+        .course-details-box ul li i {
+            margin-bottom: 5px; /* Space between icon and text */
+        }
+
+        .payment-icon {
+            width: 40px; /* Smaller payment icons */
+            height: auto;
+        }
+
+        .share-course, .secure-payment {
+            padding: 15px; /* Reduced padding for mobile */
+        }
+
+        .course-header {
+            gap: 10px; /* Reduced gap for mobile */
+        }
+
+        .course-meta h1 {
+            font-size: 20px; /* Adjusted font size for mobile */
+        }
+
+        .course-meta p {
+            font-size: 14px; /* Adjusted font size for mobile */
+        }
+    }
 
     </style>
 </head>

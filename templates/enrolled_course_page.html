@@ -24,7 +24,6 @@
         }
 
         .container {
-            max-width: 1800px;
             margin: 50px 45px;
             display: flex;
             gap: 20px; /* This adds space between the columns */
@@ -88,6 +87,7 @@
             background: rgba(0, 0, 0, 0.8);
         }
 
+
         .price-box {
             background-color: #f2f9fa;
             /* border: 2px solid #38bcd3; */
@@ -95,7 +95,7 @@
             padding: 20px;
             text-align: center;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-            margin-top: 15px;
+            margin-top: 30px;
         }
 
         .price-box h3 {
@@ -207,9 +207,10 @@
         }
 
         .payment-icon {
-            width: 50px; /* Adjust the size of payment icons */
+            width: 50px; 
             height: auto;
-            border: 2px solid #38bcd3; /* Add a border around the image */
+            border-radius: 8px; /* Rounded corners for images */
+            /* border: 2px solid #38bcd3;  */
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Shadow for the images */
             transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth hover effect */
             float: left; /* Make images float */
@@ -226,7 +227,6 @@
             max-height: 50px; /* Ensure image size fits */
             object-fit: contain; /* Keep the aspect ratio */
         }
-
 
         .share-course {
             background-color: #fff;
@@ -305,17 +305,21 @@
 
         .course-image-container {
             width: 100%;
-            height: 60vh; /* 25% of viewport height */
+            height: auto; /* 25% of viewport height */
             overflow: hidden;
             position: relative;
         }
 
         .course-image {
-            width: 100%;
-            height: 100%;
-            object-fit: cover; /* Ensures image covers the container */
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            background-image: url('path/to/your/banner-image.jpg'); /* Replace with your image path */
+            background-size: contain; /* Ensures the whole image is visible */
+            background-repeat: no-repeat; /* Prevents the image from repeating */
+            background-position: center; /* Centers the image within the container */
+            height: 300px; /* Adjust height as necessary */
+            width: 100%; /* Full width */
+            display: flex; /* Optional: Use flexbox for content alignment */
+            justify-content: center; /* Optional: Center content horizontally */
+            align-items: center; /* Optional: Center content vertically */
         }
 
         .course-meta {
@@ -405,6 +409,7 @@
             background-color: #f9f9f9;
             border-radius: 8px;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            margin-bottom: 50px
         }
 
         .course-curriculum h2 {
@@ -418,7 +423,7 @@
         }
 
         .collapse-toggle {
-            background-color: #38bcd3;
+            background: linear-gradient(135deg, #038ba3, #00d4ff);
             color: #fff;
             border: none;
             padding: 10px 15px;
@@ -473,42 +478,34 @@
             height: 24px;
         }
 
-
-
-
-        /* .course-info, .course-curriculum, .course-instructors, .course-reviews {
-            margin-bottom: 20px;
+        .video-item {
+            display: flex;
+            align-items: center;
         }
 
-        .course-curriculum .curriculum-content {
-            display: none;
-            list-style: none;
-            padding: 10px;
-            margin: 0;
-            border-top: 1px solid #ddd;
+        .video-link {
+            text-decoration: none; /* Remove underline */
+            color: #333; /* Text color */
+            font-weight: 600; /* Bold text */
+            font-size: 1.1em;
+            transition: color 0.3s ease; /* Smooth color change on hover */
         }
 
-        .course-curriculum .curriculum-section {
-            margin-bottom: 10px;
+        .video-link i {
+            margin-right: 8px; /* Space between icon and text */
+            color: #007bff; /* Icon color */
+            font-size: 1.2em; /* Icon size */
+            transition: transform 0.3s ease; /* Add hover effect for icon */
         }
 
-        .collapse-toggle {
-            background: linear-gradient(135deg, #038ba3, #00d4ff);
-            color: #fff;
-            padding: 10px 15px;
-            width: 100%;
-            border: none;
-            text-align: left;
-            cursor: pointer;
-            font-size: 16px;
-            border-radius: 5px;
-            outline: none;
-            transition: background 0.3s;
+        .video-link:hover {
+            color: #007bff; /* Change text color on hover */
         }
 
-        .collapse-toggle:hover {
-            background-color: #027b92;
+        .video-link:hover i {
+            transform: scale(1.2); /* Enlarge icon on hover */
         }
+
 
         .price-box, .course-details-box, .secure-payment, .share-course {
             margin-bottom: 20px;
@@ -533,7 +530,193 @@
 
         button:hover {
             background-color: #e67e00;
-        } */
+        }
+
+        /* Pricing Table Container */
+        .pricing-table {
+            display: flex;
+            gap: 30px;
+            flex-wrap: wrap;
+            justify-content: center;
+            max-width: 1200px;
+            width: 100%;
+        }
+
+        /* Individual Card Styles */
+        .card {
+            background-color: #ffffff;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            width: 300px;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 35px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Card Header */
+        .card-header {
+            background-color: #3B73D1;
+            color: #ffffff;
+            padding: 30px 20px 20px 20px;
+            position: relative;
+            text-align: center;
+        }
+
+        .card-header h2 {
+            font-size: 1.6em;
+            margin-bottom: 10px;
+        }
+
+        .card-header .price {
+            font-size: 2.5em;
+            font-weight: bold;
+        }
+
+        .card-header .duration {
+            font-size: 0.9em;
+            opacity: 0.8;
+        }
+
+        /* Card Body */
+        .card-body {
+            padding: 20px;
+            text-align: left;
+        }
+
+        .card-body ul {
+            list-style: none;
+            margin-bottom: 20px;
+        }
+
+        .card-body ul li {
+            padding: 10px 0;
+            border-bottom: 1px solid #f0f0f0;
+            display: flex;
+            align-items: center;
+            font-size: 0.95em;
+            color: #555555;
+        }
+
+        .card-body ul li:last-child {
+            border-bottom: none;
+        }
+
+        .card-body ul li::before {
+            content: '✔️';
+            margin-right: 10px;
+            color: #3B73D1;
+        }
+
+        .card-body ul li.x-symbol::before {
+            content: '❌'; /* X symbol */
+            color: #D63D3D; /* You can change the color for X symbol */
+        }
+
+        /* Buy Now Button */
+        .buy-now {
+            display: block;
+            width: 100%;
+            padding: 15px 0;
+            background-color: #3B73D1;
+            color: #ffffff;
+            border: none;
+            border-radius: 30px;
+            font-size: 1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            text-align: center;
+            text-decoration: none;
+        }
+
+        .buy-now:hover {
+            background-color: #335bb5;
+        }
+
+        .certificate-button-container {
+            text-align: center; /* Center the button */
+            margin-top: 20px; /* Add some margin to the top */
+        }
+
+        .btn-get-certificate {
+            display: inline-block; /* Make it behave like a button */
+            padding: 12px 25px; /* Button padding */
+            background-color: #007bff; /* Button background color */
+            color: white; /* Text color */
+            font-size: 1.1em; /* Font size */
+            font-weight: bold; /* Bold text */
+            border-radius: 8px; /* Rounded corners */
+            text-decoration: none; /* Remove underline */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+            transition: background-color 0.3s ease, box-shadow 0.3s ease; /* Smooth hover effect */
+        }
+
+        .btn-get-certificate:hover {
+            background-color: #0056b3; /* Darker shade on hover */
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2); /* Larger shadow on hover */
+            text-decoration: none; /* Ensure underline does not appear */
+        }
+
+        .btn-get-certificate:active {
+            background-color: #004085; /* Even darker shade on click */
+            box-shadow: 0 3px 5px rgba(0, 0, 0, 0.15); /* Smaller shadow on click */
+            transform: translateY(2px); /* Slightly shift down on click */
+        }
+
+
+        @media (max-width: 1526px) {
+            .container {
+                margin: 20px; /* Reduced margin on mobile */
+                flex-direction: column; /* Stack columns on mobile */
+            }
+
+            .left-column, .right-column {
+                width: 100%; /* Full width on mobile */
+            }
+
+            .video-card {
+                width: 100%; /* Full width for video cards */
+                height: auto; /* Auto height for responsiveness */
+            }
+
+            .price-box {
+                margin-top: 20px; /* Increased margin on mobile */
+            }
+
+            .course-details-box ul li {
+                flex-direction: column; /* Stack icon and text */
+                align-items: flex-start; /* Align text to the start */
+            }
+
+            .course-details-box ul li i {
+                margin-bottom: 5px; /* Space between icon and text */
+            }
+
+            .payment-icon {
+                width: 40px; /* Smaller payment icons */
+                height: auto;
+            }
+
+            .share-course, .secure-payment {
+                padding: 15px; /* Reduced padding for mobile */
+            }
+
+            .course-header {
+                gap: 10px; /* Reduced gap for mobile */
+            }
+
+            .course-meta h1 {
+                font-size: 20px; /* Adjusted font size for mobile */
+            }
+
+            .course-meta p {
+                font-size: 14px; /* Adjusted font size for mobile */
+            }
+        }
 
     </style>
 </head>
@@ -650,29 +833,27 @@
 
                         <ul class="curriculum-content">
                             {% for topic, video_file in week['topics_videos'] %}
-                                <li>
-                                    <a href="{{ url_for('video_page', video_file=video_file, course_name=course_name, week_topic_name=week['title'], course_topic=topic) }}">
-                                        {{ topic }}
-                                    </a>
+                                <li class="curriculum-item">
+                                    <div class="video-item">
+                                        <a class="video-link" href="{{ url_for('video_page', video_file=video_file, course_name=course_name, week_topic_name=week['title'], course_topic=topic) }}">
+                                            <i class="fa fa-play-circle"></i> <!-- Icon for the video -->
+                                            {{ topic }}
+                                        </a>
+                                    </div>
                                 </li>
                             {% endfor %}
                         </ul>
+                        
                     </div>
                 {% endfor %}
             </div>
 
-            <div>
-                <button>
-                    <a href="{{ url_for('certificate',course_name=course_name) }}" class="btn btn-primary mt-4" role="button">
-                        Get Certificate
-                    </a>
-                </button>
+            <div class="certificate-button-container">
+                <a href="{{ url_for('certificate', course_name=course_name) }}" class="btn-get-certificate">
+                    Get Certificate
+                </a>
             </div>
-
-            <div class="course-instructors">
-                <h2>Instructors</h2>
-                <p>Instructor details go here...</p>
-            </div>
+            
         </div>
 
     </div>
