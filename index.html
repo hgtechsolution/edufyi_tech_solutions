@@ -1,158 +1,193 @@
-scss code
-
-* {
-  margin: 0;
-  padding: 0;
-}
-
-html,
-body {
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-}
-
-body {
-  background-color: #021027;
-}
-
-.container {
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  position: relative;
-}
-
-.background {
-  display: block;
-  position: absolute;
-  top: 0;
-  left: 0;
-  object-fit: cover;
-  width: 100%;
-  height: 100%;
-
-  mask-image: radial-gradient(
-    white 0%,
-    white 30%,
-    transparent 80%,
-    transparent
-  );
-}
-
-.circle-container {
-  $particleNum: 200;
-  $particleColor: hsl(180, 100%, 80%);
-
-  position: absolute;
-  transform: translateY(-10vh);
-  animation-iteration-count: infinite;
-  animation-timing-function: linear;
-
-  .circle {
-    width: 100%;
-    height: 100%;
-    border-radius: 50%;
-    mix-blend-mode: screen;
-    background-image: radial-gradient(
-      hsl(180, 100%, 80%),
-      hsl(180, 100%, 80%) 10%,
-      hsla(180, 100%, 80%, 0) 56%
-    );
-
-    animation: fadein-frames 200ms infinite, scale-frames 2s infinite;
-
-    @keyframes fade-frames {
-      0% {
-        opacity: 1;
-      }
-
-      50% {
-        opacity: 0.7;
-      }
-
-      100% {
-        opacity: 1;
-      }
-    }
-
-    @keyframes scale-frames {
-      0% {
-        transform: scale3d(0.4, 0.4, 1);
-      }
-
-      50% {
-        transform: scale3d(2.2, 2.2, 1);
-      }
-
-      100% {
-        transform: scale3d(0.4, 0.4, 1);
-      }
-    }
-  }
-
-  $particleBaseSize: 8;
-
-  @for $i from 1 through $particleNum {
-    &:nth-child(#{$i}) {
-      $circleSize: random($particleBaseSize);
-      width: $circleSize + px;
-      height: $circleSize + px;
-
-      $startPositionY: random(10) + 100;
-      $framesName: "move-frames-" + $i;
-      $moveDuration: 28000 + random(9000) + ms;
-
-      animation-name: #{$framesName};
-      animation-duration: $moveDuration;
-      animation-delay: random(37000) + ms;
-
-      @keyframes #{$framesName} {
-        from {
-          transform: translate3d(random(100) + vw, $startPositionY + vh, 0);
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enhanced Pricing Cards</title>
+    <style>
+        /* Reset and Base Styles */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
         }
 
-        to {
-          transform: translate3d(random(100) + vw, -$startPositionY - random(30) + vh, 0);
+        body {
+            background: linear-gradient(135deg, #ece9e6, #ffffff);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
         }
-      }
 
-      .circle {
-        animation-delay: random(4000) + ms;
-      }
-    }
-  }
-}
+        /* Pricing Table Container */
+        .pricing-table {
+            display: flex;
+            gap: 30px;
+            flex-wrap: wrap;
+            justify-content: center;
+            max-width: 1200px;
+            width: 100%;
+        }
 
-.message {
-  position: absolute;
-  right: 20px;
-  bottom: 10px;
-  color: white;
-  font-family: "Josefin Slab", serif;
-  line-height: 27px;
-  font-size: 18px;
-  text-align: right;
-  pointer-events: none;
-  animation: message-frames 1.5s ease 5s forwards;
-  opacity: 0;
+        /* Individual Card Styles */
+        .card {
+            background-color: #ffffff;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            width: 300px;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
 
-  @keyframes message-frames {
-    from {
-      opacity: 0;
-    }
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 35px rgba(0, 0, 0, 0.2);
+        }
 
-    to {
-      opacity: 1;
-    }
-  }
-}
+        /* Card Header */
+        .card-header {
+            background-color: #3B73D1;
+            color: #ffffff;
+            padding: 30px 20px 20px 20px;
+            position: relative;
+            text-align: center;
+        }
 
+        .card-header h2 {
+            font-size: 1.6em;
+            margin-bottom: 10px;
+        }
 
-pub code
-.container
-    img(src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/221808/sky.jpg").background
-    p.message all your dreams can come true<br>if you have the courage to pursue them
-    - for (i = 1; i <= 100; i++)
-      .circle-container
-        .circle
+        .card-header .price {
+            font-size: 2.5em;
+            font-weight: bold;
+        }
+
+        .card-header .duration {
+            font-size: 0.9em;
+            opacity: 0.8;
+        }
+
+        /* Card Body */
+        .card-body {
+            padding: 20px;
+            text-align: left;
+        }
+
+        .card-body ul {
+            list-style: none;
+            margin-bottom: 20px;
+        }
+
+        .card-body ul li {
+            padding: 10px 0;
+            border-bottom: 1px solid #f0f0f0;
+            display: flex;
+            align-items: center;
+            font-size: 0.95em;
+            color: #555555;
+        }
+
+        .card-body ul li:last-child {
+            border-bottom: none;
+        }
+
+        .card-body ul li::before {
+            content: '✔️';
+            margin-right: 10px;
+            color: #3B73D1;
+        }
+
+        /* Buy Now Button */
+        .buy-now {
+            display: block;
+            width: 100%;
+            padding: 15px 0;
+            background-color: #3B73D1;
+            color: #ffffff;
+            border: none;
+            border-radius: 30px;
+            font-size: 1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            text-align: center;
+            text-decoration: none;
+        }
+
+        .buy-now:hover {
+            background-color: #335bb5;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1000px) {
+            .pricing-table {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="pricing-table">
+        <!-- Card 1 -->
+        <div class="card">
+            <div class="card-header" style="background-color: #3B73D1;">
+                <h2>Five Page Starter</h2>
+                <div class="price">$29</div>
+                <div class="duration">per month</div>
+            </div>
+            <div class="card-body">
+                <ul>
+                    <li>1 Full User</li>
+                    <li>1,000 Email Previews</li>
+                    <li>5 Contacts per Client</li>
+                    <li>5 Coffee Cups</li>
+                </ul>
+                <a href="#" class="buy-now">Buy Now</a>
+            </div>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="card">
+            <div class="card-header" style="background-color: #4AD7D1;">
+                <h2>10 Page Business</h2>
+                <div class="price">$59</div>
+                <div class="duration">per month</div>
+            </div>
+            <div class="card-body">
+                <ul>
+                    <li>10 Full Users</li>
+                    <li>2,000 Email Previews</li>
+                    <li>5 Contacts per Client</li>
+                    <li>10 Coffee Cups</li>
+                </ul>
+                <a href="#" class="buy-now">Buy Now</a>
+            </div>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="card">
+            <div class="card-header" style="background-color: #F85979;">
+                <h2>eCommerce Starter</h2>
+                <div class="price">$119</div>
+                <div class="duration">per month</div>
+            </div>
+            <div class="card-body">
+                <ul>
+                    <li>1 Full User</li>
+                    <li>3,000 Email Previews</li>
+                    <li>5 Contacts per Client</li>
+                    <li>15 Coffee Cups</li>
+                </ul>
+                <a href="#" class="buy-now">Buy Now</a>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
